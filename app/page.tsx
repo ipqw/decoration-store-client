@@ -1,7 +1,9 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+import styled from "styled-components";
 
 const Home = () => {
-    return <></>;
+    return <Wrapper></Wrapper>;
 };
+
+const Wrapper = styled.div``;
 export default Home;
