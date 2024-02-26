@@ -4,15 +4,14 @@ import seatchIcon from "../../public/icons/search.png";
 import userIcon from "../../public/icons/user.png";
 import shoppingBagIcon from "../../public/icons/shoppingBag.svg";
 import { usePathname } from "next/navigation";
+import Logo from "./Logo";
 
 const Header = () => {
     const pathname = usePathname();
     return (
         <Wrapper>
-            <HeaderBlock>
-                <Logo className="poppins">
-                    3legant<LogoSpan>.</LogoSpan>
-                </Logo>
+            <HeaderContent>
+                <Logo />
                 <NavBlock>
                     <StyledLink
                         style={{ color: pathname === "/" ? "#000000" : "#6C7275" }}
@@ -47,7 +46,7 @@ const Header = () => {
                         <NumberTextIcon className="inter">2</NumberTextIcon>
                     </NumberIcon>
                 </IconsBlock>
-            </HeaderBlock>
+            </HeaderContent>
         </Wrapper>
     );
 };
@@ -86,7 +85,7 @@ const IconsBlock = styled.div`
     display: flex;
     justify-content: space-between;
 `;
-const HeaderBlock = styled.div`
+const HeaderContent = styled.div`
     max-width: 1120px;
     width: 100%;
     display: flex;
@@ -105,13 +104,5 @@ const NavBlock = styled.div`
     align-items: center;
     width: 100%;
     max-width: 324px;
-`;
-const Logo = styled.p`
-    color: #000000;
-    font-weight: 500;
-    font-size: 24px;
-`;
-const LogoSpan = styled.span`
-    color: #6c7275;
 `;
 export default Header;
