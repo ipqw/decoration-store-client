@@ -1,23 +1,26 @@
+"use client";
 import React, { FC } from "react";
 import styled from "styled-components";
 
 interface ILogo {
-    mainColor?: string;
-    dotColor?: string;
+    maincolor?: string;
+    dotcolor?: string;
 }
-const Logo: FC<ILogo> = ({ mainColor, dotColor }) => {
+const Logo: FC<ILogo> = ({ maincolor, dotcolor }) => {
     return (
-        <LogoWrapper className="poppins">
-            3legant<LogoSpan>.</LogoSpan>
+        <LogoWrapper $maincolor={maincolor} className="poppins">
+            3legant<LogoSpan $dotcolor={dotcolor}>.</LogoSpan>
         </LogoWrapper>
     );
 };
-const LogoWrapper = styled.p<ILogo>`
-    color: ${(props) => props?.mainColor || "#000000"};
+const LogoWrapper = styled.p<{ $maincolor?: string }>`
+    color: ${({ $maincolor }) => $maincolor || "#000000"};
     font-weight: 500;
     font-size: 24px;
+    cursor: default;
+    user-select: none;
 `;
-const LogoSpan = styled.span<ILogo>`
-    color: ${(props) => props?.dotColor || "#6c7275"};
+const LogoSpan = styled.span<{ $dotcolor?: string }>`
+    color: ${({ $dotcolor }) => $dotcolor || "#6c7275"};
 `;
 export default Logo;
