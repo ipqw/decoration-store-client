@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import Link from "next/link";
-import seatchIcon from "../../public/icons/search.png";
-import userIcon from "../../public/icons/user.png";
+import searchIcon from "../../public/icons/search.svg";
+import userIcon from "../../public/icons/user-circle.svg";
 import shoppingBagIcon from "../../public/icons/shoppingBag.svg";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
+import { FC } from "react";
 
-const Header = () => {
+const Header: FC = () => {
     const pathname = usePathname();
     return (
         <Wrapper>
@@ -39,7 +40,7 @@ const Header = () => {
                     </StyledLink>
                 </NavBlock>
                 <IconsBlock>
-                    <Icon src={seatchIcon.src} />
+                    <Icon src={searchIcon.src} />
                     <Icon src={userIcon.src} />
                     <Icon src={shoppingBagIcon.src} />
                     <NumberIcon>
