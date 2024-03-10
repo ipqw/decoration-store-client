@@ -71,7 +71,6 @@ const ImageSlider: FC<IProps> = ({ images, width, height }) => {
             </DotsWrapper>
         </Wrapper>
     );
-    // 16px
 };
 const DotsWrapper = styled.div`
     position: absolute;
