@@ -12,7 +12,7 @@ interface IWrapperProps {
     $width?: number;
     $height?: number;
 }
-const ImageCarousel: FC<IProps> = ({ images, width, height }) => {
+const ImageSlider: FC<IProps> = ({ images, width, height }) => {
     const [active, setActive] = useState<number>(0);
     const [leftDisable, setLeftDisable] = useState<boolean>(true);
     const [rightDisable, setRightDisable] = useState<boolean>(false);
@@ -129,4 +129,4 @@ const Wrapper = styled.div<IWrapperProps>`
     user-select: none;
 `;
 
-export default ImageCarousel;
+export default ImageSlider;
