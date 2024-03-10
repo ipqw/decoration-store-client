@@ -1,10 +1,14 @@
 "use client";
-import React, { ReactNode } from "react";
+import React, { FC, ReactNode } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import styled from "styled-components";
 
-const template = ({ children }: { children: ReactNode }) => {
+interface IProps {
+    children: ReactNode;
+}
+
+const template: FC<IProps> = ({ children }) => {
     return (
         <Wrapper>
             <Header />
