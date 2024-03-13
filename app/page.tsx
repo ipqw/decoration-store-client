@@ -1,12 +1,16 @@
 "use client";
-import styled from "styled-components";
-import mainImage from "../public/images/homepage/mainImage.png";
 import { FC } from "react";
+import styled from "styled-components";
+
+import mainImage from "../public/images/homepage/mainImage.png";
 import sofaImage from "../public/images/homepage/sofaImage.png";
 import drawerImage from "../public/images/homepage/drawerImage.png";
 import toasterImage from "../public/images/homepage/toasterImage.png";
+import arrowIcon from "../public/icons/arrow-right.svg";
+
 import BannerCard from "./components/BannerCard";
 import ImageSlider from "./components/ImageSlider";
+import ProductCarousel from "./components/ProductCarousel/ProductCarousel";
 
 const Home: FC = () => {
     return (
@@ -24,6 +28,7 @@ const Home: FC = () => {
                     </ImageSliderText>
                 </ImageSliderTextBlock>
             </ImageSliderSection>
+
             <BannerSection>
                 <BannerCard image={sofaImage} title="Living Room" />
                 <SmallBannerCardBlock>
@@ -31,16 +36,72 @@ const Home: FC = () => {
                     <BannerCard image={toasterImage} title="Kitchen" variety="small" />
                 </SmallBannerCardBlock>
             </BannerSection>
+
+            <ProductCarouselSection>
+                <ProductCarouselTitleBlock>
+                    <ProductCarouselTitleText>New Arrivals</ProductCarouselTitleText>
+                    <ProductCarouselTitleButton>
+                        <ProductCarouselTitleButtonText>
+                            More Products
+                        </ProductCarouselTitleButtonText>
+                        <ProductCarouselTitleButtonImage src={arrowIcon.src} />
+                    </ProductCarouselTitleButton>
+                </ProductCarouselTitleBlock>
+                <ProductCarousel />
+            </ProductCarouselSection>
         </Wrapper>
     );
 };
+
+const ProductCarouselSection = styled.section`
+    display: flex;
+    flex-direction: column;
+    padding-top: 48px;
+    padding-bottom: 48px;
+    align-items: center;
+    width: 100%;
+    user-select: none;
+    row-gap: 48px;
+`;
+const ProductCarouselTitleBlock = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    max-width: 1120px;
+    width: 100%;
+`;
+const ProductCarouselTitleText = styled.p`
+    width: 149px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 44px;
+    color: #000000;
+`;
+const ProductCarouselTitleButton = styled.div`
+    border-bottom: 1px solid #141718;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+`;
+const ProductCarouselTitleButtonText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 28px;
+    padding-right: 4px;
+`;
+const ProductCarouselTitleButtonImage = styled.img`
+    height: 20px;
+    width: 20px;
+`;
 
 const SmallBannerCardBlock = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 `;
-const BannerSection = styled.div`
+const BannerSection = styled.section`
     display: flex;
     width: min-content;
     column-gap: 24px;
@@ -79,7 +140,7 @@ const ImageSliderTextBlock = styled.div`
     width: 100%;
     padding-bottom: 40px;
 `;
-const ImageSliderSection = styled.div`
+const ImageSliderSection = styled.section`
     display: flex;
     row-gap: 32px;
     flex-direction: column;

@@ -101,23 +101,21 @@ export interface IProduct {
     price: number;
     discountPrice: number | null;
     typeId: number;
-    // discount?: DiscountModel;
+    createdAt: string;
+    updatedAt: string;
+    discount?: IDiscount;
     // reviews?: ReviewModel[];
     // cart_products?: CartProductModel[];
     // wishlist_products?: WishlistProductModel[];
     // order_products?: OrderProductModel[];
 }
-// export interface DiscountModel
-//     extends Model<
-//         InferAttributes<DiscountModel>,
-//         InferCreationAttributes<DiscountModel>
-//     > {
-//     id: CreationOptional<number>;
-//     percent: number;
-//     startsIn: number;
-//     expiresIn: number;
-//     productId: ForeignKey<ProductModel['id']>;
-// }
+export interface IDiscount {
+    id: number;
+    percent: number;
+    startsIn: number;
+    expiresIn: number;
+    productId: number;
+}
 // export interface TypeModel
 //     extends Model<
 //         InferAttributes<TypeModel>,
