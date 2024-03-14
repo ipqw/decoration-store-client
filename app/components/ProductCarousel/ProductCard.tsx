@@ -75,7 +75,7 @@ const Price = styled.p`
     line-height: 22px;
 `;
 const OldPrice = styled.p<{ $isVisible: boolean }>`
-    display: ${({ $isVisible }) => ($isVisible ? "block" : "null")};
+    visibility: ${({ $isVisible }) => ($isVisible ? "visible" : "hidden")};
     color: #6c7275;
     font-family: "Inter", sans-serif;
     font-size: 14px;

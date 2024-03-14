@@ -7,6 +7,10 @@ import sofaImage from "../public/images/homepage/sofaImage.png";
 import drawerImage from "../public/images/homepage/drawerImage.png";
 import toasterImage from "../public/images/homepage/toasterImage.png";
 import arrowIcon from "../public/icons/arrow-right.svg";
+import truckIcon from "../public/icons/truck.svg";
+import moneyIcon from "../public/icons/money.svg";
+import lockIcon from "../public/icons/lock.svg";
+import callIcon from "../public/icons/call.svg";
 
 import BannerCard from "./components/BannerCard";
 import ImageSlider from "./components/ImageSlider";
@@ -49,9 +53,70 @@ const Home: FC = () => {
                 </ProductCarouselTitleBlock>
                 <ProductCarousel />
             </ProductCarouselSection>
+            <InfoCardsSection>
+                <InfoCardsWrapper>
+                    <InfoCard>
+                        <InfoCardIcon src={truckIcon.src} />
+                        <InfoCardTitle>Free Shipping</InfoCardTitle>
+                        <InfoCardText>Order above $200</InfoCardText>
+                    </InfoCard>
+                    <InfoCard>
+                        <InfoCardIcon src={moneyIcon.src} />
+                        <InfoCardTitle>Money-back</InfoCardTitle>
+                        <InfoCardText>30 days guarantee</InfoCardText>
+                    </InfoCard>
+                    <InfoCard>
+                        <InfoCardIcon src={lockIcon.src} />
+                        <InfoCardTitle>Secure Payments</InfoCardTitle>
+                        <InfoCardText>Secured by Stripe</InfoCardText>
+                    </InfoCard>
+                    <InfoCard>
+                        <InfoCardIcon src={callIcon.src} />
+                        <InfoCardTitle>24/7 Support</InfoCardTitle>
+                        <InfoCardText>Phone and Email support</InfoCardText>
+                    </InfoCard>
+                </InfoCardsWrapper>
+            </InfoCardsSection>
         </Wrapper>
     );
 };
+const InfoCardText = styled.p`
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: #6c7275;
+`;
+const InfoCardTitle = styled.p`
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    color: #141718;
+    margin-bottom: 8px;
+`;
+const InfoCardIcon = styled.img`
+    max-width: 48px;
+    max-height: 48px;
+    margin-bottom: 16px;
+`;
+const InfoCard = styled.div`
+    display: flex;
+    padding: 48px 32px;
+    width: 262px;
+    height: 220px;
+    flex-direction: column;
+    background-color: #f3f5f7;
+`;
+const InfoCardsSection = styled.section`
+    padding-top: 48px;
+    padding-bottom: 48px;
+`;
+const InfoCardsWrapper = styled.div`
+    display: flex;
+    column-gap: 24px;
+    width: fit-content;
+`;
 
 const ProductCarouselSection = styled.section`
     display: flex;
