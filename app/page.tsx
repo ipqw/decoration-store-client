@@ -6,6 +6,7 @@ import mainImage from "../public/images/homepage/mainImage.png";
 import sofaImage from "../public/images/homepage/sofaImage.png";
 import drawerImage from "../public/images/homepage/drawerImage.png";
 import toasterImage from "../public/images/homepage/toasterImage.png";
+import roomImage from "../public/images/homepage/room.png";
 import arrowIcon from "../public/icons/arrow-right.svg";
 import truckIcon from "../public/icons/truck.svg";
 import moneyIcon from "../public/icons/money.svg";
@@ -44,12 +45,10 @@ const Home: FC = () => {
             <ProductCarouselSection>
                 <ProductCarouselTitleBlock>
                     <ProductCarouselTitleText>New Arrivals</ProductCarouselTitleText>
-                    <ProductCarouselTitleButton>
-                        <ProductCarouselTitleButtonText>
-                            More Products
-                        </ProductCarouselTitleButtonText>
-                        <ProductCarouselTitleButtonImage src={arrowIcon.src} />
-                    </ProductCarouselTitleButton>
+                    <StyledLink>
+                        <StyledLinkText>More Products</StyledLinkText>
+                        <StyledLinkIcon src={arrowIcon.src} />
+                    </StyledLink>
                 </ProductCarouselTitleBlock>
                 <ProductCarousel />
             </ProductCarouselSection>
@@ -77,9 +76,70 @@ const Home: FC = () => {
                     </InfoCard>
                 </InfoCardsWrapper>
             </InfoCardsSection>
+            <SaleSection>
+                <SaleImage src={roomImage.src} />
+                <SaleContent>
+                    <SaleInfo>
+                        <SaleInfoLabel>SALE UP TO 35% OFF</SaleInfoLabel>
+                        <SaleInfoTitle>HUNDREDS of New lower prices!</SaleInfoTitle>
+                        <SaleInfoText>
+                            It’s more affordable than ever to give every room in your home a stylish
+                            makeover
+                        </SaleInfoText>
+                        <StyledLink>
+                            <StyledLinkText>Shop Now</StyledLinkText>
+                            <StyledLinkIcon src={arrowIcon.src} />
+                        </StyledLink>
+                    </SaleInfo>
+                </SaleContent>
+            </SaleSection>
         </Wrapper>
     );
 };
+const SaleInfo = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    max-width: 452px;
+`;
+const SaleInfoTitle = styled.p`
+    font-family: "Poppins", sans-serif;
+    font-size: 40px;
+    line-height: 44px;
+    font-weight: 500;
+    color: #141718;
+`;
+const SaleInfoText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 32px;
+    color: #141718;
+`;
+const SaleInfoLabel = styled.p`
+    color: #377dff;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 700;
+`;
+const SaleContent = styled.aside`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f5f7;
+    padding-left: 72px;
+    width: 720px;
+`;
+const SaleImage = styled.img`
+    max-width: 720px;
+    height: 532px;
+`;
+const SaleSection = styled.section`
+    display: flex;
+`;
+
 const InfoCardText = styled.p`
     font-family: "Poppins", sans-serif;
     font-weight: 400;
@@ -143,20 +203,21 @@ const ProductCarouselTitleText = styled.p`
     line-height: 44px;
     color: #000000;
 `;
-const ProductCarouselTitleButton = styled.div`
+const StyledLink = styled.div`
     border-bottom: 1px solid #141718;
+    width: fit-content;
     display: flex;
     align-items: center;
     cursor: pointer;
 `;
-const ProductCarouselTitleButtonText = styled.p`
+const StyledLinkText = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;
     line-height: 28px;
     padding-right: 4px;
 `;
-const ProductCarouselTitleButtonImage = styled.img`
+const StyledLinkIcon = styled.img`
     height: 20px;
     width: 20px;
 `;
