@@ -7,11 +7,13 @@ import sofaImage from "../public/images/homepage/sofaImage.png";
 import drawerImage from "../public/images/homepage/drawerImage.png";
 import toasterImage from "../public/images/homepage/toasterImage.png";
 import roomImage from "../public/images/homepage/room.png";
+import signupBackground from "../public/images/homepage/signup-background.png";
 import arrowIcon from "../public/icons/arrow-right.svg";
 import truckIcon from "../public/icons/truck.svg";
 import moneyIcon from "../public/icons/money.svg";
 import lockIcon from "../public/icons/lock.svg";
 import callIcon from "../public/icons/call.svg";
+import emailIcon from "../public/icons/email-icon.svg";
 
 import BannerCard from "./components/BannerCard";
 import ImageSlider from "./components/ImageSlider";
@@ -93,9 +95,98 @@ const Home: FC = () => {
                     </SaleInfo>
                 </SaleContent>
             </SaleSection>
+            <SingUpSection>
+                <SignUpContent>
+                    <SignUpTitle>Join Our Newsletter</SignUpTitle>
+                    <SignUpText>Sign up for deals, new products and promotions</SignUpText>
+                    <SignUpBlock>
+                        <SignUpIcon src={emailIcon.src} />
+                        <SignUpInput placeholder="Email address" />
+                        <SignUpButton>Signup</SignUpButton>
+                    </SignUpBlock>
+                </SignUpContent>
+            </SingUpSection>
         </Wrapper>
     );
 };
+const SignUpButton = styled.a`
+    color: #6c7275;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 28px;
+    cursor: pointer;
+    user-select: none;
+`;
+const SignUpIcon = styled.img`
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    user-select: none;
+`;
+const SignUpInput = styled.input`
+    &::placeholder {
+        color: #6c7275;
+        font-family: "Inter", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 28px;
+    }
+    background-color: transparent;
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 28px;
+    width: 396px;
+    &:focus {
+        border: none;
+        outline: none;
+    }
+`;
+const SignUpBlock = styled.div`
+    display: flex;
+    align-items: center;
+    width: 488px;
+    height: 52px;
+    border-bottom: 1px solid #6c7275;
+`;
+const SignUpText = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    margin-bottom: 32px;
+`;
+const SignUpTitle = styled.p`
+    color: #141718;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-family: "Poppins", sans-serif;
+    font-size: 40px;
+    line-height: 44px;
+`;
+const SignUpContent = styled.div`
+    width: 540px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+const SingUpSection = styled.section`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(${signupBackground.src});
+    background-repeat: no-repeat;
+    background-position-x: center;
+    margin-top: 48px;
+    width: 100%;
+    height: 360px;
+`;
+
 const SaleInfo = styled.div`
     display: flex;
     flex-direction: column;
