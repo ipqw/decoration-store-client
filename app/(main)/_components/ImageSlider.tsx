@@ -1,7 +1,7 @@
 import { StaticImageData } from "next/image";
 import React, { FC, useState } from "react";
 import styled from "styled-components";
-import arrow from "../../public/icons/arrow-right.svg";
+import arrow from "../../../public/icons/arrow-right.svg";
 
 interface IProps {
     images: StaticImageData[];

@@ -1,5 +1,5 @@
-import { productApiSlice } from "../../../store/services/productApiSlice";
-import React, { FC, useEffect } from "react";
+import { productApiSlice } from "../../../../store/services/productApiSlice";
+import React, { FC } from "react";
 import styled from "styled-components";
 import ProductCard from "./ProductCard";
 

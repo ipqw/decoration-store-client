@@ -2,22 +2,22 @@
 import { FC } from "react";
 import styled from "styled-components";
 
-import mainImage from "../public/images/homepage/mainImage.png";
-import sofaImage from "../public/images/homepage/sofaImage.png";
-import drawerImage from "../public/images/homepage/drawerImage.png";
-import toasterImage from "../public/images/homepage/toasterImage.png";
-import roomImage from "../public/images/homepage/room.png";
-import signupBackground from "../public/images/homepage/signup-background.png";
-import arrowIcon from "../public/icons/arrow-right.svg";
-import truckIcon from "../public/icons/truck.svg";
-import moneyIcon from "../public/icons/money.svg";
-import lockIcon from "../public/icons/lock.svg";
-import callIcon from "../public/icons/call.svg";
-import emailIcon from "../public/icons/email-icon.svg";
+import mainImage from "../../public/images/homepage/mainImage.png";
+import sofaImage from "../../public/images/homepage/sofaImage.png";
+import drawerImage from "../../public/images/homepage/drawerImage.png";
+import toasterImage from "../../public/images/homepage/toasterImage.png";
+import roomImage from "../../public/images/homepage/room.png";
+import signupBackground from "../../public/images/homepage/signup-background.png";
+import arrowIcon from "../../public/icons/arrow-right.svg";
+import truckIcon from "../../public/icons/truck.svg";
+import moneyIcon from "../../public/icons/money.svg";
+import lockIcon from "../../public/icons/lock.svg";
+import callIcon from "../../public/icons/call.svg";
+import emailIcon from "../../public/icons/email-icon.svg";
 
-import BannerCard from "./components/BannerCard";
-import ImageSlider from "./components/ImageSlider";
-import ProductCarousel from "./components/ProductCarousel/ProductCarousel";
+import BannerCard from "./_components/BannerCard";
+import ImageSlider from "./_components/ImageSlider";
+import ProductCarousel from "./_components/ProductCarousel/ProductCarousel";
 
 const Home: FC = () => {
     return (

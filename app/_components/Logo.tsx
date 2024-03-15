@@ -19,6 +19,7 @@ const LogoWrapper = styled.p<{ $maincolor?: string }>`
     font-size: 24px;
     cursor: default;
     user-select: none;
+    width: fit-content;
 `;
 const LogoSpan = styled.span<{ $dotcolor?: string }>`
     color: ${({ $dotcolor }) => $dotcolor || "#6c7275"};

@@ -1,8 +1,8 @@
 import { IProduct } from "@/app/types/types";
 import React, { FC } from "react";
 import styled from "styled-components";
-import noImageIcon from "../../../public/icons/no-image.ico";
-import starIcon from "../../../public/icons/Star.svg";
+import noImageIcon from "../../../../public/icons/no-image.ico";
+import starIcon from "../../../../public/icons/Star.svg";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const isNew = Date.now() - new Date(product.createdAt).getTime() < 604800000;
