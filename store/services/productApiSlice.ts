@@ -1,4 +1,4 @@
-import { IProduct } from "@/app/types/types";
+import { IProduct } from "@/app/_types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const productApiSlice = createApi({
