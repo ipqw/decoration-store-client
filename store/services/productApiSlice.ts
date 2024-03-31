@@ -6,12 +6,18 @@ export const productApiSlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
     tagTypes: ["Product"],
     endpoints: (build) => ({
-        fetchAllProducts: build.query<IProduct[], number | null>({
+        getAllProducts: build.query<IProduct[], number | null>({
             query: (limit) => ({
                 url: "/product",
                 params: {
                     _limit: limit,
                 },
+            }),
+            providesTags: ["Product"],
+        }),
+        getOneProduct: build.query<IProduct, number>({
+            query: (id) => ({
+                url: `/product/${id}`,
             }),
             providesTags: ["Product"],
         }),

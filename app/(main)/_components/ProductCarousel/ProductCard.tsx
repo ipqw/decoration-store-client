@@ -6,7 +6,6 @@ import starIcon from "../../../../public/icons/Star.svg";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const isNew = Date.now() - new Date(product.createdAt).getTime() < 604800000;
-    console.log(product);
     return (
         <Wrapper>
             <ImageWrapper>

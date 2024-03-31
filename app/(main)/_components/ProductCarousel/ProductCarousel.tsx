@@ -4,7 +4,7 @@ import styled from "styled-components";
 import ProductCard from "./ProductCard";
 
 const ProductCarousel: FC = () => {
-    const { data, isLoading, error, refetch } = productApiSlice.useFetchAllProductsQuery(null);
+    const { data, isLoading, error, refetch } = productApiSlice.useGetAllProductsQuery(null);
     return (
         <Wrapper>
             {data?.map((product, index) => {
