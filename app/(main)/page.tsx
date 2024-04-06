@@ -52,7 +52,7 @@ const Home: FC = () => {
                         <StyledLinkIcon src={arrowIcon.src} />
                     </StyledLink>
                 </ProductCarouselTitleBlock>
-                <ProductCarousel />
+                <ProductCarousel onlyNew />
             </ProductCarouselSection>
             <InfoCardsSection>
                 <InfoCardsWrapper>
