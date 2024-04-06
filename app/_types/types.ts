@@ -104,7 +104,8 @@ export interface IProduct {
     createdAt: string;
     updatedAt: string;
     discount?: IDiscount;
-    // reviews?: ReviewModel[];
+    reviews?: IReview[];
+    product_infos: IProductInfo[];
     // cart_products?: CartProductModel[];
     // wishlist_products?: WishlistProductModel[];
     // order_products?: OrderProductModel[];
@@ -116,6 +117,11 @@ export interface IDiscount {
     expiresIn: number;
     productId: number;
 }
+export interface IProductInfo {
+    id: number;
+    name: string;
+    text: string;
+}
 // export interface TypeModel
 //     extends Model<
 //         InferAttributes<TypeModel>,
@@ -124,17 +130,13 @@ export interface IDiscount {
 //     id: CreationOptional<number>;
 //     name: string;
 // }
-// export interface ReviewModel
-//     extends Model<
-//         InferAttributes<ReviewModel>,
-//         InferCreationAttributes<ReviewModel>
-//     > {
-//     id: CreationOptional<number>;
-//     rate: number;
-//     text: string;
-//     userId: ForeignKey<UserModel['id']>;
-//     productId: ForeignKey<ProductModel['id']>;
-// }
+export interface IReview {
+    id: number;
+    rate: number;
+    text: string;
+    userId: number;
+    productId: number;
+}
 // export interface LikeModel
 //     extends Model<
 //         InferAttributes<LikeModel>,
