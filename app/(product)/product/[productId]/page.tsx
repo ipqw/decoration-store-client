@@ -4,7 +4,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 import ImageSlider from "../../_components/ImageSlider";
 import emptyStar from "@/public/icons/emptyStar.svg";
-import fillStar from "@/public/icons/fillStar.svg";
+import fullStar from "@/public/icons/fullStar.svg";
 
 interface IProps {
     params: { productId: string };
@@ -15,7 +15,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
         Number(params.productId),
     );
     return (
-        <Wrapper $invisible={error ? true : false}>
+        <Wrapper $invisible={error || !data ? true : false}>
             <ProductSection>
                 <ProductImages>
                     <ImageSlider product={data} />
@@ -27,35 +27,35 @@ const ProductPage: FC<IProps> = ({ params }) => {
                                 <Star
                                     src={
                                         Number(data?.averageRate) >= 1
-                                            ? fillStar.src
+                                            ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                                 <Star
                                     src={
                                         Number(data?.averageRate) >= 2
-                                            ? fillStar.src
+                                            ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                                 <Star
                                     src={
                                         Number(data?.averageRate) >= 3
-                                            ? fillStar.src
+                                            ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                                 <Star
                                     src={
                                         Number(data?.averageRate) >= 4
-                                            ? fillStar.src
+                                            ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                                 <Star
                                     src={
                                         Number(data?.averageRate) == 5
-                                            ? fillStar.src
+                                            ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />

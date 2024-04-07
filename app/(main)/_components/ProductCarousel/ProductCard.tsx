@@ -2,7 +2,8 @@ import { IProduct } from "@/app/_types/types";
 import React, { FC } from "react";
 import styled from "styled-components";
 import noImageIcon from "../../../../public/icons/no-image.ico";
-import starIcon from "../../../../public/icons/Star.svg";
+import fullStarIcon from "../../../../public/icons/fullStar.svg";
+import emptyStarIcon from "@/public/icons/emptyStar.svg";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const isNew = Date.now() - new Date(product.createdAt).getTime() < 604800000;
@@ -24,13 +25,13 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
             </ImageWrapper>
             <InfoWrapper>
                 <StarsWrapper>
-                    <Star $isFilled={product.averageRate >= 1} src={starIcon.src} />
-                    <Star $isFilled={product.averageRate >= 2} src={starIcon.src} />
-                    <Star $isFilled={product.averageRate >= 3} src={starIcon.src} />
-                    <Star $isFilled={product.averageRate >= 4} src={starIcon.src} />
-                    <Star $isFilled={product.averageRate >= 5} src={starIcon.src} />
+                    <Star src={product.averageRate >= 1 ? fullStarIcon.src : emptyStarIcon.src} />
+                    <Star src={product.averageRate >= 2 ? fullStarIcon.src : emptyStarIcon.src} />
+                    <Star src={product.averageRate >= 3 ? fullStarIcon.src : emptyStarIcon.src} />
+                    <Star src={product.averageRate >= 4 ? fullStarIcon.src : emptyStarIcon.src} />
+                    <Star src={product.averageRate >= 5 ? fullStarIcon.src : emptyStarIcon.src} />
                 </StarsWrapper>
-                <Title>{product.name}</Title>
+                <Title href={`./product/${product.id}`}>{product.name}</Title>
                 <PriceWrapper>
                     <Price>
                         $
@@ -53,8 +54,9 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
         </Wrapper>
     );
 };
-const Title = styled.p`
+const Title = styled.a`
     font-family: "Inter", sans-serif;
+    text-decoration: none;
     font-size: 16px;
     line-height: 26px;
     color: #141718;
@@ -88,13 +90,9 @@ const Wrapper = styled.div`
     justify-content: space-between;
     row-gap: 12px;
 `;
-const Star = styled.img<{ $isFilled: boolean }>`
+const Star = styled.img`
     height: 16px;
     width: 16px;
-    filter: ${({ $isFilled }) =>
-        $isFilled
-            ? "brightness(0) saturate(100%) invert(81%) sepia(100%) saturate(287%) hue-rotate(1deg) brightness(91%) contrast(115%)"
-            : ""};
 `;
 const StarsWrapper = styled.div`
     width: 88px;
