@@ -1,10 +1,11 @@
 "use client";
 import { productApiSlice } from "@/store/services/productApiSlice";
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import ImageSlider from "../../_components/ImageSlider";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
+import Timer from "../../_components/Timer";
 
 interface IProps {
     params: { productId: string };
@@ -85,11 +86,31 @@ const ProductPage: FC<IProps> = ({ params }) => {
                             </ProductOldPrice>
                         </ProductPriceWrapper>
                     </ProductInfo>
+                    <DiscountWrapper>
+                        <DiscountText>Offer expires in:</DiscountText>
+                        <Timer time={data?.discount?.expiresIn || 0} />
+                    </DiscountWrapper>
                 </ProductInfoAside>
             </ProductSection>
         </Wrapper>
     );
 };
+const DiscountText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    color: #343839;
+    padding-bottom: 7px;
+`;
+const DiscountWrapper = styled.div`
+    padding-top: 24px;
+    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #e8ecef;
+    row-gap: 12px;
+`;
 const ProductPrice = styled.p`
     color: #121212;
     font-family: "Poppins", sans-serif;
@@ -122,6 +143,7 @@ const ProductInfo = styled.div`
     display: flex;
     row-gap: 16px;
     flex-direction: column;
+    padding-bottom: 24px;
 `;
 const ProductInfoTitle = styled.p`
     color: #141718;
