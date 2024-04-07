@@ -167,6 +167,8 @@ const ProductSection = styled.section`
 
 const Wrapper = styled.div<{ $invisible?: boolean }>`
     visibility: ${({ $invisible }) => ($invisible ? "hidden" : "visible")};
+    border-top: 1px solid #f3f5f7;
+    padding-top: 5px;
 `;
 
 export default ProductPage;
