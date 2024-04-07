@@ -7,18 +7,17 @@ interface IProps {
 }
 
 const Timer: FC<IProps> = ({ time }) => {
-    console.log(time);
     const expiresIn = time - Date.now();
     const [days, setDays] = useState<number>(0);
     const [hours, setHours] = useState<number>(0);
     const [minutes, setMinutes] = useState<number>(0);
     const [seconds, setSeconds] = useState<number>(0);
     useEffect(() => {
-        setDays(Math.floor(time / 86400000));
-        setHours(Math.floor((time % 86400000) / 3600000));
-        setMinutes(Math.floor((time % 3600000) / 60000));
-        setSeconds(Math.floor((time % 60000) / 1000));
-    }, [time]);
+        setDays(Math.floor(expiresIn / 86400000));
+        setHours(Math.floor((expiresIn % 86400000) / 3600000));
+        setMinutes(Math.floor((expiresIn % 3600000) / 60000));
+        setSeconds(Math.floor((expiresIn % 60000) / 1000));
+    }, [expiresIn]);
     useEffect(() => {
         const timer = setInterval(() => {
             if (seconds === 0) {
