@@ -90,11 +90,39 @@ const ProductPage: FC<IProps> = ({ params }) => {
                         <DiscountText>Offer expires in:</DiscountText>
                         <Timer time={data?.discount?.expiresIn || 0} />
                     </DiscountWrapper>
+                    <MeasurementsWrapper>
+                        <MeasurementsTitle>Measurements</MeasurementsTitle>
+                        <MeasurementsText>
+                            {data?.product_infos?.find((el) => el.name === "measurements")?.text}{" "}
+                            &quot;
+                        </MeasurementsText>
+                    </MeasurementsWrapper>
                 </ProductInfoAside>
             </ProductSection>
         </Wrapper>
     );
 };
+const MeasurementsText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    line-height: 32px;
+    color: #000000;
+    font-weight: 400;
+`;
+const MeasurementsTitle = styled.p`
+    color: #6c7275;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 26px;
+    font-family: "Inter", sans-serif;
+`;
+const MeasurementsWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-top: 24px;
+    row-gap: 8px;
+    border-top: 1px solid #e8ecef;
+`;
 const DiscountText = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 16px;
