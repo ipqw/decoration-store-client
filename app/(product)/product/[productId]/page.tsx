@@ -15,6 +15,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
     const { data, isLoading, error, refetch } = productApiSlice.useGetOneProductQuery(
         Number(params.productId),
     );
+    console.log(data);
     return (
         <Wrapper $invisible={error || !data ? true : false}>
             <ProductSection>
@@ -86,7 +87,8 @@ const ProductPage: FC<IProps> = ({ params }) => {
                             </ProductOldPrice>
                         </ProductPriceWrapper>
                     </ProductInfo>
-                    <DiscountWrapper>
+                    <DiscountWrapper
+                        $invisible={(Number(data?.discount?.expiresIn) || 0) - Date.now() < 0}>
                         <DiscountText>Offer expires in:</DiscountText>
                         <Timer time={data?.discount?.expiresIn || 0} />
                     </DiscountWrapper>
@@ -131,10 +133,10 @@ const DiscountText = styled.p`
     color: #343839;
     padding-bottom: 7px;
 `;
-const DiscountWrapper = styled.div`
+const DiscountWrapper = styled.div<{ $invisible: boolean }>`
     padding-top: 24px;
     padding-bottom: 24px;
-    display: flex;
+    display: ${({ $invisible }) => ($invisible ? "none" : "flex")};
     flex-direction: column;
     border-top: 1px solid #e8ecef;
     row-gap: 12px;
