@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ImageSlider from "../../_components/ImageSlider";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
+import arrow from "@/public/icons/arrow.svg";
 import Timer from "../../_components/Timer";
 
 interface IProps {
@@ -95,15 +96,57 @@ const ProductPage: FC<IProps> = ({ params }) => {
                     <MeasurementsWrapper>
                         <MeasurementsTitle>Measurements</MeasurementsTitle>
                         <MeasurementsText>
-                            {data?.product_infos?.find((el) => el.name === "measurements")?.text}{" "}
-                            &quot;
+                            {data?.product_infos?.find((el) => el.name === "measurements")?.text}
                         </MeasurementsText>
                     </MeasurementsWrapper>
+                    <ColorWrapper>
+                        <ColorTitleWrapper>
+                            <ColorTitle>Choose Color</ColorTitle>
+                            <ColorIcon src={arrow.src} />
+                        </ColorTitleWrapper>
+                        <ColorText>
+                            {`${data?.product_infos
+                                ?.find((el) => el.name === "color")
+                                ?.text[0].toLocaleUpperCase()}${data?.product_infos
+                                ?.find((el) => el.name === "color")
+                                ?.text.slice(1)}`}
+                        </ColorText>
+                    </ColorWrapper>
                 </ProductInfoAside>
             </ProductSection>
         </Wrapper>
     );
 };
+const ColorText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    line-height: 32px;
+    color: #000000;
+    font-weight: 400;
+    margin-top: 8px;
+`;
+const ColorIcon = styled.img`
+    width: 24px;
+    height: 24px;
+    margin-left: 4px;
+`;
+const ColorTitleWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
+const ColorTitle = styled.p`
+    color: #6c7275;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 26px;
+    font-family: "Inter", sans-serif;
+`;
+const ColorWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-top: 24px;
+    cursor: default;
+`;
 const MeasurementsText = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 20px;
