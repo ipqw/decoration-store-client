@@ -62,7 +62,7 @@ const ImageSlider: FC<IProps> = ({ product }) => {
                     <ArrowImage src={arrow.src} />
                 </ArrowButton>
             </MainImageWrapper>
-            <OptionalImagesWrapper>
+            <OptionalImagesWrapper $invisible={(product?.images?.length || 0) < 4}>
                 {optionalImages.map((image, index) => {
                     return (
                         <OptionalImage
@@ -83,10 +83,10 @@ const OptionalImage = styled.img<{ $active: boolean | number | undefined }>`
     width: 167px;
     height: 167px;
 `;
-const OptionalImagesWrapper = styled.div`
+const OptionalImagesWrapper = styled.div<{ $invisible: boolean }>`
     width: 549px;
     height: 167px;
-    display: flex;
+    display: ${({ $invisible }) => ($invisible ? "none" : "flex")};
     justify-content: space-between;
 `;
 const Wrapper = styled.div`
