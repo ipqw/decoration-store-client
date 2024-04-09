@@ -1,13 +1,17 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { productApiSlice } from "./services/productApiSlice";
+import { wishlistApiSlice } from "./services/wishlistApiSlice";
 
-const rootReducer = combineSlices(productApiSlice);
+const rootReducer = combineSlices(productApiSlice, wishlistApiSlice);
 
 export const setupStore = () => {
     return configureStore({
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) => {
-            return getDefaultMiddleware().concat(productApiSlice.middleware);
+            return getDefaultMiddleware().concat(
+                productApiSlice.middleware,
+                wishlistApiSlice.middleware,
+            );
         },
     });
 };
