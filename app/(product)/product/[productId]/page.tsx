@@ -1,12 +1,14 @@
 "use client";
 import { productApiSlice } from "@/store/services/productApiSlice";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageSlider from "../../_components/ImageSlider";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
 import arrow from "@/public/icons/arrow.svg";
+import wishlistIcon from "@/public/icons/product/Wishlist.svg";
 import Timer from "../../_components/Timer";
+import Counter from "../../_components/Counter";
 import { useRouter } from "next/navigation";
 
 interface IProps {
@@ -18,7 +20,9 @@ const ProductPage: FC<IProps> = ({ params }) => {
         Number(params.productId),
     );
     const router = useRouter();
-    console.log(data);
+    const [counter, setCounter] = useState<number>(0);
+
+    const cartButtonHandler = () => {};
     return (
         <Wrapper $invisible={error || !data ? true : false}>
             <ProductSection>
@@ -133,11 +137,71 @@ const ProductPage: FC<IProps> = ({ params }) => {
                             })}
                         </ColorImagesWrapper>
                     </ColorWrapper>
+                    <AddProductBlock>
+                        <AddProductTop>
+                            <Counter counter={counter} setCounter={setCounter} />
+                            <WishlistButton>
+                                <WishlistIcon src={wishlistIcon.src} />
+                                <WishlistText>Wishlist</WishlistText>
+                            </WishlistButton>
+                        </AddProductTop>
+                        <CartButton>
+                            <CartText>Add to Cart</CartText>
+                        </CartButton>
+                    </AddProductBlock>
                 </ProductInfoAside>
             </ProductSection>
         </Wrapper>
     );
 };
+const CartText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 32px;
+    color: #ffffff;
+`;
+const CartButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 8px;
+    height: 52px;
+    background-color: #141718;
+`;
+const WishlistText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 32px;
+    color: #141718;
+    margin-left: 8px;
+`;
+const WishlistIcon = styled.img`
+    width: 24px;
+    height: 24px;
+`;
+const WishlistButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 357px;
+    height: 52px;
+    border-radius: 8px;
+    border: 1px solid #141718;
+    user-select: none;
+    cursor: pointer;
+`;
+const AddProductTop = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+`;
+const AddProductBlock = styled.div`
+    margin-top: 48px;
+`;
 const ColorImage = styled.img`
     max-width: 100%;
     max-height: 100%;
@@ -183,7 +247,7 @@ const ColorTitle = styled.p`
 const ColorWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    padding-top: 24px;
+    margin-top: 24px;
     cursor: default;
 `;
 const MeasurementsText = styled.p`
