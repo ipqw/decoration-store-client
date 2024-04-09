@@ -1,98 +1,70 @@
-// export interface IUser {
-//     id: CreationOptional<number>;
-//     email: string;
-//     password: string;
-//     firstName: string;
-//     lastName: string;
-//     displayName: string | null;
-//     imageUrl: string | null;
-//     role: string;
-//     cart?: CartModel;
-//     wishlist?: WishlistModel;
-//     reviews?: ReviewModel[];
-//     likes?: LikeModel[];
-//     addresses?: AddressModel[];
-//     orders?: OrderModel[];
-// }
+export interface IUser {
+    id: number;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    displayName: string | null;
+    imageUrl: string | null;
+    role: string;
+    cart?: ICart;
+    wishlist?: IWishlist;
+    reviews?: IReview[];
+    likes?: ILike[];
+    addresses?: IAddress[];
+    orders?: IOrder[];
+}
 
-// export interface AddressModel
-//     extends Model<
-//         InferAttributes<AddressModel>,
-//         InferCreationAttributes<AddressModel>
-//     > {
-//     id: CreationOptional<number>;
-//     name: string;
-//     recipientName: string;
-//     phoneNumber: string;
-//     country: string;
-//     city: string;
-//     zipcode: string | null;
-//     street: string;
-//     houseNumber: number;
-//     userId: ForeignKey<UserModel['id']>;
-//     orders?: OrderModel[];
-// }
+export interface IAddress {
+    id: number;
+    name: string;
+    recipientName: string;
+    phoneNumber: string;
+    country: string;
+    city: string;
+    zipcode: string | null;
+    street: string;
+    houseNumber: number;
+    userId: IUser["id"];
+    orders?: IOrder[];
+}
 
-// export interface OrderModel
-//     extends Model<
-//         InferAttributes<OrderModel>,
-//         InferCreationAttributes<OrderModel>
-//     > {
-//     id: CreationOptional<number>;
-//     status: string;
-//     price: number;
-//     paymentMethod: string;
-//     addressId: ForeignKey<AddressModel['id']>;
-//     userId: ForeignKey<UserModel['id']>;
-//     order_products?: OrderProductModel[];
-// }
-// export interface OrderProductModel
-//     extends Model<
-//         InferAttributes<OrderProductModel>,
-//         InferCreationAttributes<OrderProductModel>
-//     > {
-//     id: CreationOptional<number>;
-//     orderId: ForeignKey<OrderModel['id']>;
-//     productId: ForeignKey<ProductModel['id']>;
-// }
+export interface IOrder {
+    id: number;
+    status: string;
+    price: number;
+    paymentMethod: string;
+    addressId: IAddress["id"];
+    userId: IUser["id"];
+    order_products?: IOrderProduct[];
+}
+export interface IOrderProduct {
+    id: number;
+    orderId: IOrder["id"];
+    productId: IProduct["id"];
+}
 
-// export interface CartModel
-//     extends Model<
-//         InferAttributes<CartModel>,
-//         InferCreationAttributes<CartModel>
-//     > {
-//     id: CreationOptional<number>;
-//     userId: ForeignKey<UserModel['id']>;
-//     cart_products?: CartProductModel[];
-// }
+export interface ICart {
+    id: number;
+    userId: IUser["id"];
+    cart_products?: ICartProduct[];
+}
 
-// export interface CartProductModel
-//     extends Model<
-//         InferAttributes<CartProductModel>,
-//         InferCreationAttributes<CartProductModel>
-//     > {
-//     id: CreationOptional<number>;
-//     productId: number;
-//     cartId: ForeignKey<CartModel['id']>;
-// }
-// export interface WishlistModel
-//     extends Model<
-//         InferAttributes<WishlistModel>,
-//         InferCreationAttributes<WishlistModel>
-//     > {
-//     id: CreationOptional<number>;
-//     userId: ForeignKey<UserModel['id']>;
-//     wishlist_products?: WishlistProductModel[];
-// }
-// export interface WishlistProductModel
-//     extends Model<
-//         InferAttributes<WishlistProductModel>,
-//         InferCreationAttributes<WishlistProductModel>
-//     > {
-//     id: CreationOptional<number>;
-//     productId: number;
-//     wishlistId: ForeignKey<WishlistModel['id']>;
-// }
+export interface ICartProduct {
+    id: number;
+    productId: number;
+    cartId: ICart["id"];
+}
+export interface IWishlist {
+    id: number;
+    userId: IUser["id"];
+    wishlist_products?: IWishlistProduct[];
+}
+export interface IWishlistProduct {
+    id: number;
+    productId: number;
+    wishlistId: IWishlist["id"];
+}
 export interface IProduct {
     id: number;
     name: string;
@@ -107,9 +79,9 @@ export interface IProduct {
     reviews?: IReview[];
     product_infos: IProductInfo[];
     product_group?: IProductGroup;
-    // cart_products?: CartProductModel[];
-    // wishlist_products?: WishlistProductModel[];
-    // order_products?: OrderProductModel[];
+    cart_products?: ICartProduct[];
+    wishlist_products?: IWishlistProduct[];
+    order_products?: IOrderProduct[];
 }
 export interface IProductGroup {
     id: number;
@@ -129,14 +101,11 @@ export interface IProductInfo {
     name: string;
     text: string;
 }
-// export interface TypeModel
-//     extends Model<
-//         InferAttributes<TypeModel>,
-//         InferCreationAttributes<TypeModel>
-//     > {
-//     id: CreationOptional<number>;
-//     name: string;
-// }
+export interface TypeModel {
+    id: number;
+    name: string;
+    products?: IProduct[];
+}
 export interface IReview {
     id: number;
     rate: number;
@@ -144,12 +113,8 @@ export interface IReview {
     userId: number;
     productId: number;
 }
-// export interface LikeModel
-//     extends Model<
-//         InferAttributes<LikeModel>,
-//         InferCreationAttributes<LikeModel>
-//     > {
-//     id: CreationOptional<number>;
-//     userId: ForeignKey<UserModel['id']>;
-//     reviewId: ForeignKey<ReviewModel['id']>;
-// }
+export interface ILike {
+    id: number;
+    userId: IUser["id"];
+    reviewId: IReview["id"];
+}
