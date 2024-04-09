@@ -1,12 +1,13 @@
 "use client";
 import { productApiSlice } from "@/store/services/productApiSlice";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styled from "styled-components";
 import ImageSlider from "../../_components/ImageSlider";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
 import arrow from "@/public/icons/arrow.svg";
 import Timer from "../../_components/Timer";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     params: { productId: string };
@@ -16,6 +17,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
     const { data, isLoading, error, refetch } = productApiSlice.useGetOneProductQuery(
         Number(params.productId),
     );
+    const router = useRouter();
     console.log(data);
     return (
         <Wrapper $invisible={error || !data ? true : false}>
@@ -111,12 +113,49 @@ const ProductPage: FC<IProps> = ({ params }) => {
                                 ?.find((el) => el.name === "color")
                                 ?.text.slice(1)}`}
                         </ColorText>
+                        <ColorImagesWrapper>
+                            <ColorImageWrapper $main>
+                                <ColorImage src={data?.images ? data.images[0] : ""} />
+                            </ColorImageWrapper>
+                            {data?.product_group?.products?.map((el, index) => {
+                                if (el.id === data.id) {
+                                    return null;
+                                }
+                                return (
+                                    <ColorImageWrapper
+                                        onClick={() => {
+                                            router.replace(el.id.toString());
+                                        }}
+                                        key={index}>
+                                        <ColorImage src={el?.images ? el.images[0] : ""} />
+                                    </ColorImageWrapper>
+                                );
+                            })}
+                        </ColorImagesWrapper>
                     </ColorWrapper>
                 </ProductInfoAside>
             </ProductSection>
         </Wrapper>
     );
 };
+const ColorImage = styled.img`
+    max-width: 100%;
+    max-height: 100%;
+`;
+const ColorImageWrapper = styled.div<{ $main?: boolean }>`
+    width: 72px;
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: ${({ $main }) => ($main ? "1px #141718 solid" : "none")};
+    cursor: pointer;
+`;
+const ColorImagesWrapper = styled.div`
+    display: flex;
+    column-gap: 16px;
+    margin-top: 16px;
+`;
 const ColorText = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 20px;
@@ -249,6 +288,7 @@ const StarsWrapper = styled.div`
 `;
 const ProductImages = styled.aside`
     width: fit-content;
+    max-width: 547px;
 `;
 const ProductInfoAside = styled.aside`
     width: fit-content;

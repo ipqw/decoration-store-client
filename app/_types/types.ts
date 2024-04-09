@@ -106,9 +106,16 @@ export interface IProduct {
     discount?: IDiscount;
     reviews?: IReview[];
     product_infos: IProductInfo[];
+    product_group?: IProductGroup;
     // cart_products?: CartProductModel[];
     // wishlist_products?: WishlistProductModel[];
     // order_products?: OrderProductModel[];
+}
+export interface IProductGroup {
+    id: number;
+    createdAt: string;
+    updatedAt: string;
+    products?: IProduct[];
 }
 export interface IDiscount {
     id: number;
