@@ -1,33 +1,69 @@
 "use client";
 import { productApiSlice } from "@/store/services/productApiSlice";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import ImageSlider from "../../_components/ImageSlider";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
 import arrow from "@/public/icons/arrow.svg";
 import wishlistIcon from "@/public/icons/product/Wishlist.svg";
+import filledWishlistIcon from "@/public/icons/product/FilledWishlist.svg";
 import Timer from "../../_components/Timer";
 import Counter from "../../_components/Counter";
 import { useRouter } from "next/navigation";
+import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
+import { cartApiSlice } from "@/store/services/cartApiSlice";
 
 interface IProps {
     params: { productId: string };
 }
 
 const ProductPage: FC<IProps> = ({ params }) => {
-    const { data, isLoading, error, refetch } = productApiSlice.useGetOneProductQuery(
-        Number(params.productId),
-    );
+    // заменить 0 когда пропишу логику авторизации
     const router = useRouter();
     const [counter, setCounter] = useState<number>(0);
+    const [isAddedToWishlistBtn, setIsAddedToWishlistBtn] = useState<boolean>(false);
 
-    const cartButtonHandler = () => {};
+    // queries
+    const {
+        data: product,
+        isLoading,
+        error: productError,
+    } = productApiSlice.useGetOneProductQuery(Number(params.productId));
+
+    // mutations
+    const [createWishlistProduct, { isLoading: isLoadingCreateWishlistProduct }] =
+        wishlistApiSlice.useCreateWishlistProductMutation();
+    const [deleteWishlistProduct, { isLoading: isLoadingDeleteWishlistProduct }] =
+        wishlistApiSlice.useDeleteWishlistProductMutation();
+
+    const [createCartProduct, { isLoading: isLoadingCreateCartProduct }] =
+        cartApiSlice.useCreateCartProductMutation();
+
+    const wishlistButtonHandler = () => {
+        if (isAddedToWishlistBtn) {
+            if (!isLoadingDeleteWishlistProduct) {
+                deleteWishlistProduct({ productId: product?.id || 0, wishlistId: 1 }); //replace wishlistId soon
+                setIsAddedToWishlistBtn(false);
+            }
+        } else {
+            if (!isLoadingCreateWishlistProduct) {
+                createWishlistProduct({ productId: product?.id || 0, wishlistId: 1 }); //replace wishlistId soon
+                setIsAddedToWishlistBtn(true);
+            }
+        }
+    };
+    const cartButtonHandler = () => {
+        if (!isLoadingCreateCartProduct) {
+            createCartProduct({ productId: product?.id || 0, cartId: 1, amount: counter }); //replace cartId soon
+            setCounter(0);
+        }
+    };
     return (
-        <Wrapper $invisible={error || !data ? true : false}>
+        <Wrapper $invisible={productError || !product ? true : false || isLoading}>
             <ProductSection>
                 <ProductImages>
-                    <ImageSlider product={data} />
+                    <ImageSlider product={product} />
                 </ProductImages>
                 <ProductInfoAside>
                     <ProductInfo>
@@ -35,74 +71,76 @@ const ProductPage: FC<IProps> = ({ params }) => {
                             <StarsWrapper>
                                 <Star
                                     src={
-                                        Number(data?.averageRate) >= 1
+                                        Number(product?.averageRate) >= 1
                                             ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                                 <Star
                                     src={
-                                        Number(data?.averageRate) >= 2
+                                        Number(product?.averageRate) >= 2
                                             ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                                 <Star
                                     src={
-                                        Number(data?.averageRate) >= 3
+                                        Number(product?.averageRate) >= 3
                                             ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                                 <Star
                                     src={
-                                        Number(data?.averageRate) >= 4
+                                        Number(product?.averageRate) >= 4
                                             ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                                 <Star
                                     src={
-                                        Number(data?.averageRate) == 5
+                                        Number(product?.averageRate) == 5
                                             ? fullStar.src
                                             : emptyStar.src
                                     }
                                 />
                             </StarsWrapper>
-                            <ProductRatingText>{data?.reviews?.length} Reviews</ProductRatingText>
+                            <ProductRatingText>
+                                {product?.reviews?.length} Reviews
+                            </ProductRatingText>
                         </ProductRatingWrapper>
-                        <ProductInfoTitle>{data?.name}</ProductInfoTitle>
+                        <ProductInfoTitle>{product?.name}</ProductInfoTitle>
                         <ProductInfoText>
-                            {data?.product_infos?.find((el) => el.name === "about")?.text}
+                            {product?.product_infos?.find((el) => el.name === "about")?.text}
                         </ProductInfoText>
                         <ProductPriceWrapper>
                             <ProductPrice>
                                 $
-                                {data?.discountPrice
-                                    ? data?.discountPrice.toString().split(".")[1]
-                                        ? data?.discountPrice
-                                        : `${data?.discountPrice}.00`
-                                    : data?.price.toString().split(".")[1]
-                                      ? data?.price
-                                      : `${data?.price}.00`}
+                                {product?.discountPrice
+                                    ? product?.discountPrice.toString().split(".")[1]
+                                        ? product?.discountPrice
+                                        : `${product?.discountPrice}.00`
+                                    : product?.price.toString().split(".")[1]
+                                      ? product?.price
+                                      : `${product?.price}.00`}
                             </ProductPrice>
-                            <ProductOldPrice $invisible={data?.discountPrice ? false : true}>
+                            <ProductOldPrice $invisible={product?.discountPrice ? false : true}>
                                 $
-                                {data?.price.toString().split(".")[1]
-                                    ? data?.price
-                                    : `${data?.price}.00`}
+                                {product?.price.toString().split(".")[1]
+                                    ? product?.price
+                                    : `${product?.price}.00`}
                             </ProductOldPrice>
                         </ProductPriceWrapper>
                     </ProductInfo>
                     <DiscountWrapper
-                        $invisible={(Number(data?.discount?.expiresIn) || 0) - Date.now() < 0}>
+                        $invisible={(Number(product?.discount?.expiresIn) || 0) - Date.now() < 0}>
                         <DiscountText>Offer expires in:</DiscountText>
-                        <Timer time={data?.discount?.expiresIn || 0} />
+                        <Timer time={product?.discount?.expiresIn || 0} />
                     </DiscountWrapper>
                     <MeasurementsWrapper>
                         <MeasurementsTitle>Measurements</MeasurementsTitle>
                         <MeasurementsText>
-                            {data?.product_infos?.find((el) => el.name === "measurements")?.text}
+                            {product?.product_infos?.find((el) => el.name === "measurements")?.text}
                         </MeasurementsText>
                     </MeasurementsWrapper>
                     <ColorWrapper>
@@ -111,18 +149,18 @@ const ProductPage: FC<IProps> = ({ params }) => {
                             <ColorIcon src={arrow.src} />
                         </ColorTitleWrapper>
                         <ColorText>
-                            {`${data?.product_infos
+                            {`${product?.product_infos
                                 ?.find((el) => el.name === "color")
-                                ?.text[0].toLocaleUpperCase()}${data?.product_infos
+                                ?.text[0].toLocaleUpperCase()}${product?.product_infos
                                 ?.find((el) => el.name === "color")
                                 ?.text.slice(1)}`}
                         </ColorText>
                         <ColorImagesWrapper>
                             <ColorImageWrapper $main>
-                                <ColorImage src={data?.images ? data.images[0] : ""} />
+                                <ColorImage src={product?.images ? product.images[0] : ""} />
                             </ColorImageWrapper>
-                            {data?.product_group?.products?.map((el, index) => {
-                                if (el.id === data.id) {
+                            {product?.product_group?.products?.map((el, index) => {
+                                if (el.id === product.id) {
                                     return null;
                                 }
                                 return (
@@ -140,12 +178,16 @@ const ProductPage: FC<IProps> = ({ params }) => {
                     <AddProductBlock>
                         <AddProductTop>
                             <Counter counter={counter} setCounter={setCounter} />
-                            <WishlistButton>
-                                <WishlistIcon src={wishlistIcon.src} />
+                            <WishlistButton onClick={wishlistButtonHandler}>
+                                {isAddedToWishlistBtn ? (
+                                    <WishlistIcon src={filledWishlistIcon.src} />
+                                ) : (
+                                    <WishlistIcon src={wishlistIcon.src} />
+                                )}
                                 <WishlistText>Wishlist</WishlistText>
                             </WishlistButton>
                         </AddProductTop>
-                        <CartButton>
+                        <CartButton onClick={cartButtonHandler}>
                             <CartText>Add to Cart</CartText>
                         </CartButton>
                     </AddProductBlock>
