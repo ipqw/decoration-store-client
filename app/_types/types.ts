@@ -72,7 +72,8 @@ export interface IProduct {
     averageRate: number;
     price: number;
     discountPrice: number | null;
-    typeId: number;
+    typeId: IType["id"];
+    type: IType;
     createdAt: string;
     updatedAt: string;
     discount?: IDiscount;
@@ -101,7 +102,7 @@ export interface IProductInfo {
     name: string;
     text: string;
 }
-export interface TypeModel {
+export interface IType {
     id: number;
     name: string;
     products?: IProduct[];

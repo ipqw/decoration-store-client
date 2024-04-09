@@ -191,11 +191,49 @@ const ProductPage: FC<IProps> = ({ params }) => {
                             <CartText>Add to Cart</CartText>
                         </CartButton>
                     </AddProductBlock>
+                    <CategoryWrapper>
+                        <CategoryBlock>
+                            <CategoryTitle>SKU</CategoryTitle>
+                            <CategoryText>{product?.id}</CategoryText>
+                        </CategoryBlock>
+                        <CategoryBlock>
+                            <CategoryTitle>Category</CategoryTitle>
+                            <CategoryText>{product?.type?.name}</CategoryText>
+                        </CategoryBlock>
+                    </CategoryWrapper>
                 </ProductInfoAside>
             </ProductSection>
         </Wrapper>
     );
 };
+const CategoryText = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+`;
+const CategoryTitle = styled.p`
+    color: #6c7275;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 20px;
+    width: 123px;
+    text-align: left;
+`;
+const CategoryBlock = styled.div`
+    display: flex;
+`;
+const CategoryWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    border-top: 1px solid #e8ecef;
+    row-gap: 8px;
+`;
+
 const CartText = styled.p`
     font-family: "Inter", sans-serif;
     font-weight: 500;
@@ -243,6 +281,7 @@ const AddProductTop = styled.div`
 `;
 const AddProductBlock = styled.div`
     margin-top: 48px;
+    padding-bottom: 32px;
 `;
 const ColorImage = styled.img`
     max-width: 100%;
