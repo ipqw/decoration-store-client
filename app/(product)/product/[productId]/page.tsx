@@ -286,6 +286,8 @@ const AddProductBlock = styled.div`
 const ColorImage = styled.img`
     max-width: 100%;
     max-height: 100%;
+    pointer-events: none;
+    user-select: none;
 `;
 const ColorImageWrapper = styled.div<{ $main?: boolean }>`
     width: 72px;
@@ -295,6 +297,7 @@ const ColorImageWrapper = styled.div<{ $main?: boolean }>`
     align-items: center;
     border: ${({ $main }) => ($main ? "1px #141718 solid" : "none")};
     cursor: pointer;
+    user-select: none;
 `;
 const ColorImagesWrapper = styled.div`
     display: flex;

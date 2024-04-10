@@ -84,12 +84,15 @@ const OptionalImage = styled.img<{ $active: boolean | number | undefined }>`
     display: ${({ $active }) => ($active ? "block" : "none")};
     width: 167px;
     height: 167px;
+    cursor: pointer;
+    pointer-events: none;
 `;
 const OptionalImagesWrapper = styled.div<{ $invisible: boolean }>`
     width: 549px;
     height: 167px;
     display: ${({ $invisible }) => ($invisible ? "none" : "flex")};
     justify-content: space-between;
+    user-select: none;
 `;
 const Wrapper = styled.div`
     display: flex;
@@ -167,6 +170,7 @@ const Image = styled.img<{ $active: boolean }>`
     display: ${({ $active }) => ($active ? "block" : "none")};
     width: 100%;
     height: 100%;
+    pointer-events: none;
 `;
 const MainImageWrapper = styled.div<IWrapperProps>`
     display: flex;
