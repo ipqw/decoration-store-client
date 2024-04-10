@@ -63,7 +63,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
         <Wrapper $invisible={productError || !product ? true : false || isLoading}>
             <ProductSection>
                 <ProductImages>
-                    <ImageSlider product={product} />
+                    <ImageSlider backgroundColor="F3F5F7" product={product} />
                 </ProductImages>
                 <ProductInfoAside>
                     <ProductInfo>
@@ -106,7 +106,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
                                 />
                             </StarsWrapper>
                             <ProductRatingText>
-                                {product?.reviews?.length} Reviews
+                                {product?.product_group?.reviews?.length} Reviews
                             </ProductRatingText>
                         </ProductRatingWrapper>
                         <ProductInfoTitle>{product?.name}</ProductInfoTitle>

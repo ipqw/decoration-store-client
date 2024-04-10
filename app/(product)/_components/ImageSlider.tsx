@@ -5,12 +5,14 @@ import { IProduct } from "@/app/_types/types";
 
 interface IProps {
     product?: IProduct;
+    backgroundColor?: string;
 }
 interface IWrapperProps {
     $width?: number;
     $height?: number;
+    $backgroundColor?: string;
 }
-const ImageSlider: FC<IProps> = ({ product }) => {
+const ImageSlider: FC<IProps> = ({ product, backgroundColor }) => {
     const [active, setActive] = useState<number>(0);
     const isNew = product ? Date.now() - new Date(product.createdAt).getTime() < 604800000 : false;
     const optionalImages = product?.images
@@ -43,7 +45,7 @@ const ImageSlider: FC<IProps> = ({ product }) => {
     };
     return (
         <Wrapper>
-            <MainImageWrapper>
+            <MainImageWrapper $backgroundColor={backgroundColor}>
                 <LabelWrapper>
                     <NewLabel $isNew={isNew}>
                         <NewLabelText>NEW</NewLabelText>
@@ -175,6 +177,8 @@ const MainImageWrapper = styled.div<IWrapperProps>`
     min-width: 547px;
     min-height: 728px;
     user-select: none;
+    background-color: ${({ $backgroundColor }) =>
+        $backgroundColor ? `#${$backgroundColor}` : "transparent"};
 `;
 
 export default ImageSlider;

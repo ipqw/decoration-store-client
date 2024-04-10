@@ -77,7 +77,6 @@ export interface IProduct {
     createdAt: string;
     updatedAt: string;
     discount?: IDiscount;
-    reviews?: IReview[];
     product_infos: IProductInfo[];
     product_group?: IProductGroup;
     cart_products?: ICartProduct[];
@@ -89,6 +88,7 @@ export interface IProductGroup {
     createdAt: string;
     updatedAt: string;
     products?: IProduct[];
+    reviews?: IReview[];
 }
 export interface IDiscount {
     id: number;
@@ -112,7 +112,7 @@ export interface IReview {
     rate: number;
     text: string;
     userId: number;
-    productId: number;
+    productGroupId: number;
 }
 export interface ILike {
     id: number;
