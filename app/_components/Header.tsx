@@ -17,25 +17,25 @@ const Header: FC = () => {
                     <StyledLink
                         style={{ color: pathname === "/" ? "#000000" : "#6C7275" }}
                         className="space-grotesk"
-                        href="./home">
+                        href="/">
                         Home
                     </StyledLink>
                     <StyledLink
                         style={{ color: pathname === "/shop" ? "#000000" : "#6C7275" }}
                         className="space-grotesk"
-                        href="./shop">
+                        href="/shop">
                         Shop
                     </StyledLink>
                     <StyledLink
                         style={{ color: pathname.includes("/product") ? "#000000" : "#6C7275" }}
                         className="space-grotesk"
-                        href="./product">
+                        href="/product">
                         Product
                     </StyledLink>
                     <StyledLink
                         style={{ color: pathname === "/contact-us" ? "#000000" : "#6C7275" }}
                         className="space-grotesk"
-                        href="./contact-us">
+                        href="/contact-us">
                         Contact us
                     </StyledLink>
                 </NavBlock>

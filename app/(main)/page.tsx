@@ -3,6 +3,7 @@ import { FC } from "react";
 import styled from "styled-components";
 
 import mainImage from "../../public/images/homepage/mainImage.png";
+import secondMainImage from "../../public/images/homepage/mainImage2.png";
 import sofaImage from "../../public/images/homepage/sofaImage.png";
 import drawerImage from "../../public/images/homepage/drawerImage.png";
 import toasterImage from "../../public/images/homepage/toasterImage.png";
@@ -23,7 +24,7 @@ const Home: FC = () => {
     return (
         <Wrapper>
             <ImageSliderSection>
-                <ImageSlider images={[mainImage, mainImage, mainImage]} />
+                <ImageSlider images={[mainImage, secondMainImage]} />
                 <ImageSliderTextBlock>
                     <ImageSliderTitle>
                         Simply Unique<ImageSliderTitleSpan>/</ImageSliderTitleSpan> Simply Better
