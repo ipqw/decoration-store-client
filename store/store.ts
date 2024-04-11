@@ -2,8 +2,9 @@ import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { productApiSlice } from "./services/productApiSlice";
 import { wishlistApiSlice } from "./services/wishlistApiSlice";
 import { cartApiSlice } from "./services/cartApiSlice";
+import { userApiSlice } from "./services/userApiSlice";
 
-const rootReducer = combineSlices(productApiSlice, wishlistApiSlice, cartApiSlice);
+const rootReducer = combineSlices(productApiSlice, wishlistApiSlice, cartApiSlice, userApiSlice);
 
 export const setupStore = () => {
     return configureStore({
@@ -13,6 +14,7 @@ export const setupStore = () => {
                 productApiSlice.middleware,
                 wishlistApiSlice.middleware,
                 cartApiSlice.middleware,
+                userApiSlice.middleware,
             );
         },
     });
