@@ -6,9 +6,40 @@ import eyeIcon from "@/public/icons/eye.svg";
 
 import Logo from "@/app/_components/Logo";
 import CheckboxInput from "@/app/_components/CheckboxInput";
+import { userApiSlice } from "@/store/services/userApiSlice";
+import { useRouter } from "next/navigation";
 
 const SignUp: FC = () => {
+    const router = useRouter();
+
     const [isVisiblePassword, setIsVisiblePassword] = useState<boolean>(false);
+    const [name, setName] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [agreement, setAgreement] = useState<boolean>(false);
+    const [isFirstAttempt, setIsFirstAttempt] = useState<boolean>(true);
+
+    const [createUser, { isLoading: isLoadingCreateUser }] = userApiSlice.useCreateUserMutation();
+    const submitButtonHandler = () => {
+        if (name && username && email && password && agreement && !isLoadingCreateUser) {
+            createUser({
+                email,
+                firstName: name.split(" ")[0],
+                displayName: username,
+                lastName: name.split(" ")[1],
+                password,
+            }).then((res) => {
+                if ("data" in res) {
+                    localStorage.setItem("token", res.data.token);
+                    router.replace("/");
+                }
+                return null;
+            });
+        } else {
+            setIsFirstAttempt(false);
+        }
+    };
     return (
         <Wrapper>
             <LeftBlock>
@@ -16,7 +47,6 @@ const SignUp: FC = () => {
                     <LogoWrapper>
                         <Logo />
                     </LogoWrapper>
-                    <LogoWrapper></LogoWrapper>
                     <MainImage src={mainImage.src} />
                 </MainBlock>
             </LeftBlock>
@@ -27,14 +57,33 @@ const SignUp: FC = () => {
                         Already have an account? <FormLink href="./signin">Sign in</FormLink>
                     </FormText>
                     <FormInputs>
-                        <FormInput $border placeholder="Your name" />
-                        <FormInput $border placeholder="Username" />
-                        <FormInput $border placeholder="Email address" />
-                        <FormInputWrapper>
+                        <FormInputWrapper $outlined={!name && !isFirstAttempt ? true : false}>
+                            <FormInput
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Your name (first and last name)"
+                            />
+                        </FormInputWrapper>
+                        <FormInputWrapper $outlined={!username && !isFirstAttempt ? true : false}>
+                            <FormInput
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                placeholder="Username"
+                            />
+                        </FormInputWrapper>
+                        <FormInputWrapper $outlined={!email && !isFirstAttempt ? true : false}>
+                            <FormInput
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Email address"
+                            />
+                        </FormInputWrapper>
+                        <FormInputWrapper $outlined={!password && !isFirstAttempt ? true : false}>
                             <FormInput
                                 type={isVisiblePassword ? "text" : "password"}
-                                $border={false}
                                 placeholder="Password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                value={password}
                             />
                             <FormIcon
                                 onClick={() => setIsVisiblePassword((value) => !value)}
@@ -42,13 +91,21 @@ const SignUp: FC = () => {
                             />
                         </FormInputWrapper>
                         <AgreementBlock>
-                            <CheckboxInput />
+                            <FormInputWrapper
+                                $checkbox
+                                $outlined={!agreement && !isFirstAttempt ? true : false}>
+                                <CheckboxInput
+                                    outlined={!agreement && !isFirstAttempt ? true : false}
+                                    isActive={agreement}
+                                    setIsActive={setAgreement}
+                                />
+                            </FormInputWrapper>
                             <AgreementText>
                                 I agree with <AgreementLink>Privacy Policy</AgreementLink> and{" "}
                                 <AgreementLink>Terms of Use</AgreementLink>
                             </AgreementText>
                         </AgreementBlock>
-                        <SubmitButton>
+                        <SubmitButton onClick={submitButtonHandler}>
                             <SubmitButtonText>Sign Up</SubmitButtonText>
                         </SubmitButton>
                     </FormInputs>
@@ -105,19 +162,24 @@ export const FormInputs = styled.div`
     flex-direction: column;
     row-gap: 32px;
 `;
-export const FormInputWrapper = styled.div`
+export const FormInputWrapper = styled.div<{ $outlined?: boolean; $checkbox?: boolean }>`
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 40px;
-    border-bottom: #e8ecef 1px solid;
+    justify-content: center;
+    width: ${({ $checkbox }) => ($checkbox ? "fit-content" : "100%")};
+    height: ${({ $checkbox }) => ($checkbox ? "min-content" : "40px")};
+    border-bottom: ${({ $outlined, $checkbox }) =>
+        !$checkbox && $outlined ? "none" : "#e8ecef 1px solid"};
+    outline: ${({ $outlined }) => ($outlined ? "#ff0000 2px solid" : "none")};
+    border-radius: 4px;
+    margin-right: ${({ $checkbox }) => ($checkbox ? "12px" : "0")};
 `;
 export const FormIcon = styled.img`
     width: 24px;
     height: 24px;
     cursor: pointer;
 `;
-export const FormInput = styled.input<{ $border: boolean }>`
+export const FormInput = styled.input`
     &::placeholder {
         color: #6c7275;
         font-family: "Inter", sans-serif;
@@ -133,7 +195,6 @@ export const FormInput = styled.input<{ $border: boolean }>`
     line-height: 26px;
     width: 100%;
     height: 40px;
-    border-bottom: ${({ $border }) => ($border ? "#e8ecef 1px solid" : "none")};
     &:focus {
         outline: none;
     }

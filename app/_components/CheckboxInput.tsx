@@ -1,25 +1,33 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 import CheckIcon from "@/public/icons/check.svg";
 
-const CheckboxInput = () => {
-    const [isActive, setIsActive] = useState<boolean>(false);
+interface IProps {
+    isActive: boolean;
+    setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+    outlined: boolean;
+}
+
+const CheckboxInput: FC<IProps> = ({ isActive, setIsActive, outlined }) => {
     return (
-        <Wrapper $isActive={isActive} onClick={() => setIsActive((state) => !state)}>
+        <Wrapper
+            $outlined={outlined}
+            $isActive={isActive}
+            onClick={() => setIsActive((state) => !state)}>
             <Check $isActive={isActive} src={CheckIcon.src} />
         </Wrapper>
     );
 };
 
-const Wrapper = styled.div<{ $isActive: boolean }>`
+const Wrapper = styled.div<{ $isActive: boolean; $outlined: boolean }>`
     display: flex;
     justify-content: center;
     align-items: center;
     width: 24px;
     height: 24px;
-    border: ${({ $isActive }) => ($isActive ? "none" : "1.5px solid #6c7275")};
+    border: ${({ $isActive, $outlined }) =>
+        !$isActive && !$outlined ? "1.5px solid #6c7275" : "none"};
     border-radius: 4px;
-    margin-right: 12px;
     background-color: ${({ $isActive }) => ($isActive ? "#141718" : "#FCFCFD")};
     user-select: none;
 `;
