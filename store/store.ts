@@ -3,8 +3,15 @@ import { productApiSlice } from "./services/productApiSlice";
 import { wishlistApiSlice } from "./services/wishlistApiSlice";
 import { cartApiSlice } from "./services/cartApiSlice";
 import { userApiSlice } from "./services/userApiSlice";
+import userSlice from "./reducers/userSlice";
 
-const rootReducer = combineSlices(productApiSlice, wishlistApiSlice, cartApiSlice, userApiSlice);
+const rootReducer = combineSlices(
+    productApiSlice,
+    wishlistApiSlice,
+    cartApiSlice,
+    userApiSlice,
+    userSlice,
+);
 
 export const setupStore = () => {
     return configureStore({
