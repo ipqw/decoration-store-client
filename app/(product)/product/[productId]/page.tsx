@@ -13,14 +13,16 @@ import Counter from "../../_components/Counter";
 import { useRouter } from "next/navigation";
 import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
+import Tabs from "../../_components/Tabs";
+import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
     params: { productId: string };
 }
 
 const ProductPage: FC<IProps> = ({ params }) => {
-    // заменить 0 когда пропишу логику авторизации
     const router = useRouter();
+    const user = useAppSelector((state) => state.user);
     const [counter, setCounter] = useState<number>(0);
     const [isAddedToWishlistBtn, setIsAddedToWishlistBtn] = useState<boolean>(false);
 
@@ -41,24 +43,28 @@ const ProductPage: FC<IProps> = ({ params }) => {
         cartApiSlice.useCreateCartProductMutation();
 
     const wishlistButtonHandler = () => {
-        if (isAddedToWishlistBtn) {
+        if (isAddedToWishlistBtn && user?.wishlist && product) {
             if (!isLoadingDeleteWishlistProduct) {
-                deleteWishlistProduct({ productId: product?.id || 0, wishlistId: 1 }); //replace wishlistId soon
+                deleteWishlistProduct({ productId: product.id, wishlistId: user.wishlist.id });
                 setIsAddedToWishlistBtn(false);
             }
         } else {
-            if (!isLoadingCreateWishlistProduct) {
-                createWishlistProduct({ productId: product?.id || 0, wishlistId: 1 }); //replace wishlistId soon
+            if (!isLoadingCreateWishlistProduct && product && user?.wishlist) {
+                createWishlistProduct({ productId: product?.id, wishlistId: user.wishlist.id });
                 setIsAddedToWishlistBtn(true);
             }
         }
     };
     const cartButtonHandler = () => {
-        if (!isLoadingCreateCartProduct) {
-            createCartProduct({ productId: product?.id || 0, cartId: 1, amount: counter }); //replace cartId soon
+        if (!isLoadingCreateCartProduct && user?.cart && product) {
+            createCartProduct({ productId: product.id, cartId: user.cart.id, amount: counter });
             setCounter(0);
         }
     };
+
+    // additional section
+    const [activeTab, setActiveTab] = useState<number>(0);
+
     return (
         <Wrapper $invisible={productError || !product ? true : false || isLoading}>
             <ProductSection>
@@ -203,9 +209,16 @@ const ProductPage: FC<IProps> = ({ params }) => {
                     </CategoryWrapper>
                 </ProductInfoAside>
             </ProductSection>
+            <AdditionalSection>
+                <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            </AdditionalSection>
         </Wrapper>
     );
 };
+const AdditionalSection = styled.section`
+    width: 1120px;
+`;
+
 const CategoryText = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
@@ -452,6 +465,9 @@ const Wrapper = styled.div<{ $invisible?: boolean }>`
     visibility: ${({ $invisible }) => ($invisible ? "hidden" : "visible")};
     border-top: 1px solid #f3f5f7;
     padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 export default ProductPage;
