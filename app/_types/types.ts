@@ -113,6 +113,8 @@ export interface IReview {
     text: string;
     userId: number;
     productGroupId: number;
+    createdAt: string;
+    updatedAt: string;
 }
 export interface ILike {
     id: number;
