@@ -115,6 +115,7 @@ export interface IReview {
     productGroupId: number;
     createdAt: string;
     updatedAt: string;
+    likes?: ILike[];
 }
 export interface ILike {
     id: number;
