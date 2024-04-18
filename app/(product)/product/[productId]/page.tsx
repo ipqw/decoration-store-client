@@ -15,6 +15,7 @@ import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import Tabs from "../../_components/Tabs";
 import { useAppSelector } from "@/store/hooks";
+import ReviewsList from "../../_components/ReviewsList";
 
 interface IProps {
     params: { productId: string };
@@ -211,6 +212,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
             </ProductSection>
             <AdditionalSection>
                 <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+                {activeTab === 2 && <ReviewsList reviews={product?.product_group?.reviews || []} />}
             </AdditionalSection>
         </Wrapper>
     );
