@@ -1,10 +1,10 @@
-import { IReview } from "@/app/_types/types";
+import { ILike, IReview } from "@/app/_types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const reviewApiSlice = createApi({
     reducerPath: "reviewApi",
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
-    tagTypes: ["Review"],
+    tagTypes: ["Review", "Like"],
     endpoints: (build) => ({
         getAllReviews: build.query<IReview[], null>({
             query: () => ({
@@ -40,6 +40,21 @@ export const reviewApiSlice = createApi({
                 method: "DELETE",
             }),
             invalidatesTags: ["Review"],
+        }),
+        createLike: build.mutation<ILike, ILike>({
+            query: (like) => ({
+                url: "/like",
+                method: "POST",
+                body: like,
+            }),
+            invalidatesTags: ["Like"],
+        }),
+        removeLike: build.mutation<string, ILike>({
+            query: (like) => ({
+                url: `/like/${like.id}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["Like"],
         }),
     }),
 });
