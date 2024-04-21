@@ -41,6 +41,13 @@ export const reviewApiSlice = createApi({
             }),
             invalidatesTags: ["Review"],
         }),
+        getOneLikeByReviewIdAndUserId: build.query<ILike, { userId: number; reviewId: number }>({
+            query: (params) => ({
+                url: `/like?reviewId=${params.reviewId}&userId=${params.userId}`,
+                method: "GET",
+            }),
+            providesTags: ["Like"],
+        }),
         createLike: build.mutation<ILike, { reviewId: ILike["reviewId"]; userId: ILike["userId"] }>(
             {
                 query: (like) => ({

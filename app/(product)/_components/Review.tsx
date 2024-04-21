@@ -1,11 +1,13 @@
 import { IReview } from "@/app/_types/types";
 import { userApiSlice } from "@/store/services/userApiSlice";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import blankAvatar from "@/public/icons/blankAvatar.png";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
 import likeIcon from "@/public/icons/product/Wishlist.svg";
+import filledLikeIcon from "@/public/icons/product/FilledWishlist.svg";
+import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 
 interface IProps {
     review: IReview;
@@ -14,10 +16,32 @@ interface IProps {
 const Review: FC<IProps> = ({ review }) => {
     // queries
     const { data: user } = userApiSlice.useGetUserQuery(review.userId);
+    const { data: like, isLoading: isLikeLoading } =
+        reviewApiSlice.useGetOneLikeByReviewIdAndUserIdQuery({
+            userId: user?.id || 0,
+            reviewId: review.id,
+        });
+    const [isLiked, setIsLiked] = useState<boolean>(like ? true : false);
+    const [likeCounter, setLikeCounter] = useState<number>(Number(review.likes?.length));
+    useEffect(() => {
+        setIsLiked(like ? true : false);
+    }, [like]);
 
     // mutations
-    // const [createLike, { isLoading: isLoadingCreateCartProduct }] =
-    //     cartApiSlice.useCreateCartProductMutation();
+    const [createLike, { isLoading: isLoadingCreateLike }] = reviewApiSlice.useCreateLikeMutation();
+    const [removeLike, { isLoading: isLoadingRemoveLike }] = reviewApiSlice.useRemoveLikeMutation();
+
+    const buttonClickHandler = () => {
+        if (isLiked && like && !isLoadingCreateLike) {
+            removeLike(like);
+            setIsLiked(false);
+            setLikeCounter((prev) => prev - 1);
+        } else if (user && !isLoadingRemoveLike) {
+            createLike({ reviewId: review.id, userId: user?.id });
+            setIsLiked(true);
+            setLikeCounter((prev) => prev + 1);
+        }
+    };
     return (
         <Wrapper>
             <Avatar src={user?.imageUrl || blankAvatar.src} />
@@ -32,9 +56,9 @@ const Review: FC<IProps> = ({ review }) => {
                 </StarsWrapper>
                 <Text>{review.text}</Text>
                 <LikeWrapper>
-                    <LikeText>{review.likes?.length} likes</LikeText>•
-                    <Button onClick={() => {}}>
-                        <ButtonImg src={likeIcon.src} /> Like
+                    <LikeText>{likeCounter} likes</LikeText>•
+                    <Button onClick={buttonClickHandler}>
+                        <ButtonImg src={isLiked ? filledLikeIcon.src : likeIcon.src} /> Like
                     </Button>
                 </LikeWrapper>
             </InfoBlock>
