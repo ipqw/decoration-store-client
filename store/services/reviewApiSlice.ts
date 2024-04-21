@@ -41,14 +41,16 @@ export const reviewApiSlice = createApi({
             }),
             invalidatesTags: ["Review"],
         }),
-        createLike: build.mutation<ILike, ILike>({
-            query: (like) => ({
-                url: "/like",
-                method: "POST",
-                body: like,
-            }),
-            invalidatesTags: ["Like"],
-        }),
+        createLike: build.mutation<ILike, { reviewId: ILike["reviewId"]; userId: ILike["userId"] }>(
+            {
+                query: (like) => ({
+                    url: "/like",
+                    method: "POST",
+                    body: like,
+                }),
+                invalidatesTags: ["Like"],
+            },
+        ),
         removeLike: build.mutation<string, ILike>({
             query: (like) => ({
                 url: `/like/${like.id}`,
