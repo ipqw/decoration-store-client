@@ -37,7 +37,7 @@ export const productApiSlice = createApi({
             }),
             invalidatesTags: ["Product"],
         }),
-        deleteProduct: build.mutation<IProduct, IProduct>({
+        deleteProduct: build.mutation<string, IProduct>({
             query: (post) => ({
                 url: `/product/${post.id}`,
                 method: "DELETE",
