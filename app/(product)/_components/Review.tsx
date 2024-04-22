@@ -8,6 +8,7 @@ import fullStar from "@/public/icons/fullStar.svg";
 import likeIcon from "@/public/icons/product/Wishlist.svg";
 import filledLikeIcon from "@/public/icons/product/FilledWishlist.svg";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
+import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
     review: IReview;
@@ -15,38 +16,42 @@ interface IProps {
 
 const Review: FC<IProps> = ({ review }) => {
     // queries
-    const { data: user } = userApiSlice.useGetUserQuery(review.userId);
-    const { data: like, isLoading: isLikeLoading } =
-        reviewApiSlice.useGetOneLikeByReviewIdAndUserIdQuery({
-            userId: user?.id || 0,
-            reviewId: review.id,
-        });
+    const { data: reviewAuthor } = userApiSlice.useGetUserQuery(review.userId);
+    const user = useAppSelector((state) => state.user);
+    const { data: like } = reviewApiSlice.useGetOneLikeByReviewIdAndUserIdQuery({
+        userId: user?.id || 0,
+        reviewId: review.id,
+    });
     const [isLiked, setIsLiked] = useState<boolean>(like ? true : false);
     const [likeCounter, setLikeCounter] = useState<number>(Number(review.likes?.length));
     useEffect(() => {
-        setIsLiked(like ? true : false);
-    }, [like]);
+        if (user.id !== 0) {
+            setIsLiked(like ? true : false);
+        }
+    }, [like, user]);
 
     // mutations
     const [createLike, { isLoading: isLoadingCreateLike }] = reviewApiSlice.useCreateLikeMutation();
     const [removeLike, { isLoading: isLoadingRemoveLike }] = reviewApiSlice.useRemoveLikeMutation();
 
     const buttonClickHandler = () => {
-        if (isLiked && like && !isLoadingCreateLike) {
-            removeLike(like);
-            setIsLiked(false);
-            setLikeCounter((prev) => prev - 1);
-        } else if (user && !isLoadingRemoveLike) {
-            createLike({ reviewId: review.id, userId: user?.id });
-            setIsLiked(true);
-            setLikeCounter((prev) => prev + 1);
+        if (user.id !== 0) {
+            if (isLiked && like && !isLoadingCreateLike) {
+                removeLike(like);
+                setIsLiked(false);
+                setLikeCounter((prev) => prev - 1);
+            } else if (user && !isLoadingRemoveLike) {
+                createLike({ reviewId: review.id, userId: user?.id });
+                setIsLiked(true);
+                setLikeCounter((prev) => prev + 1);
+            }
         }
     };
     return (
         <Wrapper>
-            <Avatar src={user?.imageUrl || blankAvatar.src} />
+            <Avatar src={reviewAuthor?.imageUrl || blankAvatar.src} />
             <InfoBlock>
-                <Name>{user?.displayName}</Name>
+                <Name>{reviewAuthor?.displayName}</Name>
                 <StarsWrapper>
                     <Star src={review.rate >= 1 ? fullStar.src : emptyStar.src} />
                     <Star src={review.rate >= 2 ? fullStar.src : emptyStar.src} />
@@ -130,6 +135,9 @@ const Avatar = styled.img`
 const Wrapper = styled.div`
     display: flex;
     column-gap: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e8ecef;
+    width: 100%;
 `;
 
 export default Review;
