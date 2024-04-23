@@ -98,6 +98,7 @@ const Button = styled.div`
     column-gap: 5px;
     padding-left: 5px;
     padding-top: 2px;
+    user-select: none;
 `;
 const Text = styled.p`
     font-family: "Inter", sans-serif;
@@ -110,6 +111,7 @@ const Text = styled.p`
 const Star = styled.img`
     width: 16px;
     height: 16px;
+    user-select: none;
 `;
 const StarsWrapper = styled.div`
     display: flex;
@@ -131,6 +133,7 @@ const Avatar = styled.img`
     border-radius: 48px;
     width: 72px;
     height: 72px;
+    user-select: none;
 `;
 const Wrapper = styled.div`
     display: flex;
