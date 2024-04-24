@@ -1,6 +1,6 @@
 "use client";
 import { productApiSlice } from "@/store/services/productApiSlice";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import ImageSlider from "../../_components/ImageSlider";
 import emptyStar from "@/public/icons/emptyStar.svg";
@@ -15,7 +15,7 @@ import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import Tabs from "../../_components/Tabs";
 import { useAppSelector } from "@/store/hooks";
-import ReviewsList from "../../_components/ReviewsList";
+import ReviewsList from "../../_components/ReviewList";
 
 interface IProps {
     params: { productId: string };
@@ -42,6 +42,16 @@ const ProductPage: FC<IProps> = ({ params }) => {
 
     const [createCartProduct, { isLoading: isLoadingCreateCartProduct }] =
         cartApiSlice.useCreateCartProductMutation();
+
+    // set average rate of product
+    const [averageRate, setAverageRate] = useState<number>(0);
+    useEffect(() => {
+        let sum = 0;
+        product?.product_group?.reviews?.forEach((el) => {
+            sum += el.rate;
+        });
+        setAverageRate(sum / Number(product?.product_group?.reviews?.length));
+    }, [product]);
 
     const wishlistButtonHandler = () => {
         if (isAddedToWishlistBtn && user?.wishlist && product) {
@@ -76,44 +86,17 @@ const ProductPage: FC<IProps> = ({ params }) => {
                     <ProductInfo>
                         <ProductRatingWrapper>
                             <StarsWrapper>
-                                <Star
-                                    src={
-                                        Number(product?.averageRate) >= 1
-                                            ? fullStar.src
-                                            : emptyStar.src
-                                    }
-                                />
-                                <Star
-                                    src={
-                                        Number(product?.averageRate) >= 2
-                                            ? fullStar.src
-                                            : emptyStar.src
-                                    }
-                                />
-                                <Star
-                                    src={
-                                        Number(product?.averageRate) >= 3
-                                            ? fullStar.src
-                                            : emptyStar.src
-                                    }
-                                />
-                                <Star
-                                    src={
-                                        Number(product?.averageRate) >= 4
-                                            ? fullStar.src
-                                            : emptyStar.src
-                                    }
-                                />
-                                <Star
-                                    src={
-                                        Number(product?.averageRate) == 5
-                                            ? fullStar.src
-                                            : emptyStar.src
-                                    }
-                                />
+                                <Star src={averageRate >= 1 ? fullStar.src : emptyStar.src} />
+                                <Star src={averageRate >= 2 ? fullStar.src : emptyStar.src} />
+                                <Star src={averageRate >= 3 ? fullStar.src : emptyStar.src} />
+                                <Star src={averageRate >= 4 ? fullStar.src : emptyStar.src} />
+                                <Star src={averageRate == 5 ? fullStar.src : emptyStar.src} />
                             </StarsWrapper>
                             <ProductRatingText>
-                                {product?.product_group?.reviews?.length} Reviews
+                                {product?.product_group?.reviews?.length}{" "}
+                                {(product?.product_group?.reviews?.length || 0) > 1
+                                    ? "Reviews"
+                                    : "Review"}
                             </ProductRatingText>
                         </ProductRatingWrapper>
                         <ProductInfoTitle>{product?.name}</ProductInfoTitle>
@@ -212,7 +195,12 @@ const ProductPage: FC<IProps> = ({ params }) => {
             </ProductSection>
             <AdditionalSection>
                 <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-                {activeTab === 2 && <ReviewsList reviews={product?.product_group?.reviews || []} />}
+                {activeTab === 2 && (
+                    <ReviewsList
+                        averageRate={averageRate}
+                        reviews={product?.product_group?.reviews || []}
+                    />
+                )}
             </AdditionalSection>
         </Wrapper>
     );
