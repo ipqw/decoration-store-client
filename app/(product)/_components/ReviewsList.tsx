@@ -14,8 +14,17 @@ const ReviewsList: FC<IProps> = ({ reviews }) => {
     const [activeDropdownItem, setActiveDropdownItem] = useState<string>("");
     return (
         <Wrapper>
-            <TitleBlock>
-                <Title>{reviews.length} Reviews</Title>
+            <LeftAside>
+                <TitleBlock>
+                    <Title>{reviews.length} Reviews</Title>
+                </TitleBlock>
+                <ReviewsBlock>
+                    {reviews.map((el, index) => {
+                        return <Review key={index} review={el} />;
+                    })}
+                </ReviewsBlock>
+            </LeftAside>
+            <RightAside>
                 <Dropdown
                     isOpened={isOpenedDropdown}
                     setIsOpened={setIsOpenedDropdown}
@@ -23,15 +32,12 @@ const ReviewsList: FC<IProps> = ({ reviews }) => {
                     setActiveItem={setActiveDropdownItem}
                     items={["Newest", "Oldest", "Most liked"]}
                 />
-            </TitleBlock>
-            <ReviewsBlock>
-                {reviews.map((el, index) => {
-                    return <Review key={index} review={el} />;
-                })}
-            </ReviewsBlock>
+            </RightAside>
         </Wrapper>
     );
 };
+const LeftAside = styled.aside``;
+const RightAside = styled.aside``;
 const ReviewsBlock = styled.div`
     display: flex;
     flex-direction: column;
@@ -49,6 +55,8 @@ const Title = styled.p`
 `;
 const Wrapper = styled.div`
     width: 1120px;
+    display: flex;
+    justify-content: space-between;
 `;
 
 export default ReviewsList;
