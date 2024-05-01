@@ -1,3 +1,4 @@
+"use client";
 import { IReview } from "@/app/_types/types";
 import React, { FC, useState } from "react";
 import styled from "styled-components";
@@ -5,6 +6,7 @@ import Review from "./Review";
 import Dropdown from "./Dropdown";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
+import ReviewInput from "./ReviewCreator";
 
 interface IProps {
     reviews: IReview[];
@@ -31,6 +33,7 @@ const ReviewsList: FC<IProps> = ({ reviews, averageRate }) => {
                         {reviews.length} {reviews.length > 1 ? "Reviews" : "Review"}
                     </InfoText>
                 </Info>
+                <ReviewInput />
             </WriteReviewSection>
             <ReviewsSection>
                 <aside>
