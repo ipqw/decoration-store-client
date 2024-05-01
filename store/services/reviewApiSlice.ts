@@ -29,7 +29,7 @@ export const reviewApiSlice = createApi({
             }),
             invalidatesTags: ["Review"],
         }),
-        updateReview: build.mutation<IReview, IReview>({
+        updateReview: build.mutation<IReview, { id: number; text: string; rate: number }>({
             query: (review) => ({
                 url: `/review/${review.id}`,
                 method: "PUT",

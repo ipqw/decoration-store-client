@@ -2,7 +2,8 @@
 import { IProductGroup, IReview } from "@/app/_types/types";
 import { useAppSelector } from "@/store/hooks";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
-import React, { FC, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface IProps {
@@ -11,28 +12,52 @@ interface IProps {
 }
 
 const ReviewCreator: FC<IProps> = ({ productGroup, reviews }) => {
-    const [textareaValue, setTextareaValue] = useState<string>("");
+    const router = useRouter();
+    const user = useAppSelector((state) => state.user);
+    const previousReview = reviews.find((el) => el.userId === user.id);
+
+    const [textareaValue, setTextareaValue] = useState<string>(previousReview?.text || "");
     const [textareaHeight, setTextareaHeight] = useState<number | string>(52);
+
+    useEffect(() => {
+        setTextareaValue(previousReview?.text || "");
+    }, [previousReview]);
+
     const textareaInputHandler = (el: any) => {
         setTextareaHeight(el.target.scrollHeight);
         setTextareaValue(el.target.value);
     };
 
-    const user = useAppSelector((state) => state.user);
-
     // mutations
     const [createReview, { isLoading: isLoadingCreateReview }] =
         reviewApiSlice.useCreateReviewMutation();
+    const [updateReview, { isLoading: isLoadingUpdateReview }] =
+        reviewApiSlice.useUpdateReviewMutation();
 
     const submitButtonHandler = () => {
-        if (user.id && !isLoadingCreateReview && productGroup) {
-            createReview({
-                rate: 1,
-                userId: user.id,
-                productGroupId: productGroup.id,
-                text: textareaValue,
-            });
-            setTextareaValue("");
+        if (
+            user.id &&
+            !isLoadingCreateReview &&
+            !isLoadingUpdateReview &&
+            productGroup &&
+            textareaValue
+        ) {
+            if (previousReview) {
+                updateReview({
+                    id: previousReview.id,
+                    text: textareaValue,
+                    rate: previousReview.rate,
+                });
+            } else {
+                createReview({
+                    rate: 1,
+                    userId: user.id,
+                    productGroupId: productGroup.id,
+                    text: textareaValue,
+                });
+            }
+        } else if (!user.id) {
+            router.replace("/signin");
         }
     };
     return (
@@ -42,7 +67,12 @@ const ReviewCreator: FC<IProps> = ({ productGroup, reviews }) => {
                 onInput={textareaInputHandler}
                 $height={textareaHeight}
             />
-            <SubmitButton onClick={submitButtonHandler}>Write Review</SubmitButton>
+            <SubmitButton
+                $disabled={!user.id ? true : false}
+                $updateReview={previousReview ? true : false}
+                onClick={submitButtonHandler}>
+                {previousReview ? "Update Review" : "Write Review"}
+            </SubmitButton>
         </Wrapper>
     );
 };
@@ -73,7 +103,7 @@ const Textarea = styled.textarea<{ $height: number | string }>`
         visibility: hidden;
     }
 `;
-const SubmitButton = styled.p`
+const SubmitButton = styled.p<{ $updateReview: boolean; $disabled: boolean }>`
     height: 40px;
     padding: 6px 40px;
     margin-left: 15px;
@@ -82,10 +112,11 @@ const SubmitButton = styled.p`
     font-size: 16px;
     font-weight: 500;
     line-height: 28px;
-    background-color: #141718;
+    user-select: none;
+    background-color: ${({ $disabled }) => ($disabled ? "#4a4d4e" : "#141718")};
     border-radius: 80px;
     cursor: pointer;
-    min-width: 180px;
+    min-width: ${({ $updateReview }) => ($updateReview ? "196px" : "180px")};
 `;
 
 export default ReviewCreator;
