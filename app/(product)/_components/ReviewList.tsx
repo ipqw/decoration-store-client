@@ -1,5 +1,5 @@
 "use client";
-import { IReview } from "@/app/_types/types";
+import { IProductGroup, IReview } from "@/app/_types/types";
 import React, { FC, useState } from "react";
 import styled from "styled-components";
 import Review from "./Review";
@@ -11,9 +11,10 @@ import ReviewInput from "./ReviewCreator";
 interface IProps {
     reviews: IReview[];
     averageRate: number;
+    productGroup?: IProductGroup;
 }
 
-const ReviewsList: FC<IProps> = ({ reviews, averageRate }) => {
+const ReviewsList: FC<IProps> = ({ reviews, averageRate, productGroup }) => {
     // dropdown
     const [isOpenedDropdown, setIsOpenedDropdown] = useState<boolean>(false);
     const [activeDropdownItem, setActiveDropdownItem] = useState<string>("");
@@ -33,7 +34,7 @@ const ReviewsList: FC<IProps> = ({ reviews, averageRate }) => {
                         {reviews.length} {reviews.length > 1 ? "Reviews" : "Review"}
                     </InfoText>
                 </Info>
-                <ReviewInput />
+                <ReviewInput reviews={reviews} productGroup={productGroup} />
             </WriteReviewSection>
             <ReviewsSection>
                 <aside>

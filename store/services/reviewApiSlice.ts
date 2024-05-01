@@ -1,4 +1,4 @@
-import { ILike, IReview } from "@/app/_types/types";
+import { ILike, IProductGroup, IReview, IUser } from "@/app/_types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const reviewApiSlice = createApi({
@@ -18,7 +18,10 @@ export const reviewApiSlice = createApi({
             }),
             providesTags: ["Review"],
         }),
-        createReview: build.mutation<IReview, IReview>({
+        createReview: build.mutation<
+            IReview,
+            { rate: number; text: string; userId: IUser["id"]; productGroupId: IProductGroup["id"] }
+        >({
             query: (review) => ({
                 url: "/review",
                 method: "POST",

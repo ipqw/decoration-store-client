@@ -1,16 +1,48 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { IProductGroup, IReview } from "@/app/_types/types";
+import { useAppSelector } from "@/store/hooks";
+import { reviewApiSlice } from "@/store/services/reviewApiSlice";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 
-const ReviewCreator = () => {
+interface IProps {
+    productGroup?: IProductGroup;
+    reviews: IReview[];
+}
+
+const ReviewCreator: FC<IProps> = ({ productGroup, reviews }) => {
+    const [textareaValue, setTextareaValue] = useState<string>("");
     const [textareaHeight, setTextareaHeight] = useState<number | string>(52);
     const textareaInputHandler = (el: any) => {
         setTextareaHeight(el.target.scrollHeight);
+        setTextareaValue(el.target.value);
+    };
+
+    const user = useAppSelector((state) => state.user);
+
+    // mutations
+    const [createReview, { isLoading: isLoadingCreateReview }] =
+        reviewApiSlice.useCreateReviewMutation();
+
+    const submitButtonHandler = () => {
+        if (user.id && !isLoadingCreateReview && productGroup) {
+            createReview({
+                rate: 1,
+                userId: user.id,
+                productGroupId: productGroup.id,
+                text: textareaValue,
+            });
+            setTextareaValue("");
+        }
     };
     return (
         <Wrapper>
-            <Textarea onInput={textareaInputHandler} $height={textareaHeight} />
-            <SubmitButton>Write Review</SubmitButton>
+            <Textarea
+                value={textareaValue}
+                onInput={textareaInputHandler}
+                $height={textareaHeight}
+            />
+            <SubmitButton onClick={submitButtonHandler}>Write Review</SubmitButton>
         </Wrapper>
     );
 };
