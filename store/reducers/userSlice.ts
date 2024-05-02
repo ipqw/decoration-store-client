@@ -25,7 +25,7 @@ export const userSlice = createSlice({
     // разобраться с аунтефикацией
     extraReducers: (builder) => {
         builder.addMatcher(userApiSlice.endpoints.check.matchFulfilled, (state, { payload }) => {
-            if ("user" in payload) {
+            if ("user" in payload && "newToken" in payload) {
                 state.id = payload.user.id;
                 state.firstName = payload.user.firstName;
                 state.lastName = payload.user.lastName;
@@ -33,6 +33,7 @@ export const userSlice = createSlice({
                 state.displayName = payload.user.displayName;
                 state.imageUrl = payload.user.imageUrl;
                 state.role = payload.user.role;
+                localStorage.setItem("token", payload.newToken);
             }
         });
     },

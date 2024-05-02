@@ -6,7 +6,7 @@ export const userApiSlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
     tagTypes: ["User"],
     endpoints: (build) => ({
-        check: build.query<{ token: string; user: IUser } | { message: string }, string>({
+        check: build.query<{ newToken: string; user: IUser } | { message: string }, string>({
             query: (token) => ({
                 url: "/user/auth",
                 headers: {
