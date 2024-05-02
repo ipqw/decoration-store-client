@@ -13,7 +13,6 @@ export const userApiSlice = createApi({
                     authorization: token,
                 },
             }),
-            providesTags: ["User"],
         }),
         getUser: build.query<IUser, number>({
             query: (userId) => ({

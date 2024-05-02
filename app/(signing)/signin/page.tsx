@@ -43,6 +43,7 @@ const SignUp: FC = () => {
 
     const submitButtonHandler = () => {
         if (email && password && !isLoadingLogin) {
+            localStorage.clear();
             login({
                 email,
                 password,

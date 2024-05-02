@@ -22,7 +22,6 @@ export const userSlice = createSlice({
             state = action.payload;
         },
     },
-    // разобраться с аунтефикацией
     extraReducers: (builder) => {
         builder.addMatcher(userApiSlice.endpoints.check.matchFulfilled, (state, { payload }) => {
             if ("user" in payload && "newToken" in payload) {
