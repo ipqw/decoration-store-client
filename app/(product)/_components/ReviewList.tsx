@@ -6,7 +6,7 @@ import Review from "./Review";
 import Dropdown from "./Dropdown";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
-import ReviewInput from "./ReviewCreator";
+import ReviewCreator from "./ReviewCreator";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 
 interface IProps {
@@ -21,7 +21,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
     // queries
     const { data: reviews, isLoading, error } = reviewApiSlice.useGetAllReviewsQuery(null);
     return (
-        <Wrapper>
+        <Wrapper $isVisible={!isLoading && !error && reviews ? true : false}>
             <WriteReviewSection>
                 <Title>Customer Reviews</Title>
                 <Info>
@@ -36,7 +36,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                         {reviews?.length} {(reviews?.length || 0) > 1 ? "Reviews" : "Review"}
                     </InfoText>
                 </Info>
-                <ReviewInput reviews={reviews || []} productGroup={productGroup} />
+                <ReviewCreator reviews={reviews || []} productGroup={productGroup} />
             </WriteReviewSection>
             <ReviewsSection>
                 <aside>
@@ -68,6 +68,7 @@ const Info = styled.div`
     display: flex;
     column-gap: 8px;
     align-items: center;
+    padding-bottom: 10px;
 `;
 const InfoText = styled.p`
     color: #141718;
@@ -83,11 +84,13 @@ const Star = styled.img`
 `;
 const StarsWrapper = styled.div`
     display: flex;
+    padding-bottom: 4px;
 `;
 const WriteReviewSection = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 12px;
+    padding-bottom: 40px;
 `;
 const ReviewsSection = styled.div`
     display: flex;
@@ -109,12 +112,14 @@ const Title = styled.p`
     font-size: 28px;
     line-height: 34px;
     color: #000000;
+    padding-bottom: 10px;
 `;
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $isVisible: boolean }>`
     width: 1120px;
-    display: flex;
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
     flex-direction: column;
     justify-content: space-between;
+    padding-top: 24px;
 `;
 
 export default ReviewsList;
