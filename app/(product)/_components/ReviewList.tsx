@@ -15,17 +15,28 @@ interface IProps {
 }
 
 const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
+    const [reviewAmount, setReviewAmount] = useState<number>(5);
     // dropdown
     const [isOpenedDropdown, setIsOpenedDropdown] = useState<boolean>(false);
     const [activeDropdownItem, setActiveDropdownItem] = useState<string>("");
     // queries
-    const { data: reviews, isLoading, error } = reviewApiSlice.useGetAllReviewsQuery(null);
+    const {
+        data: reviews,
+        isLoading,
+        error,
+    } = reviewApiSlice.useGetAllReviewsQuery({
+        limit: reviewAmount,
+        productGroupId: productGroup?.id,
+    });
 
     const [rate, setRate] = useState<number>(5);
 
     // handlers
     const mouseClickHandler: MouseEventHandler<HTMLImageElement> = (el: any) => {
         setRate(Number(el.target.id));
+    };
+    const loadMoreButtonHandler: MouseEventHandler<HTMLImageElement> = (el) => {
+        setReviewAmount((prev) => prev + 5);
     };
     return (
         <Wrapper $isVisible={!isLoading && !error && reviews ? true : false}>

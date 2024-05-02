@@ -6,10 +6,30 @@ export const reviewApiSlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
     tagTypes: ["Review", "Like"],
     endpoints: (build) => ({
-        getAllReviews: build.query<IReview[], null>({
-            query: () => ({
-                url: "/review",
-            }),
+        getAllReviews: build.query<
+            IReview[],
+            | { limit: number }
+            | { productGroupId: number }
+            | { productGroupId: number; limit: number }
+        >({
+            query: (params) => {
+                if ("productGroupId" in params && "limit" in params) {
+                    return {
+                        url: `/review?productGroupId=${params.productGroupId}&limit=${params.limit}`,
+                        method: "GET",
+                    };
+                } else if ("productGroupId" in params) {
+                    return {
+                        url: `/review?productGroupId=${params.productGroupId}`,
+                        method: "GET",
+                    };
+                } else {
+                    return {
+                        url: `/review?limit=${params.limit}`,
+                        method: "GET",
+                    };
+                }
+            },
             providesTags: (result) =>
                 result
                     ? [...result.map(({ id }) => ({ type: "Review" as const, id })), "Review"]
