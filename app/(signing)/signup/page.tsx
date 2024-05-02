@@ -23,7 +23,7 @@ const SignUp: FC = () => {
     const [createUser, { isLoading: isLoadingCreateUser }] = userApiSlice.useCreateUserMutation();
     const submitButtonHandler = () => {
         if (name && username && email && password && agreement && !isLoadingCreateUser) {
-            localStorage.clear();
+            localStorage.removeItem("token");
             createUser({
                 email,
                 firstName: name.split(" ")[0],

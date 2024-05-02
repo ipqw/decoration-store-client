@@ -35,6 +35,9 @@ export const userSlice = createSlice({
                 localStorage.setItem("token", payload.newToken);
             }
         });
+        builder.addMatcher(userApiSlice.endpoints.check.matchRejected, (state, { payload }) => {
+            localStorage.removeItem("token");
+        });
     },
 });
 
