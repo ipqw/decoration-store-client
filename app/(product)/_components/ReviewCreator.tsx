@@ -3,15 +3,17 @@ import { IProductGroup, IReview } from "@/app/_types/types";
 import { useAppSelector } from "@/store/hooks";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import { useRouter } from "next/navigation";
-import React, { FC, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface IProps {
     productGroup?: IProductGroup;
     reviews: IReview[];
+    rate: number;
+    setRate: Dispatch<SetStateAction<number>>;
 }
 
-const ReviewCreator: FC<IProps> = ({ productGroup, reviews }) => {
+const ReviewCreator: FC<IProps> = ({ productGroup, reviews, rate, setRate }) => {
     const router = useRouter();
     const user = useAppSelector((state) => state.user);
     const previousReview = reviews.find((el) => el.userId === user.id);
@@ -21,7 +23,8 @@ const ReviewCreator: FC<IProps> = ({ productGroup, reviews }) => {
 
     useEffect(() => {
         setTextareaValue(previousReview?.text || "");
-    }, [previousReview]);
+        setRate(previousReview?.rate || 5);
+    }, [previousReview, setRate]);
 
     const textareaInputHandler = (el: any) => {
         setTextareaHeight(el.target.scrollHeight);
@@ -46,11 +49,11 @@ const ReviewCreator: FC<IProps> = ({ productGroup, reviews }) => {
                 updateReview({
                     id: previousReview.id,
                     text: textareaValue,
-                    rate: previousReview.rate,
+                    rate,
                 });
             } else {
                 createReview({
-                    rate: 1,
+                    rate,
                     userId: user.id,
                     productGroupId: productGroup.id,
                     text: textareaValue,
@@ -113,6 +116,7 @@ const SubmitButton = styled.p<{ $updateReview: boolean; $disabled: boolean }>`
     font-weight: 500;
     line-height: 28px;
     user-select: none;
+    margin-top: 5px;
     background-color: ${({ $disabled }) => ($disabled ? "#4a4d4e" : "#141718")};
     border-radius: 80px;
     cursor: pointer;

@@ -1,6 +1,6 @@
 "use client";
-import { IProductGroup, IReview } from "@/app/_types/types";
-import React, { FC, useState } from "react";
+import { IProductGroup } from "@/app/_types/types";
+import { FC, MouseEventHandler, useState } from "react";
 import styled from "styled-components";
 import Dropdown from "./Dropdown";
 import emptyStar from "@/public/icons/emptyStar.svg";
@@ -20,6 +20,13 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
     const [activeDropdownItem, setActiveDropdownItem] = useState<string>("");
     // queries
     const { data: reviews, isLoading, error } = reviewApiSlice.useGetAllReviewsQuery(null);
+
+    const [rate, setRate] = useState<number>(5);
+
+    // handlers
+    const mouseClickHandler: MouseEventHandler<HTMLImageElement> = (el: any) => {
+        setRate(Number(el.target.id));
+    };
     return (
         <Wrapper $isVisible={!isLoading && !error && reviews ? true : false}>
             <WriteReviewSection>
@@ -36,7 +43,42 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                         {reviews?.length} {(reviews?.length || 0) > 1 ? "Reviews" : "Review"}
                     </InfoText>
                 </Info>
-                <ReviewCreator reviews={reviews || []} productGroup={productGroup} />
+                <RateSetter>
+                    <RateTitle>Your rate:</RateTitle>
+                    <StarsWrapper>
+                        <RateStar
+                            onClick={mouseClickHandler}
+                            src={rate >= 1 ? fullStar.src : emptyStar.src}
+                            id="1"
+                        />
+                        <RateStar
+                            onClick={mouseClickHandler}
+                            src={rate >= 2 ? fullStar.src : emptyStar.src}
+                            id="2"
+                        />
+                        <RateStar
+                            onClick={mouseClickHandler}
+                            src={rate >= 3 ? fullStar.src : emptyStar.src}
+                            id="3"
+                        />
+                        <RateStar
+                            onClick={mouseClickHandler}
+                            src={rate >= 4 ? fullStar.src : emptyStar.src}
+                            id="4"
+                        />
+                        <RateStar
+                            onClick={mouseClickHandler}
+                            src={rate >= 5 ? fullStar.src : emptyStar.src}
+                            id="5"
+                        />
+                    </StarsWrapper>
+                </RateSetter>
+                <ReviewCreator
+                    rate={rate}
+                    setRate={setRate}
+                    reviews={reviews || []}
+                    productGroup={productGroup}
+                />
             </WriteReviewSection>
             <ReviewsSection>
                 <aside>
@@ -62,6 +104,29 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
         </Wrapper>
     );
 };
+const RateStar = styled.img`
+    width: 32px;
+    height: 32px;
+    user-select: none;
+    cursor: pointer;
+`;
+const RateTitle = styled.p`
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 34px;
+    color: #000000;
+`;
+const RateSetter = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 24px;
+    border: 2px #e8ecef solid;
+    border-radius: 16px;
+    background-color: #fefefe;
+`;
 const Info = styled.div`
     display: flex;
     column-gap: 8px;
