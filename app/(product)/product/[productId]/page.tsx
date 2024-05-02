@@ -196,11 +196,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
             <AdditionalSection>
                 <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
                 {activeTab === 2 && (
-                    <ReviewsList
-                        productGroup={product?.product_group}
-                        averageRate={averageRate}
-                        reviews={product?.product_group?.reviews || []}
-                    />
+                    <ReviewsList productGroup={product?.product_group} averageRate={averageRate} />
                 )}
             </AdditionalSection>
         </Wrapper>

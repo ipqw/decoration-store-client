@@ -10,7 +10,10 @@ export const reviewApiSlice = createApi({
             query: () => ({
                 url: "/review",
             }),
-            providesTags: ["Review"],
+            providesTags: (result) =>
+                result
+                    ? [...result.map(({ id }) => ({ type: "Review" as const, id })), "Review"]
+                    : ["Review"],
         }),
         getOneReview: build.query<IReview, number>({
             query: (id) => ({
@@ -35,7 +38,7 @@ export const reviewApiSlice = createApi({
                 method: "PUT",
                 body: review,
             }),
-            invalidatesTags: ["Review"],
+            invalidatesTags: (result, error, arg) => [{ type: "Review", id: arg.id }],
         }),
         deleteReview: build.mutation<string, IReview>({
             query: (post) => ({

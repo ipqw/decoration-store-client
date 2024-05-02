@@ -7,17 +7,19 @@ import Dropdown from "./Dropdown";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
 import ReviewInput from "./ReviewCreator";
+import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 
 interface IProps {
-    reviews: IReview[];
     averageRate: number;
     productGroup?: IProductGroup;
 }
 
-const ReviewsList: FC<IProps> = ({ reviews, averageRate, productGroup }) => {
+const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
     // dropdown
     const [isOpenedDropdown, setIsOpenedDropdown] = useState<boolean>(false);
     const [activeDropdownItem, setActiveDropdownItem] = useState<string>("");
+    // queries
+    const { data: reviews, isLoading, error } = reviewApiSlice.useGetAllReviewsQuery(null);
     return (
         <Wrapper>
             <WriteReviewSection>
@@ -31,20 +33,20 @@ const ReviewsList: FC<IProps> = ({ reviews, averageRate, productGroup }) => {
                         <Star src={averageRate >= 5 ? fullStar.src : emptyStar.src} />
                     </StarsWrapper>
                     <InfoText>
-                        {reviews.length} {reviews.length > 1 ? "Reviews" : "Review"}
+                        {reviews?.length} {(reviews?.length || 0) > 1 ? "Reviews" : "Review"}
                     </InfoText>
                 </Info>
-                <ReviewInput reviews={reviews} productGroup={productGroup} />
+                <ReviewInput reviews={reviews || []} productGroup={productGroup} />
             </WriteReviewSection>
             <ReviewsSection>
                 <aside>
                     <TitleBlock>
                         <Title>
-                            {reviews.length} {reviews.length > 1 ? "Reviews" : "Review"}
+                            {reviews?.length} {(reviews?.length || 0) > 1 ? "Reviews" : "Review"}
                         </Title>
                     </TitleBlock>
                     <ReviewsBlock>
-                        {reviews.map((el, index) => {
+                        {reviews?.map((el, index) => {
                             return <Review key={index} review={el} />;
                         })}
                     </ReviewsBlock>
