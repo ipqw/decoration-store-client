@@ -2,12 +2,12 @@
 import { IProductGroup, IReview } from "@/app/_types/types";
 import React, { FC, useState } from "react";
 import styled from "styled-components";
-import Review from "./Review";
 import Dropdown from "./Dropdown";
 import emptyStar from "@/public/icons/emptyStar.svg";
 import fullStar from "@/public/icons/fullStar.svg";
 import ReviewCreator from "./ReviewCreator";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
+import FilteredReviews from "./FilteredReviews";
 
 interface IProps {
     averageRate: number;
@@ -46,9 +46,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                         </Title>
                     </TitleBlock>
                     <ReviewsBlock>
-                        {reviews?.map((el, index) => {
-                            return <Review key={index} review={el} />;
-                        })}
+                        <FilteredReviews activeItem={activeDropdownItem} reviews={reviews || []} />
                     </ReviewsBlock>
                 </aside>
                 <aside>
@@ -112,7 +110,6 @@ const Title = styled.p`
     font-size: 28px;
     line-height: 34px;
     color: #000000;
-    padding-bottom: 10px;
 `;
 const Wrapper = styled.div<{ $isVisible: boolean }>`
     width: 1120px;

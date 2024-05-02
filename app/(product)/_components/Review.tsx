@@ -1,3 +1,4 @@
+"use client";
 import { IReview } from "@/app/_types/types";
 import { userApiSlice } from "@/store/services/userApiSlice";
 import React, { FC, useEffect, useState } from "react";
@@ -29,6 +30,9 @@ const Review: FC<IProps> = ({ review }) => {
             setIsLiked(like ? true : false);
         }
     }, [like, user]);
+    useEffect(() => {
+        setLikeCounter(Number(review.likes?.length));
+    }, [review]);
 
     // mutations
     const [createLike, { isLoading: isLoadingCreateLike }] = reviewApiSlice.useCreateLikeMutation();
@@ -147,6 +151,7 @@ const Wrapper = styled.div`
     border-bottom: 1px solid #e8ecef;
     width: 100%;
     max-width: 740px;
+    padding-top: 24px;
 `;
 
 export default Review;
