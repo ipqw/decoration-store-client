@@ -81,7 +81,7 @@ export const reviewApiSlice = createApi({
                     method: "POST",
                     body: like,
                 }),
-                invalidatesTags: ["Like"],
+                invalidatesTags: ["Like", "Review"],
             },
         ),
         removeLike: build.mutation<string, ILike>({
@@ -89,7 +89,7 @@ export const reviewApiSlice = createApi({
                 url: `/like/${like.id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["Like"],
+            invalidatesTags: ["Like", "Review"],
         }),
     }),
 });
