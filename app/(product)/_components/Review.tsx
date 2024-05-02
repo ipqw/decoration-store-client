@@ -107,6 +107,8 @@ const Text = styled.p`
     line-height: 26px;
     color: #353945;
     padding-bottom: 8px;
+    hyphens: auto;
+    word-wrap: break-word;
 `;
 const Star = styled.img`
     width: 16px;
@@ -124,10 +126,13 @@ const Name = styled.p`
     font-weight: 600;
     line-height: 32px;
     padding-bottom: 8px;
+    hyphens: auto;
+    word-wrap: break-word;
 `;
 const InfoBlock = styled.div`
     display: flex;
     flex-direction: column;
+    max-width: 740px;
 `;
 const Avatar = styled.img`
     border-radius: 48px;
@@ -141,6 +146,7 @@ const Wrapper = styled.div`
     padding-bottom: 24px;
     border-bottom: 1px solid #e8ecef;
     width: 100%;
+    max-width: 740px;
 `;
 
 export default Review;
