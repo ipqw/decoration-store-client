@@ -124,9 +124,28 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                     />
                 </aside>
             </ReviewsSection>
+            <LoadMoreButton
+                $isVisible={Number(data?.amount) === data?.reviews.length ? true : false}
+                onClick={loadMoreButtonHandler}>
+                Load more
+            </LoadMoreButton>
         </Wrapper>
     );
 };
+const LoadMoreButton = styled.p<{ $isVisible: boolean }>`
+    display: ${({ $isVisible }) => ($isVisible ? "none" : "block")};
+    border-radius: 80px;
+    border: #141718 1px solid;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Inter", sans-serif;
+    color: #141718;
+    padding: 6px 40px;
+    width: fit-content;
+    margin-top: 24px;
+    align-self: center;
+    cursor: pointer;
+`;
 const RateStar = styled.img`
     width: 32px;
     height: 32px;
