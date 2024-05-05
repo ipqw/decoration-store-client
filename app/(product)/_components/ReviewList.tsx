@@ -8,6 +8,7 @@ import fullStar from "@/public/icons/fullStar.svg";
 import ReviewCreator from "./ReviewCreator";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import FilteredReviews from "./FilteredReviews";
+import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
     averageRate: number;
@@ -16,13 +17,24 @@ interface IProps {
 
 const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
     const [reviewAmount, setReviewAmount] = useState<number>(5);
+    const user = useAppSelector((state) => state.user);
+
     // dropdown
     const [isOpenedDropdown, setIsOpenedDropdown] = useState<boolean>(false);
     const [activeDropdownItem, setActiveDropdownItem] = useState<string>("");
+
     // queries
     const { data, isLoading, error } = reviewApiSlice.useGetAllReviewsQuery({
         limit: reviewAmount,
         productGroupId: productGroup?.id,
+    });
+    const {
+        data: userReview,
+        isLoading: isLoadingUserReview,
+        error: userReviewError,
+    } = reviewApiSlice.useGetReviewByUserIdAndProductGroupIdQuery({
+        productGroupId: productGroup?.id || 0,
+        userId: user.id,
     });
 
     const [rate, setRate] = useState<number>(5);
@@ -83,7 +95,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                 <ReviewCreator
                     rate={rate}
                     setRate={setRate}
-                    reviews={data?.reviews || []}
+                    userReview={userReview}
                     productGroup={productGroup}
                 />
             </WriteReviewSection>
@@ -97,6 +109,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                     <ReviewsBlock>
                         <FilteredReviews
                             activeItem={activeDropdownItem}
+                            userReview={userReview}
                             reviews={data?.reviews || []}
                         />
                     </ReviewsBlock>

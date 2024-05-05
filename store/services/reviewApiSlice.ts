@@ -31,12 +31,22 @@ export const reviewApiSlice = createApi({
                 }
             },
             providesTags: (result) =>
-                result
+                result && "reviews" in result
                     ? [
                           ...result.reviews.map(({ id }) => ({ type: "Review" as const, id })),
                           "Review",
                       ]
                     : ["Review"],
+        }),
+        getReviewByUserIdAndProductGroupId: build.query<
+            IReview,
+            { productGroupId: number; userId: number }
+        >({
+            query: (params) => ({
+                url: `/review?productGroupId=${params.productGroupId}&userId=${params.userId}`,
+                method: "GET",
+            }),
+            providesTags: (result) => ["Review"],
         }),
         getOneReview: build.query<IReview, number>({
             query: (id) => ({

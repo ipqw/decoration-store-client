@@ -8,23 +8,22 @@ import styled from "styled-components";
 
 interface IProps {
     productGroup?: IProductGroup;
-    reviews: IReview[];
+    userReview?: IReview;
     rate: number;
     setRate: Dispatch<SetStateAction<number>>;
 }
 
-const ReviewCreator: FC<IProps> = ({ productGroup, reviews, rate, setRate }) => {
+const ReviewCreator: FC<IProps> = ({ productGroup, userReview, rate, setRate }) => {
     const router = useRouter();
     const user = useAppSelector((state) => state.user);
-    const previousReview = reviews.find((el) => el.userId === user.id);
 
-    const [textareaValue, setTextareaValue] = useState<string>(previousReview?.text || "");
+    const [textareaValue, setTextareaValue] = useState<string>(userReview?.text || "");
     const [textareaHeight, setTextareaHeight] = useState<number | string>(52);
 
     useEffect(() => {
-        setTextareaValue(previousReview?.text || "");
-        setRate(previousReview?.rate || 5);
-    }, [previousReview, setRate]);
+        setTextareaValue(userReview?.text || "");
+        setRate(userReview?.rate || 5);
+    }, [userReview, setRate]);
 
     const textareaInputHandler = (el: any) => {
         setTextareaHeight(el.target.scrollHeight);
@@ -45,9 +44,9 @@ const ReviewCreator: FC<IProps> = ({ productGroup, reviews, rate, setRate }) => 
             productGroup &&
             textareaValue
         ) {
-            if (previousReview) {
+            if (userReview) {
                 updateReview({
-                    id: previousReview.id,
+                    id: userReview.id,
                     text: textareaValue,
                     rate,
                 });
@@ -72,9 +71,9 @@ const ReviewCreator: FC<IProps> = ({ productGroup, reviews, rate, setRate }) => 
             />
             <SubmitButton
                 $disabled={!user.id ? true : false}
-                $updateReview={previousReview ? true : false}
+                $updateReview={userReview ? true : false}
                 onClick={submitButtonHandler}>
-                {previousReview ? "Update Review" : "Write Review"}
+                {userReview ? "Update Review" : "Write Review"}
             </SubmitButton>
         </Wrapper>
     );
