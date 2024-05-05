@@ -16,6 +16,7 @@ import { cartApiSlice } from "@/store/services/cartApiSlice";
 import Tabs from "../../_components/Tabs";
 import { useAppSelector } from "@/store/hooks";
 import ReviewsList from "../../_components/ReviewList";
+import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 
 interface IProps {
     params: { productId: string };
@@ -30,9 +31,17 @@ const ProductPage: FC<IProps> = ({ params }) => {
     // queries
     const {
         data: product,
-        isLoading,
+        isLoading: isLoadingProduct,
         error: productError,
     } = productApiSlice.useGetOneProductQuery(Number(params.productId));
+
+    const {
+        data: reviews,
+        isLoading: isLoadingReviews,
+        error,
+    } = reviewApiSlice.useGetAllReviewsQuery({
+        productGroupId: product?.product_group?.id || 0,
+    });
 
     // mutations
     const [createWishlistProduct, { isLoading: isLoadingCreateWishlistProduct }] =
@@ -77,7 +86,10 @@ const ProductPage: FC<IProps> = ({ params }) => {
     const [activeTab, setActiveTab] = useState<number>(0);
 
     return (
-        <Wrapper $invisible={productError || !product ? true : false || isLoading}>
+        <Wrapper
+            $invisible={
+                productError || !product ? true : false || isLoadingProduct || isLoadingReviews
+            }>
             <ProductSection>
                 <ProductImages>
                     <ImageSlider backgroundColor="F3F5F7" product={product} />
@@ -93,10 +105,8 @@ const ProductPage: FC<IProps> = ({ params }) => {
                                 <Star src={averageRate == 5 ? fullStar.src : emptyStar.src} />
                             </StarsWrapper>
                             <ProductRatingText>
-                                {product?.product_group?.reviews?.length}{" "}
-                                {(product?.product_group?.reviews?.length || 0) > 1
-                                    ? "Reviews"
-                                    : "Review"}
+                                {reviews?.amount}{" "}
+                                {(reviews?.amount || 0) > 1 ? "Reviews" : "Review"}
                             </ProductRatingText>
                         </ProductRatingWrapper>
                         <ProductInfoTitle>{product?.name}</ProductInfoTitle>

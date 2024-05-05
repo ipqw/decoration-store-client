@@ -7,7 +7,7 @@ export const reviewApiSlice = createApi({
     tagTypes: ["Review", "Like"],
     endpoints: (build) => ({
         getAllReviews: build.query<
-            IReview[],
+            { reviews: IReview[]; amount: number },
             | { limit: number }
             | { productGroupId: number }
             | { productGroupId: number; limit: number }
@@ -32,7 +32,10 @@ export const reviewApiSlice = createApi({
             },
             providesTags: (result) =>
                 result
-                    ? [...result.map(({ id }) => ({ type: "Review" as const, id })), "Review"]
+                    ? [
+                          ...result.reviews.map(({ id }) => ({ type: "Review" as const, id })),
+                          "Review",
+                      ]
                     : ["Review"],
         }),
         getOneReview: build.query<IReview, number>({

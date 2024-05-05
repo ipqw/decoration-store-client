@@ -20,11 +20,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
     const [isOpenedDropdown, setIsOpenedDropdown] = useState<boolean>(false);
     const [activeDropdownItem, setActiveDropdownItem] = useState<string>("");
     // queries
-    const {
-        data: reviews,
-        isLoading,
-        error,
-    } = reviewApiSlice.useGetAllReviewsQuery({
+    const { data, isLoading, error } = reviewApiSlice.useGetAllReviewsQuery({
         limit: reviewAmount,
         productGroupId: productGroup?.id,
     });
@@ -39,7 +35,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
         setReviewAmount((prev) => prev + 5);
     };
     return (
-        <Wrapper $isVisible={!isLoading && !error && reviews ? true : false}>
+        <Wrapper $isVisible={!isLoading && !error && data?.reviews ? true : false}>
             <WriteReviewSection>
                 <Title>Customer Reviews</Title>
                 <Info>
@@ -51,7 +47,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                         <Star src={averageRate >= 5 ? fullStar.src : emptyStar.src} />
                     </StarsWrapper>
                     <InfoText>
-                        {reviews?.length} {(reviews?.length || 0) > 1 ? "Reviews" : "Review"}
+                        {data?.amount} {(data?.amount || 0) > 1 ? "Reviews" : "Review"}
                     </InfoText>
                 </Info>
                 <RateSetter>
@@ -87,7 +83,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                 <ReviewCreator
                     rate={rate}
                     setRate={setRate}
-                    reviews={reviews || []}
+                    reviews={data?.reviews || []}
                     productGroup={productGroup}
                 />
             </WriteReviewSection>
@@ -95,11 +91,14 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                 <aside>
                     <TitleBlock>
                         <Title>
-                            {reviews?.length} {(reviews?.length || 0) > 1 ? "Reviews" : "Review"}
+                            {data?.amount} {(data?.amount || 0) > 1 ? "Reviews" : "Review"}
                         </Title>
                     </TitleBlock>
                     <ReviewsBlock>
-                        <FilteredReviews activeItem={activeDropdownItem} reviews={reviews || []} />
+                        <FilteredReviews
+                            activeItem={activeDropdownItem}
+                            reviews={data?.reviews || []}
+                        />
                     </ReviewsBlock>
                 </aside>
                 <aside>
