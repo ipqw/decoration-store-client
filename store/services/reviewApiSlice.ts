@@ -46,7 +46,7 @@ export const reviewApiSlice = createApi({
                 url: `/review?productGroupId=${params.productGroupId}&userId=${params.userId}`,
                 method: "GET",
             }),
-            providesTags: (result) => ["Review"],
+            providesTags: (result) => [{ type: "Review" as const, id: result?.id }, "Review"],
         }),
         getOneReview: build.query<IReview, number>({
             query: (id) => ({
