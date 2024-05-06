@@ -18,6 +18,7 @@ import { useAppSelector } from "@/store/hooks";
 import ReviewsList from "../../_components/ReviewList";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import NewsletterSection from "@/app/_components/NewsletterSection";
+import AdditionalInfo from "../../_components/AdditionalInfo";
 
 interface IProps {
     params: { productId: string };
@@ -206,7 +207,8 @@ const ProductPage: FC<IProps> = ({ params }) => {
             </ProductSection>
             <AdditionalSection>
                 <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-                {activeTab === 2 && (
+                {activeTab === 0 && <AdditionalInfo infos={product?.product_infos || []} />}
+                {activeTab === 1 && (
                     <ReviewsList productGroup={product?.product_group} averageRate={averageRate} />
                 )}
             </AdditionalSection>

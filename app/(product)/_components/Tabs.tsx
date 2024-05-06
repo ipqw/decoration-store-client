@@ -13,9 +13,6 @@ const Tabs: FC<IProps> = ({ activeTab, setActiveTab }) => {
                 Additional Info
             </Text>
             <Text onClick={() => setActiveTab(1)} $active={activeTab === 1}>
-                Questions
-            </Text>
-            <Text onClick={() => setActiveTab(2)} $active={activeTab === 2}>
                 Reviews
             </Text>
         </Wrapper>
