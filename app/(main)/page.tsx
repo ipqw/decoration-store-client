@@ -1,5 +1,5 @@
 "use client";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import mainImage from "../../public/images/homepage/mainImage.png";
@@ -18,8 +18,28 @@ import BannerCard from "./_components/BannerCard";
 import ImageSlider from "./_components/ImageSlider";
 import ProductCarousel from "./_components/ProductCarousel/ProductCarousel";
 import NewsletterSection from "../_components/NewsletterSection";
+import { productApiSlice } from "@/store/services/productApiSlice";
+import { IProduct } from "../_types/types";
 
 const Home: FC = () => {
+    const {
+        data: products,
+        isLoading,
+        error,
+        refetch,
+    } = productApiSlice.useGetAllProductsQuery(null);
+    const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+    useEffect(() => {
+        setFilteredProducts(() => {
+            if (products) {
+                return [...products].filter(
+                    (el) => Date.now() - new Date(el.createdAt).getTime() < 604800000,
+                );
+            } else {
+                return [];
+            }
+        });
+    }, [products]);
     return (
         <Wrapper>
             <ImageSliderSection>
@@ -44,7 +64,7 @@ const Home: FC = () => {
                 </SmallBannerCardBlock>
             </BannerSection>
 
-            <ProductCarouselSection>
+            <ProductCarouselSection $isVisible={filteredProducts.length > 0 ? true : false}>
                 <ProductCarouselTitleBlock>
                     <ProductCarouselTitleText>New Arrivals</ProductCarouselTitleText>
                     <StyledLink>
@@ -52,7 +72,7 @@ const Home: FC = () => {
                         <StyledLinkIcon src={arrowIcon.src} />
                     </StyledLink>
                 </ProductCarouselTitleBlock>
-                <ProductCarousel onlyNew />
+                <ProductCarousel products={filteredProducts} />
             </ProductCarouselSection>
             <InfoCardsSection>
                 <InfoCardsWrapper>
@@ -183,8 +203,8 @@ const InfoCardsWrapper = styled.div`
     width: fit-content;
 `;
 
-const ProductCarouselSection = styled.section`
-    display: flex;
+const ProductCarouselSection = styled.section<{ $isVisible: boolean }>`
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
     flex-direction: column;
     padding-top: 48px;
     padding-bottom: 48px;
