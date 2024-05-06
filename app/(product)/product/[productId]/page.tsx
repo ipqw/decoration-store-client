@@ -17,6 +17,7 @@ import Tabs from "../../_components/Tabs";
 import { useAppSelector } from "@/store/hooks";
 import ReviewsList from "../../_components/ReviewList";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
+import NewsletterSection from "@/app/_components/NewsletterSection";
 
 interface IProps {
     params: { productId: string };
@@ -209,11 +210,13 @@ const ProductPage: FC<IProps> = ({ params }) => {
                     <ReviewsList productGroup={product?.product_group} averageRate={averageRate} />
                 )}
             </AdditionalSection>
+            <NewsletterSection />
         </Wrapper>
     );
 };
 const AdditionalSection = styled.section`
     width: 1120px;
+    padding-bottom: 40px;
 `;
 
 const CategoryText = styled.p`
