@@ -5,8 +5,17 @@ import styled from "styled-components";
 import mainImage from "@/public/images/shop/main.png";
 
 import arrowIcon from "@/public/icons/arrow.svg";
+import ProductGrid from "./_components/ProductGrid";
+import { productApiSlice } from "@/store/services/productApiSlice";
 
 const ShopPage = () => {
+    // queries
+    const {
+        data: products,
+        isLoading,
+        error,
+        refetch,
+    } = productApiSlice.useGetAllProductsQuery(null);
     return (
         <Wrapper>
             <MainImage>
@@ -20,9 +29,16 @@ const ShopPage = () => {
                     <MainImageText>Let’s design the place you always imagined.</MainImageText>
                 </MainImageBlock>
             </MainImage>
+            <ProductsSection>
+                <ProductGrid products={products || []} />
+            </ProductsSection>
         </Wrapper>
     );
 };
+const ProductsSection = styled.section`
+    padding-top: 60px;
+`;
+
 const MainImageText = styled.p`
     color: #121212;
     font-family: "Inter", sans-serif;
