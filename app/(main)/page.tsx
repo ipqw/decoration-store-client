@@ -16,7 +16,7 @@ import callIcon from "../../public/icons/call.svg";
 
 import BannerCard from "./_components/BannerCard";
 import ImageSlider from "./_components/ImageSlider";
-import ProductCarousel from "./_components/ProductCarousel/ProductCarousel";
+import ProductCarousel from "./_components/ProductCarousel";
 import NewsletterSection from "../_components/NewsletterSection";
 import { productApiSlice } from "@/store/services/productApiSlice";
 import { IProduct } from "../_types/types";

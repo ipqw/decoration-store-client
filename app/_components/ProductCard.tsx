@@ -1,8 +1,8 @@
 import { IProduct } from "@/app/_types/types";
 import React, { FC } from "react";
 import styled from "styled-components";
-import noImageIcon from "../../../../public/icons/no-image.ico";
-import fullStarIcon from "../../../../public/icons/fullStar.svg";
+import noImageIcon from "@/public/icons/no-image.ico";
+import fullStarIcon from "@/public/icons/fullStar.svg";
 import emptyStarIcon from "@/public/icons/emptyStar.svg";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {

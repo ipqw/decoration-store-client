@@ -1,7 +1,6 @@
-import { productApiSlice } from "../../../../store/services/productApiSlice";
 import React, { FC } from "react";
 import styled from "styled-components";
-import ProductCard from "./ProductCard";
+import ProductCard from "@/app/_components/ProductCard";
 import { IProduct } from "@/app/_types/types";
 
 interface IProps {
