@@ -53,16 +53,6 @@ const ProductPage: FC<IProps> = ({ params }) => {
     const [createCartProduct, { isLoading: isLoadingCreateCartProduct }] =
         cartApiSlice.useCreateCartProductMutation();
 
-    // set average rate of product
-    const [averageRate, setAverageRate] = useState<number>(0);
-    useEffect(() => {
-        let sum = 0;
-        product?.product_group?.reviews?.forEach((el) => {
-            sum += el.rate;
-        });
-        setAverageRate(sum / Number(product?.product_group?.reviews?.length));
-    }, [product]);
-
     const wishlistButtonHandler = () => {
         if (isAddedToWishlistBtn && user?.wishlist && product) {
             if (!isLoadingDeleteWishlistProduct) {
@@ -99,11 +89,41 @@ const ProductPage: FC<IProps> = ({ params }) => {
                     <ProductInfo>
                         <ProductRatingWrapper>
                             <StarsWrapper>
-                                <Star src={averageRate >= 1 ? fullStar.src : emptyStar.src} />
-                                <Star src={averageRate >= 2 ? fullStar.src : emptyStar.src} />
-                                <Star src={averageRate >= 3 ? fullStar.src : emptyStar.src} />
-                                <Star src={averageRate >= 4 ? fullStar.src : emptyStar.src} />
-                                <Star src={averageRate == 5 ? fullStar.src : emptyStar.src} />
+                                <Star
+                                    src={
+                                        (product?.product_group?.averageRate || 0) >= 1
+                                            ? fullStar.src
+                                            : emptyStar.src
+                                    }
+                                />
+                                <Star
+                                    src={
+                                        (product?.product_group?.averageRate || 0) >= 2
+                                            ? fullStar.src
+                                            : emptyStar.src
+                                    }
+                                />
+                                <Star
+                                    src={
+                                        (product?.product_group?.averageRate || 0) >= 3
+                                            ? fullStar.src
+                                            : emptyStar.src
+                                    }
+                                />
+                                <Star
+                                    src={
+                                        (product?.product_group?.averageRate || 0) >= 4
+                                            ? fullStar.src
+                                            : emptyStar.src
+                                    }
+                                />
+                                <Star
+                                    src={
+                                        product?.product_group?.averageRate == 5
+                                            ? fullStar.src
+                                            : emptyStar.src
+                                    }
+                                />
                             </StarsWrapper>
                             <ProductRatingText>
                                 {reviews?.amount}{" "}
@@ -208,7 +228,10 @@ const ProductPage: FC<IProps> = ({ params }) => {
                 <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
                 {activeTab === 0 && <AdditionalInfo infos={product?.product_infos || []} />}
                 {activeTab === 1 && (
-                    <ReviewsList productGroup={product?.product_group} averageRate={averageRate} />
+                    <ReviewsList
+                        productGroup={product?.product_group}
+                        averageRate={product?.product_group?.averageRate || 0}
+                    />
                 )}
             </AdditionalSection>
         </Wrapper>
@@ -459,6 +482,7 @@ const ProductSection = styled.section`
     display: flex;
     justify-content: center;
     column-gap: 63px;
+    padding-bottom: 40px;
 `;
 
 const Wrapper = styled.div<{ $invisible?: boolean }>`

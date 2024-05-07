@@ -69,7 +69,6 @@ export interface IProduct {
     id: number;
     name: string;
     images: string[] | null;
-    averageRate: number;
     price: number;
     discountPrice: number | null;
     typeId: IType["id"];
@@ -87,6 +86,7 @@ export interface IProductGroup {
     id: number;
     createdAt: string;
     updatedAt: string;
+    averageRate: number;
     products?: IProduct[];
     reviews?: IReview[];
 }

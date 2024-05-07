@@ -25,11 +25,41 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
             </ImageWrapper>
             <InfoWrapper>
                 <StarsWrapper>
-                    <Star src={product.averageRate >= 1 ? fullStarIcon.src : emptyStarIcon.src} />
-                    <Star src={product.averageRate >= 2 ? fullStarIcon.src : emptyStarIcon.src} />
-                    <Star src={product.averageRate >= 3 ? fullStarIcon.src : emptyStarIcon.src} />
-                    <Star src={product.averageRate >= 4 ? fullStarIcon.src : emptyStarIcon.src} />
-                    <Star src={product.averageRate >= 5 ? fullStarIcon.src : emptyStarIcon.src} />
+                    <Star
+                        src={
+                            (product?.product_group?.averageRate || 0) >= 1
+                                ? fullStarIcon.src
+                                : emptyStarIcon.src
+                        }
+                    />
+                    <Star
+                        src={
+                            (product?.product_group?.averageRate || 0) >= 2
+                                ? fullStarIcon.src
+                                : emptyStarIcon.src
+                        }
+                    />
+                    <Star
+                        src={
+                            (product?.product_group?.averageRate || 0) >= 3
+                                ? fullStarIcon.src
+                                : emptyStarIcon.src
+                        }
+                    />
+                    <Star
+                        src={
+                            (product?.product_group?.averageRate || 0) >= 4
+                                ? fullStarIcon.src
+                                : emptyStarIcon.src
+                        }
+                    />
+                    <Star
+                        src={
+                            (product?.product_group?.averageRate || 0) >= 5
+                                ? fullStarIcon.src
+                                : emptyStarIcon.src
+                        }
+                    />
                 </StarsWrapper>
                 <Title href={`./product/${product.id}`}>{product.name}</Title>
                 <PriceWrapper>
