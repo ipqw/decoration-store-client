@@ -24,7 +24,7 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addMatcher(userApiSlice.endpoints.check.matchFulfilled, (state, { payload }) => {
-            if ("user" in payload && "newToken" in payload) {
+            if ("user" in payload && "newToken" in payload && payload.user) {
                 state.id = payload.user.id;
                 state.firstName = payload.user.firstName;
                 state.lastName = payload.user.lastName;
