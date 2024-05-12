@@ -7,6 +7,8 @@ import firstGridIcon from "@/public/icons/shop/firstGridIcon.svg";
 import secondGridIcon from "@/public/icons/shop/secondGridIcon.svg";
 import thirdGridIcon from "@/public/icons/shop/thirdGridIcon.svg";
 import fourthGridIcon from "@/public/icons/shop/fourthGridIcon.svg";
+import MobileProductCard from "@/app/_components/MobileProductCard";
+import { act } from "react-dom/test-utils";
 
 interface IProps {
     products: IProduct[];
@@ -46,10 +48,39 @@ const ProductGrid: FC<IProps> = ({ products }) => {
                     </GridButtonsBlock>
                 </SettingsBlock>
             </TopBlock>
-            <ProductsBlock>
-                {products.map((product, index) => {
-                    return <ProductCard key={index} product={product} />;
-                })}
+            <ProductsBlock
+                $gridVariation={
+                    activeGridButton === 0
+                        ? "auto auto auto"
+                        : activeGridButton === 1
+                          ? "auto auto auto auto"
+                          : activeGridButton === 2
+                            ? "auto auto"
+                            : "auto"
+                }>
+                {activeGridButton === 0 || activeGridButton === 1
+                    ? products.map((product, index) => {
+                          return <ProductCard key={index} product={product} />;
+                      })
+                    : activeGridButton === 2
+                      ? products.map((product, index) => {
+                            return (
+                                <MobileProductCard
+                                    key={index}
+                                    product={product}
+                                    variation="horizontal"
+                                />
+                            );
+                        })
+                      : products.map((product, index) => {
+                            return (
+                                <MobileProductCard
+                                    key={index}
+                                    product={product}
+                                    variation="vertical"
+                                />
+                            );
+                        })}
             </ProductsBlock>
         </Wrapper>
     );
@@ -98,7 +129,7 @@ const TopBlock = styled.div`
 `;
 const ProductsBlock = styled.div<{ $gridVariation?: string }>`
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: ${({ $gridVariation }) => $gridVariation};
     column-gap: 24px;
     row-gap: 24px;
     justify-content: space-between;

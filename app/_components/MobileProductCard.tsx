@@ -1,13 +1,63 @@
-import { IProduct } from "@/app/_types/types";
-import React, { FC } from "react";
+"use client";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
+import { IProduct } from "../_types/types";
+
 import noImageIcon from "@/public/icons/no-image.ico";
 import fullStarIcon from "@/public/icons/fullStar.svg";
 import emptyStarIcon from "@/public/icons/emptyStar.svg";
+import wishlistIcon from "@/public/icons/product/Wishlist.svg";
+import filledWishlistIcon from "@/public/icons/product/FilledWishlist.svg";
+import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
+import { cartApiSlice } from "@/store/services/cartApiSlice";
+import { useAppSelector } from "@/store/hooks";
 
-const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
+interface IProps {
+    product: IProduct;
+    variation: "horizontal" | "vertical";
+}
+
+const MobileProductCard: FC<IProps> = ({ product, variation }) => {
+    const user = useAppSelector((state) => state.user);
+    const [isAddedToWishlistBtn, setIsAddedToWishlistBtn] = useState<boolean>(false);
+
+    useEffect(() => {
+        setIsAddedToWishlistBtn(
+            user.wishlist?.wishlist_products?.find((el) => el.productId === Number(product.id))
+                ? true
+                : false,
+        );
+    }, [user, product]);
+
+    // mutations
+    const [createWishlistProduct, { isLoading: isLoadingCreateWishlistProduct }] =
+        wishlistApiSlice.useCreateWishlistProductMutation();
+    const [deleteWishlistProduct, { isLoading: isLoadingDeleteWishlistProduct }] =
+        wishlistApiSlice.useDeleteWishlistProductMutation();
+
+    const [createCartProduct, { isLoading: isLoadingCreateCartProduct }] =
+        cartApiSlice.useCreateCartProductMutation();
+
+    const wishlistButtonHandler = () => {
+        if (isAddedToWishlistBtn && user?.wishlist && product) {
+            if (!isLoadingDeleteWishlistProduct) {
+                deleteWishlistProduct({ productId: product.id, wishlistId: user.wishlist.id });
+                setIsAddedToWishlistBtn(false);
+            }
+        } else {
+            if (!isLoadingCreateWishlistProduct && product && user?.wishlist) {
+                createWishlistProduct({ productId: product?.id, wishlistId: user.wishlist.id });
+                setIsAddedToWishlistBtn(true);
+            }
+        }
+    };
+    const cartButtonHandler = () => {
+        if (!isLoadingCreateCartProduct && user?.cart && product) {
+            createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
+        }
+    };
     return (
-        <Wrapper>
+        <Wrapper $variation={variation}>
             <ImageWrapper>
                 <LabelWrapper>
                     <NewLabel
@@ -23,7 +73,7 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
                     src={product.images?.length ? product.images[0] : noImageIcon.src}
                 />
             </ImageWrapper>
-            <InfoWrapper>
+            <InfoWrapper $variation={variation}>
                 <StarsWrapper>
                     <Star
                         src={
@@ -80,10 +130,75 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
                             : `${product.price}.00`}
                     </OldPrice>
                 </PriceWrapper>
+                <Text>{product?.product_infos?.find((el) => el.name === "about")?.text}</Text>
+                <ButtonsWrapper>
+                    <CartButton onClick={cartButtonHandler}>
+                        <CartText>Add to cart</CartText>
+                    </CartButton>
+                    <WishlistButton onClick={wishlistButtonHandler}>
+                        <WishlistIcon
+                            src={isAddedToWishlistBtn ? filledWishlistIcon.src : wishlistIcon.src}
+                        />
+                        <WishlistText>Wishlist</WishlistText>
+                    </WishlistButton>
+                </ButtonsWrapper>
             </InfoWrapper>
         </Wrapper>
     );
 };
+const ButtonsWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+const WishlistIcon = styled.img`
+    width: 20px;
+    height: 20px;
+`;
+const WishlistText = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+`;
+const WishlistButton = styled.div`
+    display: flex;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    column-gap: 4px;
+    margin-top: 4px;
+    cursor: pointer;
+`;
+const CartText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #fefefe;
+`;
+const CartButton = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    height: 46px;
+    background-color: #141718;
+    cursor: pointer;
+    margin: 8px;
+`;
+const Text = styled.p`
+    font-family: "Inter", sans-serif;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 22px;
+    color: #6c7275;
+    font-weight: 400;
+    padding-bottom: 24px;
+`;
 const Title = styled.a`
     font-family: "Inter", sans-serif;
     text-decoration: none;
@@ -91,6 +206,7 @@ const Title = styled.a`
     line-height: 26px;
     color: #141718;
     font-weight: 600;
+    padding-bottom: 4px;
     cursor: pointer;
 `;
 const PriceWrapper = styled.div`
@@ -98,6 +214,7 @@ const PriceWrapper = styled.div`
     width: fit-content;
     column-gap: 12px;
     justify-content: space-between;
+    padding-bottom: 16px;
 `;
 const Price = styled.p`
     color: #141718;
@@ -115,12 +232,6 @@ const OldPrice = styled.p<{ $isVisible: boolean }>`
     line-height: 22px;
     text-decoration: line-through;
 `;
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    row-gap: 12px;
-`;
 const Star = styled.img`
     height: 16px;
     width: 16px;
@@ -131,14 +242,16 @@ const StarsWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 16px;
 `;
-const InfoWrapper = styled.div`
+const InfoWrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 262px;
-    height: 72px;
+    width: ${({ $variation }) => ($variation === "horizontal" ? "50%" : "100%")};
+    height: 100%;
+    padding: 24px;
 `;
+
 const LabelWrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -195,4 +308,10 @@ const ImageWrapper = styled.div`
     background-color: #f3f5f7;
 `;
 
-export default ProductCard;
+const Wrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
+    display: flex;
+    width: ${({ $variation }) => ($variation === "horizontal" ? "548px" : "312px")};
+    flex-direction: ${({ $variation }) => ($variation === "horizontal" ? "row" : "column")};
+`;
+
+export default MobileProductCard;
