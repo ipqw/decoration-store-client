@@ -58,7 +58,7 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
     };
     return (
         <Wrapper $variation={variation}>
-            <ImageWrapper>
+            <ImageWrapper $variation={variation}>
                 <LabelWrapper>
                     <NewLabel
                         $isNew={Date.now() - new Date(product.createdAt).getTime() < 604800000}>
@@ -74,7 +74,7 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
                 />
             </ImageWrapper>
             <InfoWrapper $variation={variation}>
-                <StarsWrapper>
+                <StarsWrapper $variation={variation}>
                     <Star
                         src={
                             (product?.product_group?.averageRate || 0) >= 1
@@ -111,8 +111,19 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
                         }
                     />
                 </StarsWrapper>
-                <Title href={`./product/${product.id}`}>{product.name}</Title>
-                <PriceWrapper>
+                {variation === "horizontal" ? (
+                    <Title href={`./product/${product.id}`}>{product.name}</Title>
+                ) : (
+                    <TitleWrapper>
+                        <Title href={`./product/${product.id}`}>{product.name}</Title>
+                        <WishlistIcon
+                            onClick={wishlistButtonHandler}
+                            $variation={variation}
+                            src={isAddedToWishlistBtn ? filledWishlistIcon.src : wishlistIcon.src}
+                        />
+                    </TitleWrapper>
+                )}
+                <PriceWrapper $variation={variation}>
                     <Price>
                         $
                         {product.discountPrice
@@ -130,30 +141,45 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
                             : `${product.price}.00`}
                     </OldPrice>
                 </PriceWrapper>
-                <Text>{product?.product_infos?.find((el) => el.name === "about")?.text}</Text>
+                <Text $variation={variation}>
+                    {product?.product_infos?.find((el) => el.name === "about")?.text}
+                </Text>
                 <ButtonsWrapper>
                     <CartButton onClick={cartButtonHandler}>
                         <CartText>Add to cart</CartText>
                     </CartButton>
-                    <WishlistButton onClick={wishlistButtonHandler}>
-                        <WishlistIcon
-                            src={isAddedToWishlistBtn ? filledWishlistIcon.src : wishlistIcon.src}
-                        />
-                        <WishlistText>Wishlist</WishlistText>
-                    </WishlistButton>
+                    {variation === "horizontal" && (
+                        <WishlistButton onClick={wishlistButtonHandler}>
+                            <WishlistIcon
+                                $variation={variation}
+                                src={
+                                    isAddedToWishlistBtn ? filledWishlistIcon.src : wishlistIcon.src
+                                }
+                            />
+                            <WishlistText>Wishlist</WishlistText>
+                        </WishlistButton>
+                    )}
                 </ButtonsWrapper>
             </InfoWrapper>
         </Wrapper>
     );
 };
+const TitleWrapper = styled.div`
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+`;
+
 const ButtonsWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
 `;
-const WishlistIcon = styled.img`
-    width: 20px;
-    height: 20px;
+const WishlistIcon = styled.img<{ $variation: "horizontal" | "vertical" }>`
+    width: ${({ $variation }) => ($variation === "horizontal" ? "20px" : "28px")};
+    height: ${({ $variation }) => ($variation === "horizontal" ? "20px" : "28px")};
+    cursor: pointer;
 `;
 const WishlistText = styled.p`
     color: #141718;
@@ -190,14 +216,14 @@ const CartButton = styled.div`
     cursor: pointer;
     margin: 8px;
 `;
-const Text = styled.p`
+const Text = styled.p<{ $variation: "horizontal" | "vertical" }>`
     font-family: "Inter", sans-serif;
     text-decoration: none;
-    font-size: 14px;
-    line-height: 22px;
+    font-size: ${({ $variation }) => ($variation === "horizontal" ? "14px" : "12px")};
+    line-height: ${({ $variation }) => ($variation === "horizontal" ? "22px" : "20px")};
     color: #6c7275;
     font-weight: 400;
-    padding-bottom: 24px;
+    padding-bottom: ${({ $variation }) => ($variation === "horizontal" ? "24px" : "16px")};
 `;
 const Title = styled.a`
     font-family: "Inter", sans-serif;
@@ -209,12 +235,12 @@ const Title = styled.a`
     padding-bottom: 4px;
     cursor: pointer;
 `;
-const PriceWrapper = styled.div`
+const PriceWrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
     display: flex;
     width: fit-content;
     column-gap: 12px;
     justify-content: space-between;
-    padding-bottom: 16px;
+    padding-bottom: ${({ $variation }) => ($variation === "horizontal" ? "16px" : "8px")};
 `;
 const Price = styled.p`
     color: #141718;
@@ -236,20 +262,20 @@ const Star = styled.img`
     height: 16px;
     width: 16px;
 `;
-const StarsWrapper = styled.div`
+const StarsWrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
     width: 88px;
     height: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 16px;
+    padding-bottom: ${({ $variation }) => ($variation === "horizontal" ? "16px" : "8px")};
 `;
 const InfoWrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
     display: flex;
     flex-direction: column;
     width: ${({ $variation }) => ($variation === "horizontal" ? "50%" : "100%")};
     height: 100%;
-    padding: 24px;
+    padding: ${({ $variation }) => ($variation === "horizontal" ? "24px" : "0")};
 `;
 
 const LabelWrapper = styled.div`
@@ -295,22 +321,23 @@ const DiscountLabel = styled.div<{ $discount: boolean }>`
     background-color: #38cb89;
 `;
 const Image = styled.img`
-    max-width: 262px;
-    max-height: 349px;
+    max-width: 100%;
+    max-height: 100%;
 `;
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
     display: flex;
     position: relative;
-    width: 262px;
-    height: 349px;
+    width: ${({ $variation }) => ($variation === "horizontal" ? "262px " : "312px")};
+    height: ${({ $variation }) => ($variation === "horizontal" ? "349px" : "416px")};
     align-items: center;
     justify-content: center;
     background-color: #f3f5f7;
+    margin-bottom: ${({ $variation }) => ($variation === "horizontal" ? "0" : "16px")};
 `;
-
 const Wrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
     display: flex;
     width: ${({ $variation }) => ($variation === "horizontal" ? "548px" : "312px")};
+    height: fit-content;
     flex-direction: ${({ $variation }) => ($variation === "horizontal" ? "row" : "column")};
 `;
 
