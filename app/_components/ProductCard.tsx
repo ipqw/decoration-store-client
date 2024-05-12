@@ -1,14 +1,17 @@
 import { IProduct } from "@/app/_types/types";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 import noImageIcon from "@/public/icons/no-image.ico";
 import fullStarIcon from "@/public/icons/fullStar.svg";
 import emptyStarIcon from "@/public/icons/emptyStar.svg";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
+    const [isVisibleCartButton, setIsVisibleCartButton] = useState<boolean>(false);
     return (
         <Wrapper>
-            <ImageWrapper>
+            <ImageWrapper
+                onMouseOver={() => setIsVisibleCartButton(true)}
+                onMouseLeave={() => setIsVisibleCartButton(false)}>
                 <LabelWrapper>
                     <NewLabel
                         $isNew={Date.now() - new Date(product.createdAt).getTime() < 604800000}>
@@ -18,6 +21,9 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
                         <DiscountLabelText>-{product.discount?.percent}%</DiscountLabelText>
                     </DiscountLabel>
                 </LabelWrapper>
+                <CartButton $isVisible={isVisibleCartButton}>
+                    <CartText>Add to cart</CartText>
+                </CartButton>
                 <Image
                     alt="product image"
                     src={product.images?.length ? product.images[0] : noImageIcon.src}
@@ -84,6 +90,27 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
         </Wrapper>
     );
 };
+const CartButton = styled.div<{ $isVisible: boolean }>`
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    width: 230px;
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
+    opacity: ${({ $isVisible }) => ($isVisible ? "100%" : "0%")};
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    height: 46px;
+    background-color: #141718;
+    cursor: pointer;
+`;
+const CartText = styled.p`
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #fefefe;
+`;
 const Title = styled.a`
     font-family: "Inter", sans-serif;
     text-decoration: none;
