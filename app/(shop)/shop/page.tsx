@@ -36,6 +36,8 @@ const ShopPage = () => {
     );
 };
 const ProductsSection = styled.section`
+    display: flex;
+    column-gap: 24px;
     padding-top: 60px;
 `;
 
