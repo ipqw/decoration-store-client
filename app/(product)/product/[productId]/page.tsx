@@ -45,11 +45,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
         error: productError,
     } = productApiSlice.useGetOneProductQuery(Number(params.productId));
 
-    const {
-        data: reviews,
-        isLoading: isLoadingReviews,
-        error,
-    } = reviewApiSlice.useGetAllReviewsQuery({
+    const { data: reviews, isLoading: isLoadingReviews } = reviewApiSlice.useGetAllReviewsQuery({
         productGroupId: product?.product_group?.id || 0,
     });
 
