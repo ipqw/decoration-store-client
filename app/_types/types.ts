@@ -76,7 +76,7 @@ export interface IProduct {
     createdAt: string;
     updatedAt: string;
     discount?: IDiscount;
-    product_infos: IProductInfo[];
+    product_infos?: IProductInfo[];
     product_group?: IProductGroup;
     cart_products?: ICartProduct[];
     wishlist_products?: IWishlistProduct[];
