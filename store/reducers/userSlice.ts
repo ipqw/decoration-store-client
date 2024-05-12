@@ -32,6 +32,7 @@ export const userSlice = createSlice({
                 state.displayName = payload.user.displayName;
                 state.imageUrl = payload.user.imageUrl;
                 state.role = payload.user.role;
+                state.wishlist = payload.user.wishlist;
                 localStorage.setItem("token", payload.newToken);
             }
         });

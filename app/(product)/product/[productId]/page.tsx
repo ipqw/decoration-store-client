@@ -28,6 +28,15 @@ const ProductPage: FC<IProps> = ({ params }) => {
     const user = useAppSelector((state) => state.user);
     const [counter, setCounter] = useState<number>(0);
     const [isAddedToWishlistBtn, setIsAddedToWishlistBtn] = useState<boolean>(false);
+    useEffect(() => {
+        setIsAddedToWishlistBtn(
+            user.wishlist?.wishlist_products?.find(
+                (el) => el.productId === Number(params.productId),
+            )
+                ? true
+                : false,
+        );
+    }, [user, params]);
 
     // queries
     const {
@@ -200,11 +209,13 @@ const ProductPage: FC<IProps> = ({ params }) => {
                         <AddProductTop>
                             <Counter counter={counter} setCounter={setCounter} />
                             <WishlistButton onClick={wishlistButtonHandler}>
-                                {isAddedToWishlistBtn ? (
-                                    <WishlistIcon src={filledWishlistIcon.src} />
-                                ) : (
-                                    <WishlistIcon src={wishlistIcon.src} />
-                                )}
+                                <WishlistIcon
+                                    src={
+                                        isAddedToWishlistBtn
+                                            ? filledWishlistIcon.src
+                                            : wishlistIcon.src
+                                    }
+                                />
                                 <WishlistText>Wishlist</WishlistText>
                             </WishlistButton>
                         </AddProductTop>
