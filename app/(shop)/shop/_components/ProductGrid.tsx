@@ -17,7 +17,16 @@ interface IProps {
 const ProductGrid: FC<IProps> = ({ products }) => {
     const [activeGridButton, setActiveGridButton] = useState<number>(0);
     return (
-        <Wrapper>
+        <Wrapper
+            $gridVariation={
+                activeGridButton === 0
+                    ? "auto auto auto"
+                    : activeGridButton === 1
+                      ? "auto auto auto auto"
+                      : activeGridButton === 2
+                        ? "auto auto"
+                        : "auto"
+            }>
             <TopBlock>
                 <Title>Living Room</Title>
                 <SettingsBlock>
@@ -133,7 +142,6 @@ const ProductsBlock = styled.div<{ $gridVariation?: string }>`
     grid-template-columns: ${({ $gridVariation }) => $gridVariation};
     column-gap: 24px;
     row-gap: 24px;
-    justify-content: center;
 `;
 const Title = styled.p`
     color: #000000;
@@ -142,8 +150,21 @@ const Title = styled.p`
     font-weight: 600;
     line-height: 32px;
 `;
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $gridVariation?: string }>`
     display: flex;
+    min-width: ${({ $gridVariation }) => {
+        if ($gridVariation === "auto auto auto") {
+            return "834px";
+        }
+        if ($gridVariation === "auto auto auto auto") {
+            return "1120px";
+        }
+        if ($gridVariation === "auto auto") {
+            return "1120px";
+        } else {
+            return "auto";
+        }
+    }};
     flex-direction: column;
     row-gap: 40px;
 `;

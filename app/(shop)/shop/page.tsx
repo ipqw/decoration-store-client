@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import mainImage from "@/public/images/shop/main.png";
@@ -7,6 +7,8 @@ import mainImage from "@/public/images/shop/main.png";
 import arrowIcon from "@/public/icons/arrow.svg";
 import ProductGrid from "./_components/ProductGrid";
 import { productApiSlice } from "@/store/services/productApiSlice";
+import ProductFilter from "./_components/ProductFilter";
+import { IProduct } from "@/app/_types/types";
 
 const ShopPage = () => {
     // queries
@@ -16,6 +18,10 @@ const ShopPage = () => {
         error,
         refetch,
     } = productApiSlice.useGetAllProductsQuery(null);
+    const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+    useEffect(() => {
+        setFilteredProducts(products || []);
+    }, [products]);
     return (
         <Wrapper>
             <MainImage>
@@ -30,7 +36,8 @@ const ShopPage = () => {
                 </MainImageBlock>
             </MainImage>
             <ProductsSection>
-                <ProductGrid products={products || []} />
+                <ProductFilter products={products || []} setProducts={setFilteredProducts} />
+                <ProductGrid products={filteredProducts || []} />
             </ProductsSection>
         </Wrapper>
     );
