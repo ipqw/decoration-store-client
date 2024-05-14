@@ -1,4 +1,4 @@
-import { ICart, ICartProduct, IWishlist, IWishlistProduct } from "@/app/_types/types";
+import { ICart, ICartProduct } from "@/app/_types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const cartApiSlice = createApi({

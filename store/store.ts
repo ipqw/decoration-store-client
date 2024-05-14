@@ -5,6 +5,7 @@ import { cartApiSlice } from "./services/cartApiSlice";
 import { userApiSlice } from "./services/userApiSlice";
 import userSlice from "./reducers/userSlice";
 import { reviewApiSlice } from "./services/reviewApiSlice";
+import { typeApiSlice } from "./services/typeApiSlice";
 
 const rootReducer = combineSlices(
     productApiSlice,
@@ -13,6 +14,7 @@ const rootReducer = combineSlices(
     userApiSlice,
     reviewApiSlice,
     userSlice,
+    typeApiSlice,
 );
 
 export const setupStore = () => {
@@ -25,6 +27,7 @@ export const setupStore = () => {
                 cartApiSlice.middleware,
                 userApiSlice.middleware,
                 reviewApiSlice.middleware,
+                typeApiSlice.middleware,
             );
         },
     });
