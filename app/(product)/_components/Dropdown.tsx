@@ -13,7 +13,6 @@ interface IProps {
 const Dropdown: FC<IProps> = ({ isOpened, setIsOpened, activeItem, setActiveItem, items }) => {
     useEffect(() => {
         setActiveItem(items[0]);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <Wrapper onClick={() => setIsOpened((prev) => !prev)} $isOpened={isOpened}>
