@@ -6,7 +6,7 @@ export const typeApiSlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
     tagTypes: ["Type"],
     endpoints: (build) => ({
-        getAllTypes: build.query<IType, null>({
+        getAllTypes: build.query<IType[], null>({
             query: () => ({
                 url: "/type",
             }),
