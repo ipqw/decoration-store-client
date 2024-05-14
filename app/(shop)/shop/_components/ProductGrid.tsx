@@ -126,13 +126,14 @@ const TopBlock = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    column-gap: 16px;
 `;
 const ProductsBlock = styled.div<{ $gridVariation?: string }>`
     display: grid;
     grid-template-columns: ${({ $gridVariation }) => $gridVariation};
     column-gap: 24px;
     row-gap: 24px;
-    justify-content: space-between;
+    justify-content: center;
 `;
 const Title = styled.p`
     color: #000000;
