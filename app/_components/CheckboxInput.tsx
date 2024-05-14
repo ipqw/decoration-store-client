@@ -30,6 +30,7 @@ const Wrapper = styled.div<{ $isActive: boolean; $outlined: boolean }>`
     border-radius: 4px;
     background-color: ${({ $isActive }) => ($isActive ? "#141718" : "#FCFCFD")};
     user-select: none;
+    cursor: pointer;
 `;
 const Check = styled.img<{ $isActive: boolean }>`
     opacity: ${({ $isActive }) => ($isActive ? 1 : 0)};
