@@ -18,7 +18,10 @@ const ShopPage = () => {
         error,
         refetch,
     } = productApiSlice.useGetAllProductsQuery(null);
+    // hooks
+    const [activeCategory, setActiveCategory] = useState<string>("All Rooms");
     const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+    const [activeGridButton, setActiveGridButton] = useState<number>(0);
     useEffect(() => {
         setFilteredProducts(products || []);
     }, [products]);
@@ -36,8 +39,19 @@ const ShopPage = () => {
                 </MainImageBlock>
             </MainImage>
             <ProductsSection>
-                <ProductFilter products={products || []} setProducts={setFilteredProducts} />
-                <ProductGrid products={filteredProducts || []} />
+                <ProductFilter
+                    activeGridButton={activeGridButton}
+                    activeCategory={activeCategory}
+                    setActiveCategory={setActiveCategory}
+                    products={products || []}
+                    setProducts={setFilteredProducts}
+                />
+                <ProductGrid
+                    activeGridButton={activeGridButton}
+                    setActiveGridButton={setActiveGridButton}
+                    category={activeCategory}
+                    products={filteredProducts || []}
+                />
             </ProductsSection>
         </Wrapper>
     );

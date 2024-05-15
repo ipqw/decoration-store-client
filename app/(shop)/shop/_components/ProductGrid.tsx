@@ -1,21 +1,22 @@
 "use client";
 import ProductCard from "@/app/_components/ProductCard";
 import { IProduct } from "@/app/_types/types";
-import React, { FC, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import firstGridIcon from "@/public/icons/shop/firstGridIcon.svg";
 import secondGridIcon from "@/public/icons/shop/secondGridIcon.svg";
 import thirdGridIcon from "@/public/icons/shop/thirdGridIcon.svg";
 import fourthGridIcon from "@/public/icons/shop/fourthGridIcon.svg";
 import MobileProductCard from "@/app/_components/MobileProductCard";
-import { act } from "react-dom/test-utils";
 
 interface IProps {
     products: IProduct[];
+    category: string;
+    activeGridButton: number;
+    setActiveGridButton: Dispatch<SetStateAction<number>>;
 }
 
-const ProductGrid: FC<IProps> = ({ products }) => {
-    const [activeGridButton, setActiveGridButton] = useState<number>(0);
+const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActiveGridButton }) => {
     return (
         <Wrapper
             $gridVariation={
@@ -28,7 +29,7 @@ const ProductGrid: FC<IProps> = ({ products }) => {
                         : "auto"
             }>
             <TopBlock>
-                <Title>Living Room</Title>
+                <Title>{category}</Title>
                 <SettingsBlock>
                     <SortBlock>
                         <SortText>Sort by</SortText>
