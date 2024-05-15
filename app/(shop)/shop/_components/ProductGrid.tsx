@@ -29,8 +29,8 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
                         : "auto"
             }>
             <TopBlock>
-                <Title>{category}</Title>
-                <SettingsBlock>
+                <Title $isVisible={!(activeGridButton > 0)}>{category}</Title>
+                <SettingsBlock $isVisible={!(activeGridButton > 0)}>
                     <SortBlock>
                         <SortText>Sort by</SortText>
                     </SortBlock>
@@ -95,11 +95,11 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
         </Wrapper>
     );
 };
-const SettingsBlock = styled.div`
-    display: flex;
+export const SettingsBlock = styled.div<{ $isVisible: boolean }>`
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
     column-gap: 32px;
 `;
-const GridButton = styled.div<{ $active: boolean; $first?: boolean }>`
+export const GridButton = styled.div<{ $active: boolean; $first?: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,22 +110,22 @@ const GridButton = styled.div<{ $active: boolean; $first?: boolean }>`
     border-width: ${({ $first }) => ($first ? "1px" : "1px 1px 1px 0")};
     cursor: pointer;
 `;
-const GridButtonIcon = styled.img`
+export const GridButtonIcon = styled.img`
     width: 24px;
     height: 24px;
 `;
-const GridButtonsBlock = styled.div`
+export const GridButtonsBlock = styled.div`
     display: flex;
     align-items: center;
 `;
-const SortText = styled.p`
+export const SortText = styled.p`
     color: #121212;
     font-size: 16px;
     font-family: "Inter", sans-serif;
     font-weight: 600;
     line-height: 26px;
 `;
-const SortBlock = styled.div`
+export const SortBlock = styled.div`
     display: flex;
     align-items: center;
     column-gap: 4px;
@@ -144,7 +144,8 @@ const ProductsBlock = styled.div<{ $gridVariation?: string }>`
     column-gap: 24px;
     row-gap: 24px;
 `;
-const Title = styled.p`
+const Title = styled.p<{ $isVisible: boolean }>`
+    display: ${({ $isVisible }) => ($isVisible ? "block" : "none")};
     color: #000000;
     font-family: "Inter", sans-serif;
     font-size: 20px;

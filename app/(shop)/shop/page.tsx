@@ -38,9 +38,10 @@ const ShopPage = () => {
                     <MainImageText>Let’s design the place you always imagined.</MainImageText>
                 </MainImageBlock>
             </MainImage>
-            <ProductsSection>
+            <ProductsSection $activeGridButton={activeGridButton}>
                 <ProductFilter
                     activeGridButton={activeGridButton}
+                    setActiveGridButton={setActiveGridButton}
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
                     products={products || []}
@@ -56,10 +57,11 @@ const ShopPage = () => {
         </Wrapper>
     );
 };
-const ProductsSection = styled.section`
+const ProductsSection = styled.section<{ $activeGridButton: number }>`
     display: flex;
     column-gap: 24px;
     padding-top: 60px;
+    flex-direction: ${({ $activeGridButton }) => ($activeGridButton > 0 ? "column" : "row")};
 `;
 
 const MainImageText = styled.p`

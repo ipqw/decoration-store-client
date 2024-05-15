@@ -6,19 +6,34 @@ import arrowIcon from "@/public/icons/product/arrowDown.svg";
 interface IProps {
     isOpened: boolean;
     setIsOpened: Dispatch<SetStateAction<boolean>>;
-    activeItem: string;
-    setActiveItem: Dispatch<SetStateAction<string>>;
-    items: string[];
+    activeItem: { text: string; value: string } | string;
+    setPriceActiveItem?: Dispatch<SetStateAction<{ text: string; value: string }>>;
+    setCategoryActiveItem?: Dispatch<SetStateAction<string>>;
+    items: { text: string; value: string }[];
 }
 
-const Dropdown: FC<IProps> = ({ isOpened, setIsOpened, activeItem, setActiveItem, items }) => {
+const Dropdown: FC<IProps> = ({
+    isOpened,
+    setIsOpened,
+    activeItem,
+    setPriceActiveItem,
+    setCategoryActiveItem,
+    items,
+}) => {
     useEffect(() => {
-        setActiveItem(items[0]);
+        if (setPriceActiveItem) {
+            setPriceActiveItem(items[0]);
+        }
+        if (setCategoryActiveItem) {
+            setCategoryActiveItem(items[0].value);
+        }
     }, []);
     return (
         <Wrapper onClick={() => setIsOpened((prev) => !prev)}>
             <DropdownOpener>
-                <DropdownOpenerText>{activeItem}</DropdownOpenerText>
+                <DropdownOpenerText>
+                    {typeof activeItem === "object" ? activeItem.text : activeItem}
+                </DropdownOpenerText>
                 <Arrow $isOpened={isOpened} src={arrowIcon.src} />
             </DropdownOpener>
             <DropdownItems $isOpened={isOpened}>
@@ -26,10 +41,22 @@ const Dropdown: FC<IProps> = ({ isOpened, setIsOpened, activeItem, setActiveItem
                     return (
                         <DropdownItem
                             $isOpened={isOpened}
-                            $isActive={activeItem === el ? true : false}
+                            $isActive={
+                                (typeof activeItem === "object" ? activeItem.text : activeItem) ===
+                                el.value
+                                    ? true
+                                    : false
+                            }
                             key={index}
-                            onClick={() => setActiveItem(el)}>
-                            {el}
+                            onClick={() => {
+                                if (setPriceActiveItem) {
+                                    setPriceActiveItem(el);
+                                }
+                                if (setCategoryActiveItem) {
+                                    setCategoryActiveItem(el.value);
+                                }
+                            }}>
+                            {el.text}
                         </DropdownItem>
                     );
                 })}
@@ -54,6 +81,7 @@ const Arrow = styled.img<{ $isOpened: boolean }>`
 const DropdownItem = styled.div<{ $isActive: boolean; $isOpened: boolean }>`
     user-select: none;
     display: flex;
+
     align-items: center;
     background-color: ${({ $isActive }) => {
         if ($isActive) {
@@ -75,6 +103,10 @@ const DropdownItem = styled.div<{ $isActive: boolean; $isOpened: boolean }>`
 `;
 const DropdownItems = styled.div<{ $isOpened: boolean }>`
     display: ${({ $isOpened }) => ($isOpened ? "flex" : "none")};
+    position: absolute;
+    top: 58px;
+    background-color: #ffffff;
+    z-index: 100;
     flex-direction: column;
     row-gap: 8px;
     border: 1.5px solid #f3f5f7;
@@ -94,6 +126,7 @@ const DropdownOpener = styled.div`
 `;
 const Wrapper = styled.div`
     display: flex;
+    position: relative;
     flex-direction: column;
     row-gap: 8px;
 `;
