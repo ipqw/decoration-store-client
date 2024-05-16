@@ -11,20 +11,24 @@ import ProductFilter from "./_components/ProductFilter";
 import { IProduct } from "@/app/_types/types";
 
 const ShopPage = () => {
-    // queries
+    const [activeCategory, setActiveCategory] = useState<string>("All Rooms");
+    const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+    const [activeGridButton, setActiveGridButton] = useState<number>(0);
+    const [productLimit, setProductLimit] = useState<number>(12);
+
     const {
         data: products,
         isLoading,
         error,
         refetch,
-    } = productApiSlice.useGetAllProductsQuery(null);
-    // hooks
-    const [activeCategory, setActiveCategory] = useState<string>("All Rooms");
-    const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
-    const [activeGridButton, setActiveGridButton] = useState<number>(0);
+    } = productApiSlice.useGetAllProductsQuery(productLimit);
+
     useEffect(() => {
         setFilteredProducts(products || []);
     }, [products]);
+    const showMoreButtonHandler = () => {
+        setProductLimit((prev) => (prev += 12));
+    };
     return (
         <Wrapper>
             <MainImage>
@@ -54,9 +58,34 @@ const ShopPage = () => {
                     products={filteredProducts || []}
                 />
             </ProductsSection>
+            <ShowMoreButton
+                $isVisible={Number(products?.length) === productLimit}
+                onClick={showMoreButtonHandler}>
+                Show more
+            </ShowMoreButton>
         </Wrapper>
     );
 };
+const ShowMoreButton = styled.div<{ $isVisible: boolean }>`
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
+    border-radius: 80px;
+    width: 163px;
+    height: 40px;
+    padding: 6px;
+    justify-content: center;
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 28px;
+    border: #141718 solid 1px;
+    user-select: none;
+    cursor: pointer;
+    align-self: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+`;
+
 const ProductsSection = styled.section<{ $activeGridButton: number }>`
     display: flex;
     column-gap: 24px;
