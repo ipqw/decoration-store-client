@@ -82,7 +82,6 @@ const ShowMoreButton = styled.div<{ $isVisible: boolean }>`
     user-select: none;
     cursor: pointer;
     align-self: center;
-    margin-top: 40px;
     margin-bottom: 40px;
 `;
 

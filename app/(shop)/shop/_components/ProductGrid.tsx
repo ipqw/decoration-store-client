@@ -165,6 +165,7 @@ const Wrapper = styled.div<{ $gridVariation?: string }>`
     }};
     flex-direction: column;
     row-gap: 40px;
+    margin-bottom: 40px;
 `;
 
 export default ProductGrid;
