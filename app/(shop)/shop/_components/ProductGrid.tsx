@@ -143,6 +143,8 @@ const ProductsBlock = styled.div<{ $gridVariation?: string }>`
     grid-template-columns: ${({ $gridVariation }) => $gridVariation};
     column-gap: 24px;
     row-gap: 24px;
+    justify-content: ${({ $gridVariation }) =>
+        $gridVariation === "auto" ? "center" : "flex-start"};
 `;
 const Title = styled.p<{ $isVisible: boolean }>`
     display: ${({ $isVisible }) => ($isVisible ? "block" : "none")};
@@ -157,14 +159,8 @@ const Wrapper = styled.div<{ $gridVariation?: string }>`
     min-width: ${({ $gridVariation }) => {
         if ($gridVariation === "auto auto auto") {
             return "834px";
-        }
-        if ($gridVariation === "auto auto auto auto") {
-            return "1120px";
-        }
-        if ($gridVariation === "auto auto") {
-            return "1120px";
         } else {
-            return "auto";
+            return "1120px";
         }
     }};
     flex-direction: column;
