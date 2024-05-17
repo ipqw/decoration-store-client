@@ -13,49 +13,55 @@ const Counter: FC<IProps> = ({ counter, setCounter, small }) => {
     return (
         <Wrapper $small={small || false}>
             <Button
+                $small={small || false}
                 onClick={() => {
                     if (counter > 0) {
                         setCounter((prev) => prev - 1);
                     }
                 }}>
-                <Icon src={removeIcon.src} />
+                <Icon $small={small || false} src={removeIcon.src} />
             </Button>
-            <Text>{counter}</Text>
+            <Text $small={small || false}>{counter}</Text>
             <Button
+                $small={small || false}
                 onClick={() => {
                     setCounter((prev) => prev + 1);
                 }}>
-                <Icon src={addIcon.src} />
+                <Icon $small={small || false} src={addIcon.src} />
             </Button>
         </Wrapper>
     );
 };
-const Text = styled.p`
+const Text = styled.p<{ $small: boolean }>`
     font-family: "Inter", sans-serif;
     font-weight: 600;
-    font-size: 16px;
-    line-height: 26px;
+    font-size: ${({ $small }) => ($small ? "12px" : "16px")};
+    line-height: ${({ $small }) => ($small ? "20px" : "26px")};
     color: #121212;
 `;
-const Icon = styled.img``;
-const Button = styled.div`
+const Icon = styled.img<{ $small: boolean }>`
+    width: ${({ $small }) => ($small ? "16px" : "auto")};
+    height: ${({ $small }) => ($small ? "16px" : "auto")};
+`;
+const Button = styled.div<{ $small: boolean }>`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20px;
-    height: 20px;
+    width: ${({ $small }) => ($small ? "16px" : "auto")};
+    height: ${({ $small }) => ($small ? "16px" : "auto")};
     cursor: pointer;
 `;
 const Wrapper = styled.div<{ $small: boolean }>`
-    background-color: #f5f5f5;
-    border-radius: 8px;
+    background-color: ${({ $small }) => ($small ? "#FFFFFF" : "#f5f5f5")};
+    border-radius: ${({ $small }) => ($small ? "4px" : "8px")};
     display: flex;
-    padding: 12px 16px;
+    padding: ${({ $small }) => ($small ? "6px 8px" : "12px 16px")};
     justify-content: space-between;
     align-items: center;
     min-width: ${({ $small }) => ($small ? "80px" : "127px")};
     height: ${({ $small }) => ($small ? "32px" : "52px")};
     user-select: none;
+    border: ${({ $small }) => ($small ? "1px solid #6C7275" : "none")};
 `;
 
 export default Counter;
