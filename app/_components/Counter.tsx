@@ -6,11 +6,12 @@ import addIcon from "@/public/icons/product/Add.svg";
 interface IProps {
     counter: number;
     setCounter: Dispatch<SetStateAction<number>>;
+    small?: boolean;
 }
 
-const Counter: FC<IProps> = ({ counter, setCounter }) => {
+const Counter: FC<IProps> = ({ counter, setCounter, small }) => {
     return (
-        <Wrapper>
+        <Wrapper $small={small || false}>
             <Button
                 onClick={() => {
                     if (counter > 0) {
@@ -45,15 +46,15 @@ const Button = styled.div`
     height: 20px;
     cursor: pointer;
 `;
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $small: boolean }>`
     background-color: #f5f5f5;
     border-radius: 8px;
     display: flex;
     padding: 12px 16px;
     justify-content: space-between;
     align-items: center;
-    min-width: 127px;
-    height: 52px;
+    min-width: ${({ $small }) => ($small ? "80px" : "127px")};
+    height: ${({ $small }) => ($small ? "32px" : "52px")};
     user-select: none;
 `;
 

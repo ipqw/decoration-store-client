@@ -9,7 +9,7 @@ import arrow from "@/public/icons/arrow.svg";
 import wishlistIcon from "@/public/icons/product/Wishlist.svg";
 import filledWishlistIcon from "@/public/icons/product/FilledWishlist.svg";
 import Timer from "../../_components/Timer";
-import Counter from "../../_components/Counter";
+import Counter from "../../../_components/Counter";
 import { useRouter } from "next/navigation";
 import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
