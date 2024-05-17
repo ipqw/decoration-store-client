@@ -33,6 +33,7 @@ export const userSlice = createSlice({
                 state.imageUrl = payload.user.imageUrl;
                 state.role = payload.user.role;
                 state.wishlist = payload.user.wishlist;
+                state.cart = payload.user.cart;
                 localStorage.setItem("token", payload.newToken);
             }
         });
