@@ -15,6 +15,21 @@ export const cartApiSlice = createApi({
             }),
             providesTags: ["Cart"],
         }),
+        getCartProductsByCartId: build.query<ICartProduct[], number>({
+            query: (cartId) => ({
+                url: "/cartproduct",
+                params: {
+                    cartId,
+                },
+            }),
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.map(({ id }) => ({ type: "CartProduct" as const, id })),
+                          "CartProduct",
+                      ]
+                    : ["CartProduct"],
+        }),
         createCartProduct: build.mutation<
             ICartProduct,
             { productId: ICartProduct["productId"]; cartId: ICart["id"]; amount: number }

@@ -1,12 +1,24 @@
 import { IProduct } from "@/app/_types/types";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import noImageIcon from "@/public/icons/no-image.ico";
 import fullStarIcon from "@/public/icons/fullStar.svg";
 import emptyStarIcon from "@/public/icons/emptyStar.svg";
+import { useAppSelector } from "@/store/hooks";
+import { cartApiSlice } from "@/store/services/cartApiSlice";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const [isVisibleCartButton, setIsVisibleCartButton] = useState<boolean>(false);
+    const user = useAppSelector((state) => state.user);
+
+    const [createCartProduct, { isLoading: isLoadingCreateCartProduct }] =
+        cartApiSlice.useCreateCartProductMutation();
+
+    const cartButtonHandler = () => {
+        if (!isLoadingCreateCartProduct && user?.cart && product) {
+            createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
+        }
+    };
     return (
         <Wrapper>
             <ImageWrapper
@@ -21,7 +33,7 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
                         <DiscountLabelText>-{product.discount?.percent}%</DiscountLabelText>
                     </DiscountLabel>
                 </LabelWrapper>
-                <CartButton $isVisible={isVisibleCartButton}>
+                <CartButton onClick={cartButtonHandler} $isVisible={isVisibleCartButton}>
                     <CartText>Add to cart</CartText>
                 </CartButton>
                 <Image
