@@ -54,6 +54,7 @@ export interface ICartProduct {
     id: number;
     productId: number;
     cartId: ICart["id"];
+    product: IProduct;
 }
 export interface IWishlist {
     id: number;

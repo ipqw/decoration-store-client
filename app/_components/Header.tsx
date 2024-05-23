@@ -5,9 +5,13 @@ import userIcon from "../../public/icons/user-circle.svg";
 import shoppingBagIcon from "../../public/icons/shoppingBag.svg";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 
-const Header: FC = () => {
+interface IProps {
+    setIsFlyoutCartVisible?: Dispatch<SetStateAction<boolean>>;
+}
+
+const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
     const pathname = usePathname();
     return (
         <Wrapper>
@@ -42,7 +46,12 @@ const Header: FC = () => {
                 <IconsBlock>
                     <Icon src={searchIcon.src} />
                     <Icon src={userIcon.src} />
-                    <Icon src={shoppingBagIcon.src} />
+                    <Icon
+                        onClick={() =>
+                            setIsFlyoutCartVisible ? setIsFlyoutCartVisible(true) : null
+                        }
+                        src={shoppingBagIcon.src}
+                    />
                     <NumberIcon>
                         <NumberTextIcon className="inter">2</NumberTextIcon>
                     </NumberIcon>

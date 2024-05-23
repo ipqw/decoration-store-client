@@ -41,14 +41,10 @@ export const cartApiSlice = createApi({
             }),
             invalidatesTags: ["CartProduct"],
         }),
-        deleteCartProduct: build.mutation<
-            string,
-            { productId: ICartProduct["productId"]; cartId: ICart["id"] }
-        >({
-            query: (body) => ({
-                url: `/cartproduct`,
+        deleteCartProduct: build.mutation<string, number>({
+            query: (id) => ({
+                url: `/cartproduct/${id}`,
                 method: "DELETE",
-                body,
             }),
             invalidatesTags: ["CartProduct"],
         }),
