@@ -9,11 +9,10 @@ import { cartApiSlice } from "@/store/services/cartApiSlice";
 
 interface IProps {
     cartProducts: ICartProduct[];
-    setSumOfDiscountPrices: Dispatch<SetStateAction<number>>;
     product: IProduct;
 }
 
-const CartProduct: FC<IProps> = ({ cartProducts, setSumOfDiscountPrices, product }) => {
+const CartProduct: FC<IProps> = ({ cartProducts, product }) => {
     const [deleteCartProduct] = cartApiSlice.useDeleteCartProductMutation();
     const [counter, setCounter] = useState<number>(cartProducts.length);
     const color = product?.product_infos?.find((el) => el.name === "color")?.text;
@@ -41,12 +40,12 @@ const CartProduct: FC<IProps> = ({ cartProducts, setSumOfDiscountPrices, product
                 <PriceText>
                     $
                     {product?.discountPrice
-                        ? product?.discountPrice.toString().split(".")[1]
-                            ? product?.discountPrice
-                            : `${product?.discountPrice}.00`
-                        : product?.price.toString().split(".")[1]
-                          ? product?.price
-                          : `${product?.price}.00`}
+                        ? (product?.discountPrice * counter).toString().split(".")[1]
+                            ? product?.discountPrice * counter
+                            : `${product?.discountPrice * counter}.00`
+                        : (product?.price * counter).toString().split(".")[1]
+                          ? product?.price * counter
+                          : `${product?.price * counter}.00`}
                 </PriceText>
                 <DeleteButton onClick={deleteButtonHandler} src={crossIcon.src} />
             </PriceBlock>

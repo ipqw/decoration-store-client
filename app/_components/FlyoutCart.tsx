@@ -4,6 +4,7 @@ import { cartApiSlice } from "@/store/services/cartApiSlice";
 import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import CartComponent from "./CartProduct";
+import { ICartProduct } from "../_types/types";
 
 interface IProps {
     isFlyoutCartVisible: boolean;
@@ -11,6 +12,7 @@ interface IProps {
 }
 
 const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible }) => {
+    const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
     const deliveryPrice = 15;
 
     const user = useAppSelector((state) => state.user);
@@ -19,7 +21,28 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
     );
     const [sumOfDiscountPrices, setSumOfDiscountPrices] = useState<number>(0);
 
+    const sortCartProducts = (elements: ICartProduct[]): ICartProduct[][] => {
+        const result: ICartProduct[][] = [];
+        elements.forEach((el) => {
+            let existedElem;
+            let indexOfExistedArray;
+            result.forEach((resultEl, index) => {
+                existedElem = resultEl.find((a) => a.productId === el.productId);
+                if (existedElem) {
+                    indexOfExistedArray = index;
+                }
+            });
+            if (existedElem && typeof indexOfExistedArray === "number") {
+                result[indexOfExistedArray].push(el);
+            } else {
+                result.push([el]);
+            }
+        });
+        return result;
+    };
+    sortCartProducts(cartProducts || []);
     useEffect(() => {
+        setSortedCartProducts(sortCartProducts(cartProducts || []));
         setSumOfDiscountPrices(() => {
             let sum = 0;
             cartProducts?.forEach((el) => {
@@ -28,22 +51,19 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
             return sum;
         });
     }, [cartProducts]);
+
     useEffect(() => {
         refetch();
+        console.log(sortedCartProducts);
     }, [isFlyoutCartVisible]);
     return (
         <Wrapper onClick={() => setIsFlyoutCartVisible(false)} $isVisible={isFlyoutCartVisible}>
             <Cart onClick={(e) => e.stopPropagation()} $isFlyoutCartVisible={isFlyoutCartVisible}>
                 <CartTitle>Cart</CartTitle>
                 <CartProducts>
-                    {cartProducts?.map((el, index) => {
+                    {sortedCartProducts?.map((el, index) => {
                         return (
-                            <CartComponent
-                                product={el.product}
-                                setSumOfDiscountPrices={setSumOfDiscountPrices}
-                                key={index}
-                                cartProducts={[el]}
-                            />
+                            <CartComponent product={el[0].product} key={index} cartProducts={el} />
                         );
                     })}
                 </CartProducts>
