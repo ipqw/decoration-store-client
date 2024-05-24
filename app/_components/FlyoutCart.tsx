@@ -1,7 +1,7 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import CartComponent from "./CartProduct";
 import { ICartProduct } from "../_types/types";
@@ -54,7 +54,6 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
 
     useEffect(() => {
         refetch();
-        console.log(sortedCartProducts);
     }, [isFlyoutCartVisible]);
     return (
         <Wrapper onClick={() => setIsFlyoutCartVisible(false)} $isVisible={isFlyoutCartVisible}>

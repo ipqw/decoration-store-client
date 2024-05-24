@@ -1,11 +1,11 @@
 "use client";
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ICartProduct, IProduct } from "../_types/types";
-import { productApiSlice } from "@/store/services/productApiSlice";
 import Counter from "./Counter";
 import crossIcon from "@/public/icons/cross.svg";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
+import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
     cartProducts: ICartProduct[];
@@ -13,8 +13,13 @@ interface IProps {
 }
 
 const CartProduct: FC<IProps> = ({ cartProducts, product }) => {
-    const [deleteCartProduct] = cartApiSlice.useDeleteCartProductMutation();
+    const user = useAppSelector((state) => state.user);
+    const [deleteCartProduct, { isLoading: isLoadingDeletingCartProduct }] =
+        cartApiSlice.useDeleteCartProductMutation();
+    const [createCartProduct, { isLoading: isLoadingCreatingCartProduct }] =
+        cartApiSlice.useCreateCartProductMutation();
     const [counter, setCounter] = useState<number>(cartProducts.length);
+
     const color = product?.product_infos?.find((el) => el.name === "color")?.text;
 
     const deleteButtonHandler = () => {
@@ -22,6 +27,17 @@ const CartProduct: FC<IProps> = ({ cartProducts, product }) => {
             deleteCartProduct(el.id);
         });
     };
+    useEffect(() => {
+        if (counter > cartProducts.length) {
+            if (!isLoadingCreatingCartProduct && user?.cart && product) {
+                createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
+            }
+        } else if (counter < cartProducts.length) {
+            if (!isLoadingDeletingCartProduct && user?.cart && product) {
+                deleteCartProduct(cartProducts[0].id);
+            }
+        }
+    }, [counter]);
     return (
         <Wrapper>
             <LeftBlock>
