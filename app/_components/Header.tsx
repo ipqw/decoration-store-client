@@ -33,7 +33,7 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
                     <StyledLink
                         style={{ color: pathname.includes("/product") ? "#000000" : "#6C7275" }}
                         className="space-grotesk"
-                        href="/product">
+                        href="">
                         Product
                     </StyledLink>
                     <StyledLink
