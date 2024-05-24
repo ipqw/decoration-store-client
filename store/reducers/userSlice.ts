@@ -40,6 +40,38 @@ export const userSlice = createSlice({
         builder.addMatcher(userApiSlice.endpoints.check.matchRejected, (state, { payload }) => {
             localStorage.removeItem("token");
         });
+
+        builder.addMatcher(userApiSlice.endpoints.login.matchFulfilled, (state, { payload }) => {
+            if ("user" in payload && "token" in payload && payload.user) {
+                state.id = payload.user.id;
+                state.firstName = payload.user.firstName;
+                state.lastName = payload.user.lastName;
+                state.email = payload.user.email;
+                state.displayName = payload.user.displayName;
+                state.imageUrl = payload.user.imageUrl;
+                state.role = payload.user.role;
+                state.wishlist = payload.user.wishlist;
+                state.cart = payload.user.cart;
+                localStorage.setItem("token", payload.token);
+            }
+        });
+        builder.addMatcher(
+            userApiSlice.endpoints.createUser.matchFulfilled,
+            (state, { payload }) => {
+                if ("user" in payload && "token" in payload && payload.user) {
+                    state.id = payload.user.id;
+                    state.firstName = payload.user.firstName;
+                    state.lastName = payload.user.lastName;
+                    state.email = payload.user.email;
+                    state.displayName = payload.user.displayName;
+                    state.imageUrl = payload.user.imageUrl;
+                    state.role = payload.user.role;
+                    state.wishlist = payload.user.wishlist;
+                    state.cart = payload.user.cart;
+                    localStorage.setItem("token", payload.token);
+                }
+            },
+        );
     },
 });
 
