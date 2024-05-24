@@ -16,10 +16,9 @@ const Footer: FC = () => {
                         <LogoText className="inter">Gift & Decoration Store</LogoText>
                     </LogoBlock>
                     <NavBlock>
-                        <NavLink href={"./home"}>Home</NavLink>
+                        <NavLink href={"./"}>Home</NavLink>
                         <NavLink href={"./shop"}>Shop</NavLink>
-                        <NavLink href={"./product"}>Product</NavLink>
-                        <NavLink href={"./blog"}>Blog</NavLink>
+                        <NavLink href={""}>Product</NavLink>
                         <NavLink href={"./contact-us"}>Contact us</NavLink>
                     </NavBlock>
                 </TopBlock>
