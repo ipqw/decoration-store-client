@@ -74,12 +74,12 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
                     </Total>
                 </Summary>
                 <CheckOutButton>Checkout</CheckOutButton>
-                <ViewCartButton>View Cart</ViewCartButton>
+                <ViewCartButton href="./cart">View Cart</ViewCartButton>
             </Cart>
         </Wrapper>
     );
 };
-const ViewCartButton = styled.p`
+const ViewCartButton = styled.a`
     font-size: 14px;
     width: fit-content;
     line-height: 22px;
