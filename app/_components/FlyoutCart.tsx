@@ -73,10 +73,41 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
                         </TotalPrice>
                     </Total>
                 </Summary>
+                <CheckOutButton>Checkout</CheckOutButton>
+                <ViewCartButton>View Cart</ViewCartButton>
             </Cart>
         </Wrapper>
     );
 };
+const ViewCartButton = styled.p`
+    font-size: 14px;
+    width: fit-content;
+    line-height: 22px;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    color: #121212;
+    border-bottom: 1px solid #121212;
+    user-select: none;
+    cursor: pointer;
+    align-self: center;
+`;
+const CheckOutButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    border-radius: 6px;
+    background-color: #141718;
+    color: #ffffff;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 32px;
+    user-select: none;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+`;
 const TotalPrice = styled.p`
     color: #141718;
     font-family: "Poppins", sans-serif;
@@ -127,7 +158,7 @@ const CartProducts = styled.div`
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    height: 734px;
+    height: 684px;
 `;
 const CartTitle = styled.p`
     color: #121212;
@@ -137,6 +168,8 @@ const CartTitle = styled.p`
     line-height: 34px;
 `;
 const Cart = styled.div<{ $isFlyoutCartVisible: boolean }>`
+    display: flex;
+    flex-direction: column;
     position: absolute;
     width: 413px;
     height: 100vh;
