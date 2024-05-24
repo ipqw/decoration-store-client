@@ -1,6 +1,7 @@
 "use client";
 import { FC, useState } from "react";
 import styled from "styled-components";
+import Cart from "../_components/Cart";
 
 const CartPage: FC = () => {
     const [activeProcess, setActiveProcess] = useState<number>(0);
@@ -21,6 +22,7 @@ const CartPage: FC = () => {
                     <ProcessText $isActive={activeProcess === 2}>Order complete</ProcessText>
                 </Process>
             </ProcessBar>
+            {activeProcess === 0 && <Cart />}
         </Wrapper>
     );
 };
