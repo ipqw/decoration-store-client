@@ -1,15 +1,39 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import CartProduct from "./CartProduct";
+import { ICartProduct } from "@/app/_types/types";
 
 const Cart: FC = () => {
+    const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
     const user = useAppSelector((state) => state.user);
-    const { data: cartProducts, refetch } = cartApiSlice.useGetCartProductsByCartIdQuery(
-        user.cart?.id || 0,
-    );
+    const { data: cartProducts } = cartApiSlice.useGetCartProductsByCartIdQuery(user.cart?.id || 0);
+
+    const sortCartProducts = (elements: ICartProduct[]): ICartProduct[][] => {
+        const result: ICartProduct[][] = [];
+        elements.forEach((el) => {
+            let existedElem;
+            let indexOfExistedArray;
+            result.forEach((resultEl, index) => {
+                existedElem = resultEl.find((a) => a.productId === el.productId);
+                if (existedElem) {
+                    indexOfExistedArray = index;
+                }
+            });
+            if (existedElem && typeof indexOfExistedArray === "number") {
+                result[indexOfExistedArray].push(el);
+            } else {
+                result.push([el]);
+            }
+        });
+        return result;
+    };
+
+    useEffect(() => {
+        setSortedCartProducts(sortCartProducts(cartProducts || []));
+    }, [cartProducts]);
     return (
         <Wrapper>
             <CartBlock>
@@ -21,8 +45,8 @@ const Cart: FC = () => {
                         <ColumnTitle>Subtotal</ColumnTitle>
                     </ColumnTitlesWrapper>
                 </ColumnTitles>
-                {cartProducts?.map((el, index) => {
-                    return <CartProduct cartProducts={[el]} key={index} />;
+                {sortedCartProducts?.map((el, index) => {
+                    return <CartProduct cartProducts={el} key={index} />;
                 })}
             </CartBlock>
         </Wrapper>

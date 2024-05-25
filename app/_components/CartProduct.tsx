@@ -9,10 +9,11 @@ import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
     cartProducts: ICartProduct[];
-    product: IProduct;
 }
 
-const CartProduct: FC<IProps> = ({ cartProducts, product }) => {
+const CartProduct: FC<IProps> = ({ cartProducts }) => {
+    const product = cartProducts[0].product;
+
     const user = useAppSelector((state) => state.user);
     const [deleteCartProduct, { isLoading: isLoadingDeletingCartProduct }] =
         cartApiSlice.useDeleteCartProductMutation();
@@ -38,6 +39,10 @@ const CartProduct: FC<IProps> = ({ cartProducts, product }) => {
             }
         }
     }, [counter]);
+
+    useEffect(() => {
+        setCounter(cartProducts.length);
+    }, [cartProducts]);
     return (
         <Wrapper>
             <LeftBlock>

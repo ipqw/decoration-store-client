@@ -40,7 +40,6 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
         });
         return result;
     };
-    sortCartProducts(cartProducts || []);
     useEffect(() => {
         setSortedCartProducts(sortCartProducts(cartProducts || []));
         setSumOfDiscountPrices(() => {
@@ -61,9 +60,7 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
                 <CartTitle>Cart</CartTitle>
                 <CartProducts>
                     {sortedCartProducts?.map((el, index) => {
-                        return (
-                            <CartComponent product={el[0].product} key={index} cartProducts={el} />
-                        );
+                        return <CartComponent key={index} cartProducts={el} />;
                     })}
                 </CartProducts>
                 <Summary>

@@ -1,19 +1,45 @@
 "use client";
 import { ICartProduct } from "@/app/_types/types";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import Counter from "@/app/_components/Counter";
 
 import noImageIcon from "@/public/icons/no-image.ico";
 import crossIcon from "@/public/icons/cross.svg";
+import { cartApiSlice } from "@/store/services/cartApiSlice";
+import { useAppSelector } from "@/store/hooks";
 
 interface IProps {
     cartProducts: ICartProduct[];
 }
 
 const CartProduct: FC<IProps> = ({ cartProducts }) => {
+    const product = cartProducts[0].product;
+
+    const user = useAppSelector((state) => state.user);
+    const [deleteCartProduct, { isLoading: isLoadingDeletingCartProduct }] =
+        cartApiSlice.useDeleteCartProductMutation();
+    const [createCartProduct, { isLoading: isLoadingCreatingCartProduct }] =
+        cartApiSlice.useCreateCartProductMutation();
+
     const color = cartProducts[0].product?.product_infos?.find((el) => el.name === "color")?.text;
     const [counter, setCounter] = useState<number>(cartProducts.length);
+
+    useEffect(() => {
+        if (counter > cartProducts.length) {
+            if (!isLoadingCreatingCartProduct && user?.cart && product) {
+                createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
+            }
+        } else if (counter < cartProducts.length) {
+            if (!isLoadingDeletingCartProduct && user?.cart && product) {
+                deleteCartProduct(cartProducts[0].id);
+            }
+        }
+    }, [counter]);
+
+    useEffect(() => {
+        setCounter(cartProducts.length);
+    }, [cartProducts]);
     return (
         <Wrapper>
             <ImageWrapper>
