@@ -5,9 +5,11 @@ import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import CartProduct from "./CartProduct";
 import { ICartProduct } from "@/app/_types/types";
+import ShippingVariant from "./ShippingVariant";
 
 const Cart: FC = () => {
     const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
+    const [activeShippingVariant, setActiveShippingVariant] = useState<number>(0);
     const user = useAppSelector((state) => state.user);
     const { data: cartProducts } = cartApiSlice.useGetCartProductsByCartIdQuery(user.cart?.id || 0);
 
@@ -49,9 +51,48 @@ const Cart: FC = () => {
                     return <CartProduct cartProducts={el} key={index} />;
                 })}
             </CartBlock>
+            <SummaryBlock>
+                <SummaryTitle>Cart summary</SummaryTitle>
+                <ShippingVariants>
+                    <ShippingVariant
+                        index={0}
+                        title="Free shipping"
+                        price="0.00"
+                        activeShippingVariant={activeShippingVariant}
+                        setActiveShippingVariant={setActiveShippingVariant}
+                    />
+                    <ShippingVariant
+                        index={1}
+                        title="Express shipping"
+                        price="15.00"
+                        activeShippingVariant={activeShippingVariant}
+                        setActiveShippingVariant={setActiveShippingVariant}
+                    />
+                </ShippingVariants>
+            </SummaryBlock>
         </Wrapper>
     );
 };
+const ShippingVariants = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+`;
+const SummaryTitle = styled.p`
+    color: #141718;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+    padding-bottom: 16px;
+`;
+const SummaryBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    padding: 24px;
+    border: 1px solid #6c7275;
+`;
 const ColumnTitlesWrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -77,8 +118,8 @@ const CartBlock = styled.div`
 `;
 const Wrapper = styled.div`
     display: flex;
+    column-gap: 64px;
     padding: 80px 0;
-    width: 643px;
 `;
 
 export default Cart;
