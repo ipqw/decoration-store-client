@@ -87,7 +87,7 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
                     </Total>
                 </Summary>
                 <CheckOutButton>Checkout</CheckOutButton>
-                <ViewCartButton href="./cart">View Cart</ViewCartButton>
+                <ViewCartButton href="/cart">View Cart</ViewCartButton>
             </Cart>
         </Wrapper>
     );

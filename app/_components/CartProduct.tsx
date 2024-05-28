@@ -50,7 +50,7 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
                     <Image alt="product image" src={product?.images ? product?.images[0] : ""} />
                 </ImageWrapper>
                 <InfoBlock>
-                    <Title href={`./product/${product?.id}`}>{product?.name}</Title>
+                    <Title href={`/product/${product?.id}`}>{product?.name}</Title>
                     <ColorText>
                         Color: {color ? color[0].toUpperCase() + color.substring(1) : "undefined"}
                     </ColorText>

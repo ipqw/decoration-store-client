@@ -53,7 +53,9 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
                 />
             </ImageWrapper>
             <InfoBlock>
-                <Name>{cartProducts[0].product.name}</Name>
+                <Name href={`product/${cartProducts[0].product.id}`}>
+                    {cartProducts[0].product.name}
+                </Name>
                 <Color>
                     Color: {color ? color[0].toUpperCase() + color.substring(1) : "undefined"}
                 </Color>
@@ -135,12 +137,14 @@ const Color = styled.p`
     line-height: 20px;
     font-weight: 400;
 `;
-const Name = styled.p`
+const Name = styled.a`
     color: #141718;
     font-family: "Inter", sans-serif;
     font-size: 14px;
     line-height: 22px;
     font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
 `;
 const InfoBlock = styled.div`
     display: flex;
