@@ -13,7 +13,6 @@ interface IProps {
 
 const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible }) => {
     const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
-    const deliveryPrice = 15;
 
     const user = useAppSelector((state) => state.user);
     const { data: cartProducts, refetch } = cartApiSlice.useGetCartProductsByCartIdQuery(
@@ -78,13 +77,11 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
                         <TotalPrice>
                             $
                             {sumOfDiscountPrices
-                                ? (sumOfDiscountPrices + deliveryPrice + sumOfDiscountPrices * 0.15)
+                                ? (sumOfDiscountPrices + sumOfDiscountPrices * 0.15)
                                       .toString()
                                       .split(".")[1]
-                                    ? sumOfDiscountPrices +
-                                      deliveryPrice +
-                                      sumOfDiscountPrices * 0.15
-                                    : `${sumOfDiscountPrices + deliveryPrice + sumOfDiscountPrices * 0.15}.00`
+                                    ? sumOfDiscountPrices + sumOfDiscountPrices * 0.15
+                                    : `${sumOfDiscountPrices + sumOfDiscountPrices * 0.15}.00`
                                 : "0.00"}
                         </TotalPrice>
                     </Total>

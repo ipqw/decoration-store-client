@@ -10,6 +10,9 @@ import ShippingVariant from "./ShippingVariant";
 const Cart: FC = () => {
     const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
     const [activeShippingVariant, setActiveShippingVariant] = useState<number>(0);
+    const [sumOfDiscountPrices, setSumOfDiscountPrices] = useState<number>(0);
+    const deliveryPrice = 15;
+
     const user = useAppSelector((state) => state.user);
     const { data: cartProducts } = cartApiSlice.useGetCartProductsByCartIdQuery(user.cart?.id || 0);
 
@@ -32,9 +35,15 @@ const Cart: FC = () => {
         });
         return result;
     };
-
     useEffect(() => {
         setSortedCartProducts(sortCartProducts(cartProducts || []));
+        setSumOfDiscountPrices(() => {
+            let sum = 0;
+            cartProducts?.forEach((el) => {
+                sum += el.product.discountPrice ? el.product.discountPrice : el.product.price;
+            });
+            return sum;
+        });
     }, [cartProducts]);
     return (
         <Wrapper>
@@ -69,14 +78,95 @@ const Cart: FC = () => {
                         setActiveShippingVariant={setActiveShippingVariant}
                     />
                 </ShippingVariants>
+                <PriceBlock $border>
+                    <SubtotalTitle>Subtotal</SubtotalTitle>
+                    <SubtotalPrice>
+                        $
+                        {sumOfDiscountPrices.toString().split(".")[1]
+                            ? sumOfDiscountPrices
+                            : `${sumOfDiscountPrices}.00`}
+                    </SubtotalPrice>
+                </PriceBlock>
+                <PriceBlock>
+                    <TotalTitle>Total</TotalTitle>
+                    <TotalPrice>
+                        $
+                        {sumOfDiscountPrices
+                            ? (
+                                  sumOfDiscountPrices +
+                                  (activeShippingVariant === 1 ? deliveryPrice : 0) +
+                                  sumOfDiscountPrices * 0.15
+                              )
+                                  .toString()
+                                  .split(".")[1]
+                                ? sumOfDiscountPrices +
+                                  (activeShippingVariant === 1 ? deliveryPrice : 0) +
+                                  sumOfDiscountPrices * 0.15
+                                : `${sumOfDiscountPrices + (activeShippingVariant === 1 ? deliveryPrice : 0) + sumOfDiscountPrices * 0.15}.00`
+                            : "0.00"}
+                    </TotalPrice>
+                </PriceBlock>
+                <CheckoutButton>Checkout</CheckoutButton>
             </SummaryBlock>
         </Wrapper>
     );
 };
+const CheckoutButton = styled.div`
+    display: flex;
+    user-select: none;
+    cursor: pointer;
+    margin-top: 32px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: #141718;
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 32px;
+`;
+const TotalPrice = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+`;
+const TotalTitle = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 32px;
+`;
+const PriceBlock = styled.div<{ $border?: boolean }>`
+    display: flex;
+    padding: 13px 0;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: ${({ $border }) => ($border ? "1px #eaeaea solid" : "none")};
+`;
+const SubtotalPrice = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+`;
+const SubtotalTitle = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+`;
 const ShippingVariants = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 12px;
+    padding-bottom: 16px;
 `;
 const SummaryTitle = styled.p`
     color: #141718;
