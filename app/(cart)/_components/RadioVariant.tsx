@@ -4,33 +4,33 @@ import React, { Dispatch, FC, SetStateAction } from "react";
 import styled from "styled-components";
 
 interface IProps {
-    activeShippingVariant: number;
-    setActiveShippingVariant: Dispatch<SetStateAction<number>>;
+    activeRadioVariant: number;
+    setActiveRadioVariant: Dispatch<SetStateAction<number>>;
     index: number;
     title: string;
-    price: string;
+    text?: string;
 }
 
-const ShippingVariant: FC<IProps> = ({
-    activeShippingVariant,
-    setActiveShippingVariant,
+const RadioVariant: FC<IProps> = ({
+    activeRadioVariant,
+    setActiveRadioVariant,
     index,
     title,
-    price,
+    text,
 }) => {
     return (
         <Wrapper
-            onClick={() => setActiveShippingVariant(index)}
-            $isActive={index === activeShippingVariant}>
+            onClick={() => setActiveRadioVariant(index)}
+            $isActive={index === activeRadioVariant}>
             <TitleWrapper>
                 <RadioButton
-                    activeRadioButton={activeShippingVariant}
-                    setActiveRadioButton={setActiveShippingVariant}
+                    activeRadioButton={activeRadioVariant}
+                    setActiveRadioButton={setActiveRadioVariant}
                     index={index}
                 />
                 <Title>{title}</Title>
             </TitleWrapper>
-            <Price>${price}</Price>
+            <Text>{text}</Text>
         </Wrapper>
     );
 };
@@ -38,7 +38,7 @@ const TitleWrapper = styled.div`
     display: flex;
     align-items: center;
 `;
-const Price = styled.p`
+const Text = styled.p`
     justify-self: end;
     color: #141718;
     font-family: "Inter", sans-serif;
@@ -67,4 +67,4 @@ const Wrapper = styled.div<{ $isActive: boolean }>`
     background-color: ${({ $isActive }) => ($isActive ? "#F3F5F7" : "#FEFEFE")};
 `;
 
-export default ShippingVariant;
+export default RadioVariant;

@@ -2,9 +2,11 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
 import Cart from "../_components/Cart";
+import Checkout from "../_components/Checkout";
 
 const CartPage: FC = () => {
     const [activeProcess, setActiveProcess] = useState<number>(0);
+    const [activeShippingVariant, setActiveShippingVariant] = useState<number>(0);
     return (
         <Wrapper>
             <Title>Cart</Title>
@@ -22,7 +24,14 @@ const CartPage: FC = () => {
                     <ProcessText $isActive={activeProcess === 2}>Order complete</ProcessText>
                 </Process>
             </ProcessBar>
-            {activeProcess === 0 && <Cart />}
+            {activeProcess === 0 && (
+                <Cart
+                    setActiveShippingVariant={setActiveShippingVariant}
+                    activeShippingVariant={activeShippingVariant}
+                    setActiveProcess={setActiveProcess}
+                />
+            )}
+            {activeProcess === 1 && <Checkout />}
         </Wrapper>
     );
 };

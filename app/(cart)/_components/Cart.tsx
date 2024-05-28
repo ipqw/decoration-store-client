@@ -1,15 +1,25 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
-import React, { FC, useEffect, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import CartProduct from "./CartProduct";
 import { ICartProduct } from "@/app/_types/types";
-import ShippingVariant from "./ShippingVariant";
+import ShippingVariant from "./RadioVariant";
 
-const Cart: FC = () => {
+interface IProps {
+    setActiveProcess: Dispatch<SetStateAction<number>>;
+    activeShippingVariant: number;
+    setActiveShippingVariant: Dispatch<SetStateAction<number>>;
+}
+
+const Cart: FC<IProps> = ({
+    setActiveProcess,
+    activeShippingVariant,
+    setActiveShippingVariant,
+}) => {
     const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
-    const [activeShippingVariant, setActiveShippingVariant] = useState<number>(0);
+
     const [sumOfDiscountPrices, setSumOfDiscountPrices] = useState<number>(0);
     const deliveryPrice = 15;
 
@@ -66,16 +76,16 @@ const Cart: FC = () => {
                     <ShippingVariant
                         index={0}
                         title="Free shipping"
-                        price="0.00"
-                        activeShippingVariant={activeShippingVariant}
-                        setActiveShippingVariant={setActiveShippingVariant}
+                        text="$0.00"
+                        activeRadioVariant={activeShippingVariant}
+                        setActiveRadioVariant={setActiveShippingVariant}
                     />
                     <ShippingVariant
                         index={1}
                         title="Express shipping"
-                        price="15.00"
-                        activeShippingVariant={activeShippingVariant}
-                        setActiveShippingVariant={setActiveShippingVariant}
+                        text="$15.00"
+                        activeRadioVariant={activeShippingVariant}
+                        setActiveRadioVariant={setActiveShippingVariant}
                     />
                 </ShippingVariants>
                 <PriceBlock $border>
@@ -106,7 +116,7 @@ const Cart: FC = () => {
                             : "0.00"}
                     </TotalPrice>
                 </PriceBlock>
-                <CheckoutButton>Checkout</CheckoutButton>
+                <CheckoutButton onClick={() => setActiveProcess(1)}>Checkout</CheckoutButton>
             </SummaryBlock>
         </Wrapper>
     );
