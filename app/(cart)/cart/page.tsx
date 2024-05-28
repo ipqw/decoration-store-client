@@ -31,7 +31,7 @@ const CartPage: FC = () => {
                     setActiveProcess={setActiveProcess}
                 />
             )}
-            {activeProcess === 1 && <Checkout />}
+            {activeProcess === 1 && <Checkout activeShippingVariant={activeShippingVariant} />}
         </Wrapper>
     );
 };

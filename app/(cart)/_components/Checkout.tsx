@@ -1,10 +1,77 @@
 "use client";
-import React, { useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import RadioVariant from "./RadioVariant";
+import { ICartProduct } from "@/app/_types/types";
+import { cartApiSlice } from "@/store/services/cartApiSlice";
+import { useAppSelector } from "@/store/hooks";
+import CartProduct from "@/app/_components/CartProduct";
 
-const Checkout = () => {
+interface IProps {
+    activeShippingVariant: number;
+}
+
+const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
     const [paymentMethod, setPaymentMethod] = useState<number>(0);
+
+    const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
+
+    const user = useAppSelector((state) => state.user);
+    const { data: cartProducts, refetch } = cartApiSlice.useGetCartProductsByCartIdQuery(
+        user.cart?.id || 0,
+    );
+    const [sumOfDiscountPrices, setSumOfDiscountPrices] = useState<number>(0);
+
+    const sortCartProducts = (elements: ICartProduct[]): ICartProduct[][] => {
+        const result: ICartProduct[][] = [];
+        elements.forEach((el) => {
+            let existedElem;
+            let indexOfExistedArray;
+            result.forEach((resultEl, index) => {
+                existedElem = resultEl.find((a) => a.productId === el.productId);
+                if (existedElem) {
+                    indexOfExistedArray = index;
+                }
+            });
+            if (existedElem && typeof indexOfExistedArray === "number") {
+                result[indexOfExistedArray].push(el);
+            } else {
+                result.push([el]);
+            }
+        });
+        return result;
+    };
+    useEffect(() => {
+        setSortedCartProducts(sortCartProducts(cartProducts || []));
+        setSumOfDiscountPrices(() => {
+            let sum = 0;
+            cartProducts?.forEach((el) => {
+                sum += el.product.discountPrice ? el.product.discountPrice : el.product.price;
+            });
+            return sum;
+        });
+    }, [cartProducts]);
+
+    // prices
+    const deliveryPrice = 15;
+
+    const subtotalPrice = sumOfDiscountPrices.toString().split(".")[1]
+        ? sumOfDiscountPrices
+        : `${sumOfDiscountPrices}.00`;
+
+    const totalPrice = sumOfDiscountPrices
+        ? (
+              sumOfDiscountPrices +
+              (activeShippingVariant === 1 ? deliveryPrice : 0) +
+              sumOfDiscountPrices * 0.15
+          )
+              .toString()
+              .split(".")[1]
+            ? sumOfDiscountPrices +
+              (activeShippingVariant === 1 ? deliveryPrice : 0) +
+              sumOfDiscountPrices * 0.15
+            : `${sumOfDiscountPrices + (activeShippingVariant === 1 ? deliveryPrice : 0) + sumOfDiscountPrices * 0.15}.00`
+        : "0.00";
     return (
         <Wrapper>
             <Form>
@@ -70,26 +137,117 @@ const Checkout = () => {
                             title="Paypal"
                         />
                     </RadioWrapper>
-                    <InputWrapper>
-                        <InputTitle>CARD NUMBER</InputTitle>
-                        <Input type="number" $fullWidth placeholder="1234123412341234" />
-                    </InputWrapper>
-                    <FlexWrapper>
-                        <InputWrapper>
-                            <InputTitle>EXPIRATION DATE</InputTitle>
-                            <Input placeholder="MM/YY" />
-                        </InputWrapper>
-                        <InputWrapper>
-                            <InputTitle>CVC</InputTitle>
-                            <Input type="number" placeholder="CVC Code" />
-                        </InputWrapper>
-                    </FlexWrapper>
+                    {paymentMethod === 0 && (
+                        <>
+                            <InputWrapper>
+                                <InputTitle>CARD NUMBER</InputTitle>
+                                <Input type="number" $fullWidth placeholder="1234123412341234" />
+                            </InputWrapper>
+                            <FlexWrapper>
+                                <InputWrapper>
+                                    <InputTitle>EXPIRATION DATE</InputTitle>
+                                    <Input placeholder="MM/YY" />
+                                </InputWrapper>
+                                <InputWrapper>
+                                    <InputTitle>CVC</InputTitle>
+                                    <Input type="number" placeholder="CVC Code" />
+                                </InputWrapper>
+                            </FlexWrapper>
+                        </>
+                    )}
+                    {paymentMethod === 1 && (
+                        <>
+                            <InputWrapper>
+                                <InputTitle>EMAIL</InputTitle>
+                                <Input $fullWidth placeholder="Email" />
+                            </InputWrapper>
+                            <InputWrapper>
+                                <InputTitle>PASSWORD</InputTitle>
+                                <Input $fullWidth placeholder="Password" />
+                            </InputWrapper>
+                        </>
+                    )}
                 </FormSection>
                 <PlaceOrderButton>Place Order</PlaceOrderButton>
             </Form>
+            <OrderSummary>
+                <OrderSummaryTitle>Order summary</OrderSummaryTitle>
+                <CartProducts>
+                    {sortedCartProducts?.map((el, index) => {
+                        return <CartProduct key={index} cartProducts={el} />;
+                    })}
+                </CartProducts>
+                <PriceBlock>
+                    <PriceWrapper $border>
+                        <PriceTitle>Shipping</PriceTitle>
+                        <PriceText>
+                            {activeShippingVariant === 0 ? "Free" : "$" + deliveryPrice + ".00"}
+                        </PriceText>
+                    </PriceWrapper>
+                    <PriceWrapper $border>
+                        <PriceTitle>Subtotal</PriceTitle>
+                        <PriceText>${subtotalPrice}</PriceText>
+                    </PriceWrapper>
+                    <PriceWrapper>
+                        <TotalPriceText>Total</TotalPriceText>
+                        <TotalPriceText>${totalPrice}</TotalPriceText>
+                    </PriceWrapper>
+                </PriceBlock>
+            </OrderSummary>
         </Wrapper>
     );
 };
+const TotalPriceText = styled.p`
+    color: #141718;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+`;
+const PriceText = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+`;
+const PriceTitle = styled.p`
+    color: #141718;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+`;
+const PriceWrapper = styled.div<{ $border?: boolean }>`
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: ${({ $border }) => ($border ? "1px solid #E8ECEF" : "none")};
+`;
+const PriceBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+const CartProducts = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+const OrderSummary = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    border-radius: 6px;
+    border: 1px solid #6c7275;
+    padding: 16px 24px;
+    height: fit-content;
+`;
+const OrderSummaryTitle = styled.p`
+    color: #121212;
+    font-family: "Poppins", sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 34px;
+`;
 const PlaceOrderButton = styled.div`
     display: flex;
     justify-content: center;
@@ -170,6 +328,7 @@ const Wrapper = styled.div`
     display: flex;
     padding-top: 80px;
     padding-bottom: 160px;
+    column-gap: 64px;
 `;
 
 export default Checkout;

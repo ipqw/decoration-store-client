@@ -3,7 +3,7 @@ import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
-import CartComponent from "./CartProduct";
+import CartProduct from "./CartProduct";
 import { ICartProduct } from "../_types/types";
 
 interface IProps {
@@ -59,7 +59,7 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
                 <CartTitle>Cart</CartTitle>
                 <CartProducts>
                     {sortedCartProducts?.map((el, index) => {
-                        return <CartComponent key={index} cartProducts={el} />;
+                        return <CartProduct key={index} cartProducts={el} />;
                     })}
                 </CartProducts>
                 <Summary>

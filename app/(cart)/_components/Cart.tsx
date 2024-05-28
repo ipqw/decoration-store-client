@@ -192,6 +192,7 @@ const SummaryBlock = styled.div`
     border-radius: 6px;
     padding: 24px;
     border: 1px solid #6c7275;
+    height: fit-content;
 `;
 const ColumnTitlesWrapper = styled.div`
     display: flex;
