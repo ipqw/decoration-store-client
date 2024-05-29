@@ -34,6 +34,7 @@ export const userSlice = createSlice({
                 state.role = payload.user.role;
                 state.wishlist = payload.user.wishlist;
                 state.cart = payload.user.cart;
+                state.addresses = payload.user.addresses;
                 localStorage.setItem("token", payload.newToken);
             }
         });
@@ -52,6 +53,7 @@ export const userSlice = createSlice({
                 state.role = payload.user.role;
                 state.wishlist = payload.user.wishlist;
                 state.cart = payload.user.cart;
+                state.addresses = payload.user.addresses;
                 localStorage.setItem("token", payload.token);
             }
         });
@@ -68,6 +70,7 @@ export const userSlice = createSlice({
                     state.role = payload.user.role;
                     state.wishlist = payload.user.wishlist;
                     state.cart = payload.user.cart;
+                    state.addresses = payload.user.addresses;
                     localStorage.setItem("token", payload.token);
                 }
             },
