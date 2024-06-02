@@ -6,6 +6,7 @@ import { ICartProduct } from "@/app/_types/types";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
 import CartProduct from "@/app/_components/CartProduct";
+import { orderApiSlice } from "@/store/services/orderApiSlice";
 
 interface IProps {
     activeShippingVariant: number;
@@ -17,9 +18,9 @@ const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
     const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
 
     const user = useAppSelector((state) => state.user);
-    const { data: cartProducts, refetch } = cartApiSlice.useGetCartProductsByCartIdQuery(
-        user.cart?.id || 0,
-    );
+    const shippingAddress = user?.addresses?.find((el) => el.name === "Shipping Address");
+
+    const { data: cartProducts } = cartApiSlice.useGetCartProductsByCartIdQuery(user.cart?.id || 0);
     const [sumOfDiscountPrices, setSumOfDiscountPrices] = useState<number>(0);
 
     const sortCartProducts = (elements: ICartProduct[]): ICartProduct[][] => {
@@ -72,6 +73,59 @@ const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
               sumOfDiscountPrices * 0.15
             : `${sumOfDiscountPrices + (activeShippingVariant === 1 ? deliveryPrice : 0) + sumOfDiscountPrices * 0.15}.00`
         : "0.00";
+
+    // form inputs
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [streetAddress, setStreetAddress] = useState<string>("");
+    const [country, setCountry] = useState<string>("");
+    const [city, setCity] = useState<string>("");
+    const [state, setState] = useState<string>("");
+    const [zipCode, setZipCode] = useState<string>("");
+    const [isFirstAttempt, setIsFirstAttempt] = useState<boolean>(true);
+
+    // order creating
+    const [createOrder, { isLoading: isLoadingCreatingOrder, isSuccess: isSuccessCreatingOrder }] =
+        orderApiSlice.useCreateOrderMutation();
+    const [
+        updateAddress,
+        { isLoading: isLoadingUpdatingAddress, isSuccess: isSuccessUpdartingAddress },
+    ] = orderApiSlice.useUpdateAddressMutation();
+
+    const placeOrder = () => {
+        if (firstName && lastName && phoneNumber && email && streetAddress && city) {
+            updateAddress({
+                addressId: shippingAddress?.id || 0,
+                country,
+                city,
+                streetAddress,
+                zipcode: zipCode,
+                state,
+            });
+            createOrder({
+                status: "in process",
+                price: Number(totalPrice),
+                userId: user.id,
+                paymentMethod: paymentMethod === 0 ? "card" : "paypal",
+                products: JSON.stringify(
+                    cartProducts?.map((el) => {
+                        return {
+                            productId: el.product.id,
+                        };
+                    }),
+                ),
+                addressId: shippingAddress?.id || 0,
+                firstName,
+                lastName,
+                phoneNumber,
+                email,
+            }).then((res) => console.log(res));
+        } else {
+            setIsFirstAttempt(false);
+        }
+    };
     return (
         <Wrapper>
             <Form>
@@ -80,44 +134,95 @@ const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
                     <FlexWrapper>
                         <InputWrapper>
                             <InputTitle>FIRST NAME</InputTitle>
-                            <Input placeholder="First name" />
+                            <Input
+                                $outlined={!firstName && !isFirstAttempt}
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                placeholder="First name"
+                            />
                         </InputWrapper>
                         <InputWrapper>
                             <InputTitle>LAST NAME</InputTitle>
-                            <Input placeholder="Last name" />
+                            <Input
+                                $outlined={!lastName && !isFirstAttempt}
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                placeholder="Last name"
+                            />
                         </InputWrapper>
                     </FlexWrapper>
                     <InputWrapper>
                         <InputTitle>PHONE NUMBER</InputTitle>
-                        <Input type="number" $fullWidth placeholder="Phone number" />
+                        <Input
+                            value={phoneNumber}
+                            $outlined={!phoneNumber && !isFirstAttempt}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            type="number"
+                            $fullWidth
+                            placeholder="Phone number"
+                        />
                     </InputWrapper>
                     <InputWrapper>
                         <InputTitle>EMAIL ADDRESS</InputTitle>
-                        <Input $fullWidth placeholder="Your Email" />
+                        <Input
+                            $outlined={!email && !isFirstAttempt}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            $fullWidth
+                            placeholder="Your Email"
+                        />
                     </InputWrapper>
                 </FormSection>
                 <FormSection>
                     <FormSectionTitle>Shipping Address</FormSectionTitle>
                     <InputWrapper>
                         <InputTitle>STREET ADDRESS *</InputTitle>
-                        <Input $fullWidth placeholder="Stress Address" />
+                        <Input
+                            value={streetAddress}
+                            $outlined={!streetAddress && !isFirstAttempt}
+                            onChange={(e) => setStreetAddress(e.target.value)}
+                            $fullWidth
+                            placeholder="Stress Address"
+                        />
                     </InputWrapper>
                     <InputWrapper>
                         <InputTitle>COUNTRY *</InputTitle>
-                        <Input $fullWidth placeholder="Country" />
+                        <Input
+                            value={country}
+                            $outlined={!country && !isFirstAttempt}
+                            onChange={(e) => setCountry(e.target.value)}
+                            $fullWidth
+                            placeholder="Country"
+                        />
                     </InputWrapper>
                     <InputWrapper>
                         <InputTitle>TOWN / CITY *</InputTitle>
-                        <Input $fullWidth placeholder="Town / City" />
+                        <Input
+                            value={city}
+                            $outlined={!city && !isFirstAttempt}
+                            onChange={(e) => setCity(e.target.value)}
+                            $fullWidth
+                            placeholder="Town / City"
+                        />
                     </InputWrapper>
                     <FlexWrapper>
                         <InputWrapper>
                             <InputTitle>STATE</InputTitle>
-                            <Input placeholder="State" />
+                            <Input
+                                value={state}
+                                $outlined={!state && !isFirstAttempt}
+                                onChange={(e) => setState(e.target.value)}
+                                placeholder="State"
+                            />
                         </InputWrapper>
                         <InputWrapper>
                             <InputTitle>ZIP CODE</InputTitle>
-                            <Input placeholder="Zip Code" />
+                            <Input
+                                value={zipCode}
+                                $outlined={!zipCode && !isFirstAttempt}
+                                onChange={(e) => setZipCode(e.target.value)}
+                                placeholder="Zip Code"
+                            />
                         </InputWrapper>
                     </FlexWrapper>
                 </FormSection>
@@ -128,7 +233,7 @@ const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
                             activeRadioVariant={paymentMethod}
                             setActiveRadioVariant={setPaymentMethod}
                             index={0}
-                            title="Pay by Card Credit"
+                            title="Pay by Card"
                         />
                         <RadioVariant
                             activeRadioVariant={paymentMethod}
@@ -168,7 +273,7 @@ const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
                         </>
                     )}
                 </FormSection>
-                <PlaceOrderButton>Place Order</PlaceOrderButton>
+                <PlaceOrderButton onClick={placeOrder}>Place Order</PlaceOrderButton>
             </Form>
             <OrderSummary>
                 <OrderSummaryTitle>Order summary</OrderSummaryTitle>
@@ -271,13 +376,14 @@ const RadioWrapper = styled.div`
     padding-bottom: 32px;
     border-bottom: 1px solid #6c7275;
 `;
-const Input = styled.input<{ $fullWidth?: boolean }>`
+const Input = styled.input<{ $fullWidth?: boolean; $outlined?: boolean }>`
     color: #6c7275;
     font-family: "Inter", sans-serif;
     font-size: 16px;
     line-height: 26px;
     font-weight: 400;
-    border: 1px solid #cbcbcb;
+    border: ${({ $outlined }) => ($outlined ? "none" : "1px solid #cbcbcb ")};
+    outline: ${({ $outlined }) => ($outlined ? "#ff0000 2px solid" : "none")};
     border-radius: 6px;
     padding: 7px 16px;
     width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "285.5px")};
