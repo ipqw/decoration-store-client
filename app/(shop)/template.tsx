@@ -27,10 +27,12 @@ const Template: FC<IProps> = ({ children }) => {
 };
 
 const Wrapper = styled.div<{ $isScrollVisible: boolean }>`
-    overflow: ${({ $isScrollVisible }) => ($isScrollVisible ? "auto" : "hidden")};
+    overflow-y: ${({ $isScrollVisible }) => ($isScrollVisible ? "auto" : "hidden")};
+    overflow-x: hidden;
     height: ${({ $isScrollVisible }) => ($isScrollVisible ? "100%" : "100vh")};
     max-width: 100%;
     position: relative;
+    padding-top: 60px;
 `;
 
 export default Template;

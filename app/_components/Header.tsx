@@ -104,9 +104,14 @@ const HeaderContent = styled.div`
     padding: 18px 0;
 `;
 const Wrapper = styled.div`
+    position: fixed;
+    top: 0;
+    z-index: 2;
     width: 100%;
+    height: 60px;
     display: flex;
     justify-content: center;
+    background-color: #ffffff;
 `;
 const NavBlock = styled.div`
     display: flex;
