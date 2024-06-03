@@ -25,6 +25,12 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
     const color = cartProducts[0].product?.product_infos?.find((el) => el.name === "color")?.text;
     const [counter, setCounter] = useState<number>(cartProducts.length);
 
+    const removeButtonHandler = () => {
+        cartProducts.forEach((el) => {
+            deleteCartProduct(el.id);
+        });
+    };
+
     useEffect(() => {
         if (counter > cartProducts.length) {
             if (!isLoadingCreatingCartProduct && user?.cart && product) {
@@ -59,7 +65,7 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
                 <Color>
                     Color: {color ? color[0].toUpperCase() + color.substring(1) : "undefined"}
                 </Color>
-                <RemoveButton>
+                <RemoveButton onClick={removeButtonHandler}>
                     <RemoveButtonIcon src={crossIcon.src} />
                     <RemoveButtonText>Remove</RemoveButtonText>
                 </RemoveButton>

@@ -5,6 +5,7 @@ import Cart from "../_components/Cart";
 import Checkout from "../_components/Checkout";
 import OrderComplete from "../_components/OrderComplete";
 import { ICartProduct, IOrder } from "@/app/_types/types";
+import tickIcon from "@/public/icons/check.svg";
 
 const CartPage: FC = () => {
     const [activeProcess, setActiveProcess] = useState<number>(0);
@@ -13,19 +14,41 @@ const CartPage: FC = () => {
     const [order, setOrder] = useState<IOrder>();
     return (
         <Wrapper>
-            <Title>Cart</Title>
+            <Title>
+                {activeProcess === 0 && "Cart"}
+                {activeProcess === 1 && "Check Out"}
+                {activeProcess === 2 && "Complete!"}
+            </Title>
             <ProcessBar>
-                <Process $isActive={activeProcess === 0}>
-                    <ProcessCircle $isActive={activeProcess === 0}>1</ProcessCircle>
-                    <ProcessText $isActive={activeProcess === 0}>Shopping cart</ProcessText>
+                <Process
+                    onClick={() => {
+                        activeProcess === 1 ? setActiveProcess(0) : "";
+                    }}
+                    $pointer={activeProcess === 1}
+                    $isCompleted={activeProcess > 0}
+                    $isActive={activeProcess === 0}>
+                    <ProcessCircle $isCompleted={activeProcess > 0} $isActive={activeProcess === 0}>
+                        {activeProcess > 0 ? <TickIcon src={tickIcon.src} /> : "1"}
+                    </ProcessCircle>
+                    <ProcessText $isCompleted={activeProcess > 0} $isActive={activeProcess === 0}>
+                        Shopping cart
+                    </ProcessText>
                 </Process>
-                <Process $isActive={activeProcess === 1}>
-                    <ProcessCircle $isActive={activeProcess === 1}>2</ProcessCircle>
-                    <ProcessText $isActive={activeProcess === 1}>Checkout details</ProcessText>
+                <Process $isCompleted={activeProcess > 1} $isActive={activeProcess === 1}>
+                    <ProcessCircle $isCompleted={activeProcess > 1} $isActive={activeProcess === 1}>
+                        2
+                    </ProcessCircle>
+                    <ProcessText $isCompleted={activeProcess > 1} $isActive={activeProcess === 1}>
+                        Checkout details
+                    </ProcessText>
                 </Process>
-                <Process $isActive={activeProcess === 2}>
-                    <ProcessCircle $isActive={activeProcess === 2}>3</ProcessCircle>
-                    <ProcessText $isActive={activeProcess === 2}>Order complete</ProcessText>
+                <Process $isCompleted={activeProcess > 2} $isActive={activeProcess === 2}>
+                    <ProcessCircle $isCompleted={activeProcess > 2} $isActive={activeProcess === 2}>
+                        3
+                    </ProcessCircle>
+                    <ProcessText $isCompleted={activeProcess > 2} $isActive={activeProcess === 2}>
+                        Order complete
+                    </ProcessText>
                 </Process>
             </ProcessBar>
             {activeProcess === 0 && (
@@ -52,15 +75,16 @@ const CartPage: FC = () => {
         </Wrapper>
     );
 };
-const ProcessText = styled.p<{ $isActive: boolean }>`
-    color: ${({ $isActive }) => ($isActive ? "#23262f" : "#B1B5C3")};
+const TickIcon = styled.img``;
+const ProcessText = styled.p<{ $isActive: boolean; $isCompleted: boolean }>`
+    color: ${({ $isActive, $isCompleted }) =>
+        $isCompleted ? "#38CB89" : $isActive ? "#23262f" : "#B1B5C3"};
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;
     line-height: 26px;
-    cursor: default;
 `;
-const ProcessCircle = styled.div<{ $isActive: boolean }>`
+const ProcessCircle = styled.div<{ $isActive: boolean; $isCompleted: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,14 +97,17 @@ const ProcessCircle = styled.div<{ $isActive: boolean }>`
     font-weight: 600;
     font-size: 16px;
     line-height: 26px;
-    background-color: ${({ $isActive }) => ($isActive ? "#23262f" : "#B1B5C3")};
+    background-color: ${({ $isActive, $isCompleted }) =>
+        $isCompleted ? "#38CB89" : $isActive ? "#23262f" : "#B1B5C3"};
 `;
-const Process = styled.div<{ $isActive: boolean }>`
+const Process = styled.div<{ $isActive: boolean; $isCompleted: boolean; $pointer?: boolean }>`
     display: flex;
     column-gap: 16px;
     align-items: center;
+    cursor: ${({ $pointer }) => ($pointer ? "pointer" : "default")};
     padding: 0 8px 16px 8px;
-    border-bottom: ${({ $isActive }) => ($isActive ? "2px solid #141718" : "none")};
+    border-bottom: ${({ $isActive, $isCompleted }) =>
+        $isCompleted ? "2px solid #38CB89" : $isActive ? "2px solid #141718" : "none"};
 `;
 const ProcessBar = styled.div`
     display: flex;

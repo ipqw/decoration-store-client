@@ -71,6 +71,9 @@ const Cart: FC<IProps> = ({
                 {sortedCartProducts?.map((el, index) => {
                     return <CartProduct cartProducts={el} key={index} />;
                 })}
+                {sortedCartProducts.length === 0 && (
+                    <EmptyCartText>Your cart is empty</EmptyCartText>
+                )}
             </CartBlock>
             <SummaryBlock>
                 <SummaryTitle>Cart summary</SummaryTitle>
@@ -118,11 +121,25 @@ const Cart: FC<IProps> = ({
                             : "0.00"}
                     </TotalPrice>
                 </PriceBlock>
-                <CheckoutButton onClick={() => setActiveProcess(1)}>Checkout</CheckoutButton>
+                <CheckoutButton
+                    onClick={() => {
+                        sortedCartProducts.length ? setActiveProcess(1) : "";
+                    }}>
+                    Checkout
+                </CheckoutButton>
             </SummaryBlock>
         </Wrapper>
     );
 };
+const EmptyCartText = styled.p`
+    color: #121212;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 30px;
+    align-self: center;
+    margin-top: 70px;
+`;
 const CheckoutButton = styled.div`
     display: flex;
     user-select: none;

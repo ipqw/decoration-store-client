@@ -122,6 +122,7 @@ const CartText = styled.p`
     font-weight: 500;
     line-height: 28px;
     color: #fefefe;
+    user-select: none;
 `;
 const Title = styled.a`
     font-family: "Inter", sans-serif;
@@ -228,6 +229,7 @@ const ImageWrapper = styled.div`
     display: flex;
     position: relative;
     width: 262px;
+    user-select: none;
     height: 349px;
     align-items: center;
     justify-content: center;
