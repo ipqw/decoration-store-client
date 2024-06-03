@@ -37,6 +37,8 @@ export interface IOrder {
     addressId: IAddress["id"];
     userId: IUser["id"];
     order_products?: IOrderProduct[];
+    createdAt: string;
+    updatedAt: string;
 }
 export interface IOrderProduct {
     id: number;

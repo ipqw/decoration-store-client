@@ -11,15 +11,17 @@ interface IProps {
     setActiveProcess: Dispatch<SetStateAction<number>>;
     activeShippingVariant: number;
     setActiveShippingVariant: Dispatch<SetStateAction<number>>;
+    sortedCartProducts: ICartProduct[][];
+    setSortedCartProducts: Dispatch<SetStateAction<ICartProduct[][]>>;
 }
 
 const Cart: FC<IProps> = ({
     setActiveProcess,
     activeShippingVariant,
     setActiveShippingVariant,
+    sortedCartProducts,
+    setSortedCartProducts,
 }) => {
-    const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
-
     const [sumOfDiscountPrices, setSumOfDiscountPrices] = useState<number>(0);
     const deliveryPrice = 15;
 

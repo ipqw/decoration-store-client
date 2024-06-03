@@ -3,10 +3,14 @@ import { FC, useState } from "react";
 import styled from "styled-components";
 import Cart from "../_components/Cart";
 import Checkout from "../_components/Checkout";
+import OrderComplete from "../_components/OrderComplete";
+import { ICartProduct, IOrder } from "@/app/_types/types";
 
 const CartPage: FC = () => {
     const [activeProcess, setActiveProcess] = useState<number>(0);
     const [activeShippingVariant, setActiveShippingVariant] = useState<number>(0);
+    const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
+    const [order, setOrder] = useState<IOrder>();
     return (
         <Wrapper>
             <Title>Cart</Title>
@@ -29,9 +33,22 @@ const CartPage: FC = () => {
                     setActiveShippingVariant={setActiveShippingVariant}
                     activeShippingVariant={activeShippingVariant}
                     setActiveProcess={setActiveProcess}
+                    sortedCartProducts={sortedCartProducts}
+                    setSortedCartProducts={setSortedCartProducts}
                 />
             )}
-            {activeProcess === 1 && <Checkout activeShippingVariant={activeShippingVariant} />}
+            {activeProcess === 1 && (
+                <Checkout
+                    activeShippingVariant={activeShippingVariant}
+                    setActiveProcess={setActiveProcess}
+                    sortedCartProducts={sortedCartProducts}
+                    setSortedCartProducts={setSortedCartProducts}
+                    setOrder={setOrder}
+                />
+            )}
+            {activeProcess === 2 && (
+                <OrderComplete order={order} sortedCartProducts={sortedCartProducts} />
+            )}
         </Wrapper>
     );
 };

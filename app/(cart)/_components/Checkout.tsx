@@ -1,8 +1,8 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import RadioVariant from "./RadioVariant";
-import { ICartProduct } from "@/app/_types/types";
+import { ICartProduct, IOrder } from "@/app/_types/types";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
 import CartProduct from "@/app/_components/CartProduct";
@@ -10,12 +10,20 @@ import { orderApiSlice } from "@/store/services/orderApiSlice";
 
 interface IProps {
     activeShippingVariant: number;
+    setActiveProcess: Dispatch<SetStateAction<number>>;
+    sortedCartProducts: ICartProduct[][];
+    setSortedCartProducts: Dispatch<SetStateAction<ICartProduct[][]>>;
+    setOrder: Dispatch<SetStateAction<IOrder | undefined>>;
 }
 
-const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
+const Checkout: FC<IProps> = ({
+    activeShippingVariant,
+    setActiveProcess,
+    sortedCartProducts,
+    setSortedCartProducts,
+    setOrder,
+}) => {
     const [paymentMethod, setPaymentMethod] = useState<number>(0);
-
-    const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
 
     const user = useAppSelector((state) => state.user);
     const shippingAddress = user?.addresses?.find((el) => el.name === "Shipping Address");
@@ -87,12 +95,10 @@ const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
     const [isFirstAttempt, setIsFirstAttempt] = useState<boolean>(true);
 
     // order creating
-    const [createOrder, { isLoading: isLoadingCreatingOrder, isSuccess: isSuccessCreatingOrder }] =
+    const [createOrder, { isSuccess: isSuccessCreatingOrder }] =
         orderApiSlice.useCreateOrderMutation();
-    const [
-        updateAddress,
-        { isLoading: isLoadingUpdatingAddress, isSuccess: isSuccessUpdartingAddress },
-    ] = orderApiSlice.useUpdateAddressMutation();
+    const [updateAddress] = orderApiSlice.useUpdateAddressMutation();
+    const [deleteCartProduct] = cartApiSlice.useDeleteCartProductMutation();
 
     const placeOrder = () => {
         if (firstName && lastName && phoneNumber && email && streetAddress && city) {
@@ -121,7 +127,16 @@ const Checkout: FC<IProps> = ({ activeShippingVariant }) => {
                 lastName,
                 phoneNumber,
                 email,
-            }).then((res) => console.log(res));
+            }).then((res) => {
+                if ("data" in res) {
+                    setActiveProcess(2);
+                    setSortedCartProducts(sortCartProducts(cartProducts || []));
+                    setOrder(res.data);
+                    cartProducts?.forEach((el) => {
+                        deleteCartProduct(el.id);
+                    });
+                }
+            });
         } else {
             setIsFirstAttempt(false);
         }
