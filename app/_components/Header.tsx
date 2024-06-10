@@ -6,6 +6,8 @@ import shoppingBagIcon from "../../public/icons/shoppingBag.svg";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import { Dispatch, FC, SetStateAction } from "react";
+import { useAppSelector } from "@/store/hooks";
+import { cartApiSlice } from "@/store/services/cartApiSlice";
 
 interface IProps {
     setIsFlyoutCartVisible?: Dispatch<SetStateAction<boolean>>;
@@ -13,6 +15,8 @@ interface IProps {
 
 const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
     const pathname = usePathname();
+    const user = useAppSelector((state) => state.user);
+    const { data: cartProducts } = cartApiSlice.useGetCartProductsByCartIdQuery(user.cart?.id || 0);
     return (
         <Wrapper>
             <HeaderContent>
@@ -44,23 +48,32 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
                     </StyledLink>
                 </NavBlock>
                 <IconsBlock>
-                    <Icon src={searchIcon.src} />
+                    {/* <Icon src={searchIcon.src} /> */}
                     <Icon src={userIcon.src} />
-                    <Icon
-                        onClick={() =>
-                            setIsFlyoutCartVisible ? setIsFlyoutCartVisible(true) : null
-                        }
-                        src={shoppingBagIcon.src}
-                    />
-                    <NumberIcon>
-                        <NumberTextIcon className="inter">2</NumberTextIcon>
-                    </NumberIcon>
+                    <CartIcons>
+                        <Icon
+                            onClick={() =>
+                                setIsFlyoutCartVisible ? setIsFlyoutCartVisible(true) : null
+                            }
+                            src={shoppingBagIcon.src}
+                        />
+                        <NumberIcon>
+                            <NumberTextIcon className="inter">
+                                {cartProducts?.length || 0}
+                            </NumberTextIcon>
+                        </NumberIcon>
+                    </CartIcons>
                 </IconsBlock>
             </HeaderContent>
         </Wrapper>
     );
 };
-
+const CartIcons = styled.div`
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+    justify-content: center;
+`;
 const StyledLink = styled(Link)`
     font-weight: 500;
     font-size: 14px;
@@ -76,8 +89,9 @@ const NumberIcon = styled.div`
     background: #000000;
     color: #ffffff;
     border-radius: 90px;
-    width: 24px;
+    min-width: 24px;
     height: 24px;
+    padding: 5px 6px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,10 +104,8 @@ const Icon = styled.img`
     cursor: pointer;
 `;
 const IconsBlock = styled.div`
-    max-width: 130px;
-    width: 100%;
     display: flex;
-    justify-content: space-between;
+    column-gap: 16px;
 `;
 const HeaderContent = styled.div`
     max-width: 1120px;
