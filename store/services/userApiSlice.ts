@@ -49,10 +49,11 @@ export const userApiSlice = createApi({
             invalidatesTags: ["User"],
         }),
         updateUser: build.mutation<
-            IUser,
+            { user: IUser; newToken: string },
             {
                 id: number;
                 email?: IUser["email"];
+                oldPassword?: IUser["password"];
                 password?: IUser["password"];
                 firstName?: IUser["firstName"];
                 lastName?: IUser["lastName"];

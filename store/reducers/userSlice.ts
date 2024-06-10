@@ -75,6 +75,24 @@ export const userSlice = createSlice({
                 }
             },
         );
+        builder.addMatcher(
+            userApiSlice.endpoints.updateUser.matchFulfilled,
+            (state, { payload }) => {
+                if ("user" in payload && "newToken" in payload && payload.user) {
+                    state.id = payload.user.id;
+                    state.firstName = payload.user.firstName;
+                    state.lastName = payload.user.lastName;
+                    state.email = payload.user.email;
+                    state.displayName = payload.user.displayName;
+                    state.imageUrl = payload.user.imageUrl;
+                    state.role = payload.user.role;
+                    state.wishlist = payload.user.wishlist;
+                    state.cart = payload.user.cart;
+                    state.addresses = payload.user.addresses;
+                    localStorage.setItem("token", payload.newToken);
+                }
+            },
+        );
     },
 });
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import searchIcon from "../../public/icons/search.svg";
 import userIcon from "../../public/icons/user-circle.svg";
 import shoppingBagIcon from "../../public/icons/shoppingBag.svg";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Logo from "./Logo";
 import { Dispatch, FC, SetStateAction } from "react";
 import { useAppSelector } from "@/store/hooks";
@@ -15,6 +15,7 @@ interface IProps {
 
 const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
     const pathname = usePathname();
+    const router = useRouter();
     const user = useAppSelector((state) => state.user);
     const { data: cartProducts } = cartApiSlice.useGetCartProductsByCartIdQuery(user.cart?.id || 0);
     return (
@@ -49,7 +50,12 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
                 </NavBlock>
                 <IconsBlock>
                     {/* <Icon src={searchIcon.src} /> */}
-                    <Icon src={userIcon.src} />
+                    <Icon
+                        src={userIcon.src}
+                        onClick={() => {
+                            user.id ? router.replace("/account") : router.replace("/signin");
+                        }}
+                    />
                     <CartIcons>
                         <Icon
                             onClick={() =>
