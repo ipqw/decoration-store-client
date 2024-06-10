@@ -421,7 +421,9 @@ const CategoriesSection = styled.section`
     flex-direction: column;
     row-gap: 16px;
 `;
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    padding-bottom: 50px;
+`;
 const TitleIcon = styled.img`
     width: 24px;
     height: 24px;
