@@ -8,6 +8,7 @@ import secondGridIcon from "@/public/icons/shop/secondGridIcon.svg";
 import thirdGridIcon from "@/public/icons/shop/thirdGridIcon.svg";
 import fourthGridIcon from "@/public/icons/shop/fourthGridIcon.svg";
 import MobileProductCard from "@/app/_components/MobileProductCard";
+import arrowIcon from "@/public/icons/shop/arrow-down.svg";
 
 interface IProps {
     products: IProduct[];
@@ -31,9 +32,6 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
             <TopBlock>
                 <Title $isVisible={!(activeGridButton > 0)}>{category}</Title>
                 <SettingsBlock $isVisible={!(activeGridButton > 0)}>
-                    <SortBlock>
-                        <SortText>Sort by</SortText>
-                    </SortBlock>
                     <GridButtonsBlock>
                         <GridButton
                             onClick={() => setActiveGridButton(0)}
@@ -95,6 +93,10 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
         </Wrapper>
     );
 };
+const SortImage = styled.img`
+    width: 20px;
+    height: 20px;
+`;
 export const SettingsBlock = styled.div<{ $isVisible: boolean }>`
     display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
     column-gap: 32px;
@@ -130,6 +132,7 @@ export const SortBlock = styled.div`
     align-items: center;
     column-gap: 4px;
     justify-content: center;
+    cursor: pointer;
 `;
 const TopBlock = styled.div`
     width: 100%;

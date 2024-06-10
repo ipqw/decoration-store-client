@@ -11,14 +11,7 @@ import fourthGridIcon from "@/public/icons/shop/fourthGridIcon.svg";
 import { typeApiSlice } from "@/store/services/typeApiSlice";
 import CheckboxInput from "@/app/_components/CheckboxInput";
 import Dropdown from "./Dropdown";
-import {
-    GridButton,
-    GridButtonIcon,
-    GridButtonsBlock,
-    SettingsBlock,
-    SortBlock,
-    SortText,
-} from "./ProductGrid";
+import { GridButton, GridButtonIcon, GridButtonsBlock, SettingsBlock } from "./ProductGrid";
 
 interface IProps {
     products: IProduct[];
@@ -314,9 +307,6 @@ const ProductFilter: FC<IProps> = ({
                     </DropdownWrapper>
                 </DropdownsWrapper>
                 <SettingsBlock $isVisible={true}>
-                    <SortBlock>
-                        <SortText>Sort by</SortText>
-                    </SortBlock>
                     <GridButtonsBlock>
                         <GridButton
                             onClick={() => setActiveGridButton(0)}
