@@ -37,6 +37,7 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
                     <CartText>Add to cart</CartText>
                 </CartButton>
                 <Image
+                    draggable={false}
                     alt="product image"
                     src={product.images?.length ? product.images[0] : noImageIcon.src}
                 />

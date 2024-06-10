@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC, UIEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import ProductCard from "@/app/_components/ProductCard";
 import { IProduct } from "@/app/_types/types";
@@ -17,9 +17,21 @@ const ProductCarousel: FC<IProps> = ({ products }) => {
     );
 };
 const Wrapper = styled.div`
-    min-width: 1120px;
+    width: 1120px;
     display: flex;
+    padding-bottom: 48px;
     column-gap: 24px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+        height: 4px;
+        width: 1120px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #e8ecef;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #343839;
+    }
 `;
 
 export default ProductCarousel;
