@@ -3,6 +3,7 @@ import { useAppSelector } from "@/store/hooks";
 import { userApiSlice } from "@/store/services/userApiSlice";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import eyeIcon from "@/public/icons/eye.svg";
 
 const AccountSection = () => {
     const user = useAppSelector(({ user }) => user);
@@ -15,7 +16,7 @@ const AccountSection = () => {
     const [email, setEmail] = useState<string>(user.firstName);
     const [oldPassword, setOldPassword] = useState<string>("");
     const [newPassword, setNewPassword] = useState<string>("");
-    const [repeatNewPassword, setRepeatNewPassword] = useState<string>("");
+    const [repeatedPassword, setRepeatedPassword] = useState<string>("");
 
     useEffect(() => {
         setFirstName(user.firstName);
@@ -25,12 +26,15 @@ const AccountSection = () => {
     }, [user]);
 
     const [isOldPasswordOutlined, setIsOldPasswordOutlined] = useState<boolean>(false);
-    const [isRepeatNewPasswordOutlined, setIsRepeatNewPasswordOutlined] = useState<boolean>(false);
+    const [isRepeatedPasswordOutlined, setIsRepeatedPasswordOutlined] = useState<boolean>(false);
+    const [isVisibleOldPassword, setIsVisibleOldPassword] = useState<boolean>(false);
+    const [isVisibleNewPassword, setIsVisibleNewPassword] = useState<boolean>(false);
+    const [isVisibleRepeatedPassword, setIsVisibleRepeatedPassword] = useState<boolean>(false);
 
     const saveChanges = () => {
         if (newPassword || oldPassword) {
-            if (repeatNewPassword === newPassword) {
-                setIsRepeatNewPasswordOutlined(false);
+            if (repeatedPassword === newPassword) {
+                setIsRepeatedPasswordOutlined(false);
                 updateUser({
                     id: user.id,
                     firstName,
@@ -47,7 +51,7 @@ const AccountSection = () => {
                     }
                 });
             } else {
-                setIsRepeatNewPasswordOutlined(true);
+                setIsRepeatedPasswordOutlined(true);
             }
         } else {
             updateUser({ id: user.id, firstName, lastName, displayName, email });
@@ -98,38 +102,79 @@ const AccountSection = () => {
                 <Title>Password</Title>
                 <InputWrapper>
                     <InputTitle>OLD PASSWORD</InputTitle>
-                    <Input
-                        type="password"
-                        $outlined={isOldPasswordOutlined}
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        placeholder="Old password"
-                    />
+                    <PasswordInputWrapper $outlined={isOldPasswordOutlined}>
+                        <PasswordInput
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            type={isVisibleOldPassword ? "text" : "password"}
+                            placeholder="Old password"
+                        />
+                        <PasswordIcon
+                            onClick={() => setIsVisibleOldPassword((value) => !value)}
+                            src={eyeIcon.src}
+                        />
+                    </PasswordInputWrapper>
                 </InputWrapper>
                 <InputWrapper>
                     <InputTitle>NEW PASSWORD</InputTitle>
-                    <Input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="New password"
-                    />
+                    <PasswordInputWrapper>
+                        <PasswordInput
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            type={isVisibleNewPassword ? "text" : "password"}
+                            placeholder="New password"
+                        />
+                        <PasswordIcon
+                            onClick={() => setIsVisibleNewPassword((value) => !value)}
+                            src={eyeIcon.src}
+                        />
+                    </PasswordInputWrapper>
                 </InputWrapper>
                 <InputWrapper>
                     <InputTitle>REPEAT NEW PASSWORD</InputTitle>
-                    <Input
-                        type="password"
-                        $outlined={isRepeatNewPasswordOutlined}
-                        value={repeatNewPassword}
-                        onChange={(e) => setRepeatNewPassword(e.target.value)}
-                        placeholder="Repeat new password"
-                    />
+                    <PasswordInputWrapper $outlined={isRepeatedPasswordOutlined}>
+                        <PasswordInput
+                            value={repeatedPassword}
+                            onChange={(e) => setRepeatedPassword(e.target.value)}
+                            type={isVisibleRepeatedPassword ? "text" : "password"}
+                            placeholder="Repeat new password"
+                        />
+                        <PasswordIcon
+                            onClick={() => setIsVisibleRepeatedPassword((value) => !value)}
+                            src={eyeIcon.src}
+                        />
+                    </PasswordInputWrapper>
                 </InputWrapper>
                 <SubmitButton onClick={saveChanges}>Save changes</SubmitButton>
             </FormWrapper>
         </Wrapper>
     );
 };
+const PasswordIcon = styled.img`
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+`;
+const PasswordInput = styled.input`
+    &:focus {
+        outline: none;
+    }
+    color: #6c7275;
+    width: 100%;
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+`;
+const PasswordInputWrapper = styled.div<{ $outlined?: boolean }>`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 16px;
+    height: 40px;
+    border-radius: 6px;
+    border: ${({ $outlined }) => ($outlined ? "#ff0000 2px solid" : "1px solid #cbcbcb")};
+`;
 const SubmitButton = styled.div`
     border-radius: 8px;
     background-color: #141718;
@@ -163,6 +208,9 @@ const Input = styled.input<{ $outlined?: boolean }>`
     font-weight: 400;
     font-size: 16px;
     line-height: 26px;
+    &:focus {
+        outline: none;
+    }
 `;
 const InputTitle = styled.p`
     color: #6c7275;
