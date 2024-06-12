@@ -8,6 +8,7 @@ import cameraIcon from "@/public/icons/account/camera.svg";
 import { useAppSelector } from "@/store/hooks";
 import AddressSection from "../_components/AddressSection";
 import OrderSection from "../_components/OrderSection";
+import WishlistSection from "../_components/WishlistSection";
 
 const AccountPage: FC = () => {
     const router = useRouter();
@@ -70,6 +71,7 @@ const AccountPage: FC = () => {
                 {activeSection === "account" && <AccountSection />}
                 {activeSection === "address" && <AddressSection />}
                 {activeSection === "orders" && <OrderSection />}
+                {activeSection === "wishlist" && <WishlistSection />}
             </ContentBlock>
         </Wrapper>
     );

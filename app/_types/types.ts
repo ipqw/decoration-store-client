@@ -67,6 +67,7 @@ export interface IWishlistProduct {
     id: number;
     productId: number;
     wishlistId: IWishlist["id"];
+    product: IProduct;
 }
 export interface IProduct {
     id: number;

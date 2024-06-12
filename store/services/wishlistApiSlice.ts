@@ -15,6 +15,21 @@ export const wishlistApiSlice = createApi({
             }),
             providesTags: ["Wishlist"],
         }),
+        getWishlistProductsByWishlistId: build.query<IWishlistProduct[], number>({
+            query: (wishlistId) => ({
+                url: "/wishlistproduct",
+                params: {
+                    wishlistId,
+                },
+            }),
+            providesTags: (result) =>
+                result
+                    ? [
+                          ...result.map(({ id }) => ({ type: "WishlistProduct" as const, id })),
+                          "WishlistProduct",
+                      ]
+                    : ["WishlistProduct"],
+        }),
         createWishlistProduct: build.mutation<
             IWishlistProduct,
             { productId: IWishlistProduct["productId"]; wishlistId: IWishlist["id"] }
