@@ -7,6 +7,7 @@ import blankAvatar from "@/public/icons/blankAvatar.png";
 import cameraIcon from "@/public/icons/account/camera.svg";
 import { useAppSelector } from "@/store/hooks";
 import AddressSection from "../_components/AddressSection";
+import OrderSection from "../_components/OrderSection";
 
 const AccountPage: FC = () => {
     const router = useRouter();
@@ -68,6 +69,7 @@ const AccountPage: FC = () => {
                 </MenuBlock>
                 {activeSection === "account" && <AccountSection />}
                 {activeSection === "address" && <AddressSection />}
+                {activeSection === "orders" && <OrderSection />}
             </ContentBlock>
         </Wrapper>
     );
