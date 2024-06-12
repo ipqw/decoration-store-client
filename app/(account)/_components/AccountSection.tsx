@@ -241,6 +241,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     padding: 0 72px;
     row-gap: 40px;
+    min-width: 851px;
 `;
 
 export default AccountSection;

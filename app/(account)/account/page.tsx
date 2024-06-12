@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import blankAvatar from "@/public/icons/blankAvatar.png";
 import cameraIcon from "@/public/icons/account/camera.svg";
 import { useAppSelector } from "@/store/hooks";
+import AddressSection from "../_components/AddressSection";
 
 const AccountPage: FC = () => {
     const router = useRouter();
@@ -66,6 +67,7 @@ const AccountPage: FC = () => {
                     </MenuSectionsBlock>
                 </MenuBlock>
                 {activeSection === "account" && <AccountSection />}
+                {activeSection === "address" && <AddressSection />}
             </ContentBlock>
         </Wrapper>
     );
@@ -143,6 +145,7 @@ const MenuBlock = styled.div`
 `;
 const ContentBlock = styled.div`
     display: flex;
+    width: 1120px;
 `;
 const Title = styled.p`
     color: #000000;
@@ -154,6 +157,7 @@ const Title = styled.p`
 `;
 const Wrapper = styled.div`
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     padding-bottom: 80px;
