@@ -68,7 +68,7 @@ const Home: FC = () => {
                 <ProductCarouselTitleBlock>
                     <ProductCarouselTitleText>New Arrivals</ProductCarouselTitleText>
                     <StyledLink>
-                        <StyledLinkText>More Products</StyledLinkText>
+                        <StyledLinkText href="/shop">More Products</StyledLinkText>
                         <StyledLinkIcon src={arrowIcon.src} />
                     </StyledLink>
                 </ProductCarouselTitleBlock>
@@ -235,7 +235,7 @@ const StyledLink = styled.div`
     align-items: center;
     cursor: pointer;
 `;
-const StyledLinkText = styled.p`
+const StyledLinkText = styled.a`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;
