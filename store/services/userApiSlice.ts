@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const userApiSlice = createApi({
     reducerPath: "authApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+    baseQuery: fetchBaseQuery({ baseUrl: "https://decoration-store-server.vercel.app/api" }),
     tagTypes: ["User"],
     endpoints: (build) => ({
         check: build.query<{ newToken: string; user: IUser } | { message: string }, string>({
