@@ -7,6 +7,7 @@ import arrowRight from "@/public/icons/arrow-right.svg";
 import storeIcon from "@/public/icons/contact-us/store.svg";
 import callIcon from "@/public/icons/contact-us/call.svg";
 import emailIcon from "@/public/icons/contact-us/mail.svg";
+import MapComponent from "../_components/MapComponent";
 
 const ContactUsPage: FC = () => {
     return (
@@ -53,6 +54,7 @@ const ContactUsPage: FC = () => {
                         <InfoCardText>hello@3legant.com</InfoCardText>
                     </InfoCard>
                 </ContactInfoBlock>
+                <MapComponent />
             </ContactSection>
         </Wrapper>
     );
