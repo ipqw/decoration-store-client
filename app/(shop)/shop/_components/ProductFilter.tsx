@@ -49,13 +49,6 @@ const ProductFilter: FC<IProps> = ({
     const [isCategoryDropdownOpened, setIsCategoryDropdownOpened] = useState<boolean>(false);
 
     const [isPriceDropdownOpened, setIsPriceDropdownOpened] = useState<boolean>(false);
-    useEffect(() => {
-        if (activeCategory === "All Rooms") {
-            setProducts(products);
-        } else {
-            setProducts([...products].filter((el) => el.type.name === activeCategory));
-        }
-    }, [activeCategory, setProducts]);
 
     const setFiltersToDefault = () => {
         setIsActiveAllPrice(false);
@@ -97,22 +90,31 @@ const ProductFilter: FC<IProps> = ({
     }, [activePrice]);
 
     // filtering
+
     useEffect(() => {
         setProducts(() => {
+            let categoryProducts: IProduct[] = [];
             const arr: IProduct[] = [];
+            // filtering by category
+            if (activeCategory === "All Rooms") {
+                categoryProducts = products;
+            } else {
+                categoryProducts = [...products].filter((el) => el.type.name === activeCategory);
+            }
+            // filtering by price
             if (isActiveAllPrice) {
-                return products;
+                return categoryProducts;
             }
             if (isActiveZeroPrice) {
                 arr.push(
-                    ...[...products].filter((el) =>
+                    ...[...categoryProducts].filter((el) =>
                         el.discountPrice ? el.discountPrice < 100 : el.price < 100,
                     ),
                 );
             }
             if (isActiveHundredPrice) {
                 arr.push(
-                    ...[...products].filter((el) =>
+                    ...[...categoryProducts].filter((el) =>
                         el.discountPrice
                             ? el.discountPrice >= 100 && el.discountPrice < 200
                             : el.price >= 100 && el.price < 200,
@@ -121,7 +123,7 @@ const ProductFilter: FC<IProps> = ({
             }
             if (isActiveTwoHundredPrice) {
                 arr.push(
-                    ...[...products].filter((el) =>
+                    ...[...categoryProducts].filter((el) =>
                         el.discountPrice
                             ? el.discountPrice >= 200 && el.discountPrice < 300
                             : el.price >= 200 && el.price < 300,
@@ -130,7 +132,7 @@ const ProductFilter: FC<IProps> = ({
             }
             if (isActiveThreeHundredPrice) {
                 arr.push(
-                    ...[...products].filter((el) =>
+                    ...[...categoryProducts].filter((el) =>
                         el.discountPrice
                             ? el.discountPrice >= 300 && el.discountPrice < 400
                             : el.price >= 300 && el.price < 400,
@@ -139,7 +141,7 @@ const ProductFilter: FC<IProps> = ({
             }
             if (isActiveFourHundredPrice) {
                 arr.push(
-                    ...[...products].filter((el) =>
+                    ...[...categoryProducts].filter((el) =>
                         el.discountPrice ? el.discountPrice >= 400 : el.price >= 400,
                     ),
                 );
@@ -153,6 +155,7 @@ const ProductFilter: FC<IProps> = ({
         isActiveTwoHundredPrice,
         isActiveThreeHundredPrice,
         isActiveFourHundredPrice,
+        activeCategory,
     ]);
     return (
         <Wrapper>

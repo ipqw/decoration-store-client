@@ -6,10 +6,12 @@ import fullStarIcon from "@/public/icons/fullStar.svg";
 import emptyStarIcon from "@/public/icons/emptyStar.svg";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
+import { useRouter } from "next/navigation";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const [isVisibleCartButton, setIsVisibleCartButton] = useState<boolean>(false);
     const user = useAppSelector((state) => state.user);
+    const router = useRouter();
 
     const [createCartProduct, { isLoading: isLoadingCreateCartProduct }] =
         cartApiSlice.useCreateCartProductMutation();
@@ -17,6 +19,8 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const cartButtonHandler = () => {
         if (!isLoadingCreateCartProduct && user?.cart && product) {
             createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
+        } else {
+            router.replace("/signin");
         }
     };
     return (
