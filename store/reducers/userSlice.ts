@@ -35,11 +35,13 @@ export const userSlice = createSlice({
                 state.wishlist = payload.user.wishlist;
                 state.cart = payload.user.cart;
                 state.addresses = payload.user.addresses;
-                localStorage.setItem("token", payload.newToken);
+                typeof window !== "undefined"
+                    ? localStorage.setItem("token", payload.newToken)
+                    : "";
             }
         });
         builder.addMatcher(userApiSlice.endpoints.check.matchRejected, (state, { payload }) => {
-            localStorage.removeItem("token");
+            typeof window !== "undefined" ? localStorage.removeItem("token") : "";
         });
 
         builder.addMatcher(userApiSlice.endpoints.login.matchFulfilled, (state, { payload }) => {
@@ -54,7 +56,7 @@ export const userSlice = createSlice({
                 state.wishlist = payload.user.wishlist;
                 state.cart = payload.user.cart;
                 state.addresses = payload.user.addresses;
-                localStorage.setItem("token", payload.token);
+                typeof window !== "undefined" ? localStorage.setItem("token", payload.token) : "";
             }
         });
         builder.addMatcher(
@@ -71,7 +73,9 @@ export const userSlice = createSlice({
                     state.wishlist = payload.user.wishlist;
                     state.cart = payload.user.cart;
                     state.addresses = payload.user.addresses;
-                    localStorage.setItem("token", payload.token);
+                    typeof window !== "undefined"
+                        ? localStorage.setItem("token", payload.token)
+                        : "";
                 }
             },
         );
@@ -89,7 +93,9 @@ export const userSlice = createSlice({
                     state.wishlist = payload.user.wishlist;
                     state.cart = payload.user.cart;
                     state.addresses = payload.user.addresses;
-                    localStorage.setItem("token", payload.newToken);
+                    typeof window !== "undefined"
+                        ? localStorage.setItem("token", payload.newToken)
+                        : "";
                 }
             },
         );

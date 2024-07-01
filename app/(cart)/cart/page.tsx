@@ -1,17 +1,24 @@
 "use client";
-import { FC, useState } from "react";
+import { FC, Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
 import Cart from "../_components/Cart";
 import Checkout from "../_components/Checkout";
 import OrderComplete from "../_components/OrderComplete";
 import { ICartProduct, IOrder } from "@/app/_types/types";
 import tickIcon from "@/public/icons/check.svg";
+import { useSearchParams } from "next/navigation";
 
-const CartPage: FC = () => {
+const CartPageContent: FC = () => {
+    const searchParams = useSearchParams();
     const [activeProcess, setActiveProcess] = useState<number>(0);
     const [activeShippingVariant, setActiveShippingVariant] = useState<number>(0);
     const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
     const [order, setOrder] = useState<IOrder>();
+    useEffect(() => {
+        if (searchParams.has("checkout")) {
+            setActiveProcess(1);
+        }
+    }, []);
     return (
         <Wrapper>
             <Title>
@@ -73,6 +80,13 @@ const CartPage: FC = () => {
                 <OrderComplete order={order} sortedCartProducts={sortedCartProducts} />
             )}
         </Wrapper>
+    );
+};
+const CartPage: FC = () => {
+    return (
+        <Suspense>
+            <CartPageContent />
+        </Suspense>
     );
 };
 const TickIcon = styled.img``;

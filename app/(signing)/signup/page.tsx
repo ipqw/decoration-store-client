@@ -23,7 +23,7 @@ const SignUp: FC = () => {
     const [createUser, { isLoading: isLoadingCreateUser }] = userApiSlice.useCreateUserMutation();
     const submitButtonHandler = () => {
         if (name && username && email && password && agreement && !isLoadingCreateUser) {
-            localStorage.removeItem("token");
+            typeof window !== "undefined" ? localStorage.removeItem("token") : "";
             createUser({
                 email,
                 firstName: name.split(" ")[0],
@@ -32,7 +32,9 @@ const SignUp: FC = () => {
                 password,
             }).then((res) => {
                 if ("data" in res) {
-                    localStorage.setItem("token", res.data.token);
+                    typeof window !== "undefined"
+                        ? localStorage.setItem("token", res.data.token)
+                        : "";
                     router.replace("/");
                 }
                 return null;
@@ -115,7 +117,7 @@ const SignUp: FC = () => {
         </Wrapper>
     );
 };
-export const SubmitButton = styled.div`
+const SubmitButton = styled.div`
     width: 100%;
     border-radius: 8px;
     height: 48px;
@@ -126,21 +128,21 @@ export const SubmitButton = styled.div`
     cursor: pointer;
     user-select: none;
 `;
-export const SubmitButtonText = styled.p`
+const SubmitButtonText = styled.p`
     font-family: "Inter", sans-serif;
     font-weight: 500;
     font-size: 16px;
     line-height: 28px;
     color: #ffffff;
 `;
-export const AgreementText = styled.p`
+const AgreementText = styled.p`
     color: #6c7275;
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 26px;
 `;
-export const AgreementLink = styled.a`
+const AgreementLink = styled.a`
     color: #141718;
     font-family: "Inter", sans-serif;
     font-size: 16px;
@@ -148,22 +150,22 @@ export const AgreementLink = styled.a`
     line-height: 26px;
     cursor: pointer;
 `;
-export const AgreementBlock = styled.div`
+const AgreementBlock = styled.div`
     display: flex;
 `;
-export const RightBlock = styled.aside`
+const RightBlock = styled.aside`
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 88px;
     width: 50%;
 `;
-export const FormInputs = styled.div`
+const FormInputs = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 32px;
 `;
-export const FormInputWrapper = styled.div<{ $outlined?: boolean; $checkbox?: boolean }>`
+const FormInputWrapper = styled.div<{ $outlined?: boolean; $checkbox?: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -175,12 +177,12 @@ export const FormInputWrapper = styled.div<{ $outlined?: boolean; $checkbox?: bo
     border-radius: 4px;
     margin-right: ${({ $checkbox }) => ($checkbox ? "12px" : "0")};
 `;
-export const FormIcon = styled.img`
+const FormIcon = styled.img`
     width: 24px;
     height: 24px;
     cursor: pointer;
 `;
-export const FormInput = styled.input`
+const FormInput = styled.input`
     &::placeholder {
         color: #6c7275;
         font-family: "Inter", sans-serif;
@@ -200,7 +202,7 @@ export const FormInput = styled.input`
         outline: none;
     }
 `;
-export const FormText = styled.p`
+const FormText = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 400;
@@ -208,14 +210,14 @@ export const FormText = styled.p`
     color: #6c7275;
     margin-bottom: 32px;
 `;
-export const FormLink = styled.a`
+const FormLink = styled.a`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;
     line-height: 26px;
     color: #38cb89;
 `;
-export const FormTitle = styled.p`
+const FormTitle = styled.p`
     color: #141718;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
@@ -223,30 +225,30 @@ export const FormTitle = styled.p`
     line-height: 44px;
     margin-bottom: 24px;
 `;
-export const Form = styled.div`
+const Form = styled.div`
     width: 456px;
 `;
 
-export const LeftBlock = styled.aside`
+const LeftBlock = styled.aside`
     display: flex;
     justify-content: flex-end;
     background-color: #f3f5f7;
     width: 50%;
 `;
-export const LogoWrapper = styled.div`
+const LogoWrapper = styled.div`
     position: absolute;
     right: 316px;
     top: 32px;
 `;
-export const MainImage = styled.img`
+const MainImage = styled.img`
     max-width: 736px;
     max-height: 100%;
 `;
-export const MainBlock = styled.div`
+const MainBlock = styled.div`
     position: relative;
 `;
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
     display: flex;
     max-height: 100vh;
 `;

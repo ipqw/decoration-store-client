@@ -5,6 +5,7 @@ import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import CartProduct from "./CartProduct";
 import { ICartProduct } from "../_types/types";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     isFlyoutCartVisible: boolean;
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible }) => {
+    const router = useRouter();
     const [sortedCartProducts, setSortedCartProducts] = useState<ICartProduct[][]>([]);
 
     const user = useAppSelector((state) => state.user);
@@ -86,7 +88,9 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
                         </TotalPrice>
                     </Total>
                 </Summary>
-                <CheckOutButton>Checkout</CheckOutButton>
+                <CheckOutButton onClick={() => router.replace("/cart?checkout=1")}>
+                    Checkout
+                </CheckOutButton>
                 <ViewCartButton href="/cart">View Cart</ViewCartButton>
             </Cart>
         </Wrapper>
