@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { FC, Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import mainImage from "@/public/images/shop/main.png";
@@ -9,19 +9,42 @@ import ProductGrid from "./_components/ProductGrid";
 import { productApiSlice } from "@/store/services/productApiSlice";
 import ProductFilter from "./_components/ProductFilter";
 import { IProduct } from "@/app/_types/types";
+import { useSearchParams } from "next/navigation";
+import { typeApiSlice } from "@/store/services/typeApiSlice";
 
-const ShopPage = () => {
+const ShopPageContent = () => {
+    const searchParams = useSearchParams();
     const [activeCategory, setActiveCategory] = useState<string>("All Rooms");
     const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
     const [activeGridButton, setActiveGridButton] = useState<number>(0);
     const [productLimit, setProductLimit] = useState<number>(12);
 
-    const {
-        data: products,
-        isLoading,
-        error,
-        refetch,
-    } = productApiSlice.useGetAllProductsQuery(productLimit);
+    const { data: types } = typeApiSlice.useGetAllTypesQuery(null);
+    useEffect(() => {
+        const category = searchParams.get("category");
+        if (
+            category &&
+            types?.find((el) => {
+                if (category && el.name.includes(category)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+        ) {
+            setActiveCategory(
+                types?.find((el) => {
+                    if (category && el.name.includes(category)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                })?.name || "All Rooms",
+            );
+        }
+    }, [types]);
+
+    const { data: products } = productApiSlice.useGetAllProductsQuery(productLimit);
 
     useEffect(() => {
         setFilteredProducts(products || []);
@@ -64,6 +87,13 @@ const ShopPage = () => {
                 Show more
             </ShowMoreButton>
         </Wrapper>
+    );
+};
+const ShopPage: FC = () => {
+    return (
+        <Suspense>
+            <ShopPageContent />
+        </Suspense>
     );
 };
 const ShowMoreButton = styled.div<{ $isVisible: boolean }>`

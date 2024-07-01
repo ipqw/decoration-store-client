@@ -15,7 +15,7 @@ const BannerCard: FC<IProps> = ({ image, title, variety }) => {
             <Content $variety={variety || "default"}>
                 <Title>{title}</Title>
                 <Button>
-                    <ButtonText>Shop Now</ButtonText>
+                    <ButtonText href={`/shop?category=${title.split(" ")[0]}`}>Shop Now</ButtonText>
                     <ButtonImage src={arrowIcon.src} />
                 </Button>
             </Content>
@@ -59,7 +59,7 @@ const Button = styled.div`
     height: 28px;
     border-bottom: 1px solid #141718;
 `;
-const ButtonText = styled.p`
+const ButtonText = styled.a`
     font-family: "Inter", sans-serif;
     color: #141718;
     font-size: 16px;

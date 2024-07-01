@@ -109,7 +109,7 @@ const Home: FC = () => {
                             makeover
                         </SaleInfoText>
                         <StyledLink>
-                            <StyledLinkText>Shop Now</StyledLinkText>
+                            <StyledLinkText href="/shop">Shop Now</StyledLinkText>
                             <StyledLinkIcon src={arrowIcon.src} />
                         </StyledLink>
                     </SaleInfo>
