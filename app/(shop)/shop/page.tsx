@@ -19,6 +19,7 @@ const ShopPageContent = () => {
     const [activeGridButton, setActiveGridButton] = useState<number>(0);
     const [productLimit, setProductLimit] = useState<number>(12);
 
+    const { data: products } = productApiSlice.useGetAllProductsQuery(productLimit);
     const { data: types } = typeApiSlice.useGetAllTypesQuery(null);
     useEffect(() => {
         const category = searchParams.get("category");
@@ -43,12 +44,23 @@ const ShopPageContent = () => {
             );
         }
     }, [types]);
-
-    const { data: products } = productApiSlice.useGetAllProductsQuery(productLimit);
-
     useEffect(() => {
-        setFilteredProducts(products || []);
+        setFilteredProducts(() => {
+            if (products) {
+                let arr: IProduct[] = [];
+                // filtering by category
+                if (activeCategory === "All Rooms") {
+                    arr = products;
+                } else {
+                    arr = [...products].filter((el) => el.type.name === activeCategory);
+                }
+                return arr;
+            } else {
+                return [];
+            }
+        });
     }, [products]);
+
     const showMoreButtonHandler = () => {
         setProductLimit((prev) => (prev += 12));
     };
@@ -82,7 +94,10 @@ const ShopPageContent = () => {
                 />
             </ProductsSection>
             <ShowMoreButton
-                $isVisible={Number(products?.length) === productLimit}
+                $isVisible={
+                    Number(filteredProducts?.length) === productLimit ||
+                    Number(filteredProducts?.length) > productLimit
+                }
                 onClick={showMoreButtonHandler}>
                 Show more
             </ShowMoreButton>

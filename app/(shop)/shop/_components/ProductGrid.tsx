@@ -8,7 +8,6 @@ import secondGridIcon from "@/public/icons/shop/secondGridIcon.svg";
 import thirdGridIcon from "@/public/icons/shop/thirdGridIcon.svg";
 import fourthGridIcon from "@/public/icons/shop/fourthGridIcon.svg";
 import MobileProductCard from "@/app/_components/MobileProductCard";
-import arrowIcon from "@/public/icons/shop/arrow-down.svg";
 
 interface IProps {
     products: IProduct[];

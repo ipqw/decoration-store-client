@@ -7,6 +7,7 @@ import emptyStarIcon from "@/public/icons/emptyStar.svg";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useRouter } from "next/navigation";
+import { imageLinkHandler } from "../_global";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const [isVisibleCartButton, setIsVisibleCartButton] = useState<boolean>(false);
@@ -43,7 +44,11 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
                 <Image
                     draggable={false}
                     alt="product image"
-                    src={product.images?.length ? product.images[0] : noImageIcon.src}
+                    src={
+                        product.images?.length
+                            ? imageLinkHandler(product.images[0])
+                            : noImageIcon.src
+                    }
                 />
             </ImageWrapper>
             <InfoWrapper>

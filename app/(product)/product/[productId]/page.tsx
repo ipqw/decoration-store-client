@@ -18,6 +18,7 @@ import { useAppSelector } from "@/store/hooks";
 import ReviewsList from "../../_components/ReviewList";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import AdditionalInfo from "../../_components/AdditionalInfo";
+import { imageLinkHandler } from "@/app/_global";
 
 interface IProps {
     params: { productId: string };
@@ -183,7 +184,9 @@ const ProductPage: FC<IProps> = ({ params }) => {
                         </ColorText>
                         <ColorImagesWrapper>
                             <ColorImageWrapper $main>
-                                <ColorImage src={product?.images ? product.images[0] : ""} />
+                                <ColorImage
+                                    src={product?.images ? imageLinkHandler(product.images[0]) : ""}
+                                />
                             </ColorImageWrapper>
                             {product?.product_group?.products?.map((el, index) => {
                                 if (el.id === product.id) {

@@ -8,6 +8,7 @@ import noImageIcon from "@/public/icons/no-image.ico";
 import crossIcon from "@/public/icons/cross.svg";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
+import { imageLinkHandler } from "@/app/_global";
 
 interface IProps {
     cartProducts: ICartProduct[];
@@ -52,7 +53,7 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
                 <Image
                     src={
                         cartProducts[0].product.images?.length
-                            ? cartProducts[0].product.images[0]
+                            ? imageLinkHandler(cartProducts[0].product.images[0])
                             : noImageIcon.src
                     }
                     alt="product image"

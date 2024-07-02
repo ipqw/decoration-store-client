@@ -11,6 +11,7 @@ import filledWishlistIcon from "@/public/icons/product/FilledWishlist.svg";
 import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
+import { imageLinkHandler } from "../_global";
 
 interface IProps {
     product: IProduct;
@@ -70,7 +71,11 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
                 </LabelWrapper>
                 <Image
                     alt="product image"
-                    src={product.images?.length ? product.images[0] : noImageIcon.src}
+                    src={
+                        product.images?.length
+                            ? imageLinkHandler(product.images[0])
+                            : noImageIcon.src
+                    }
                 />
             </ImageWrapper>
             <InfoWrapper $variation={variation}>

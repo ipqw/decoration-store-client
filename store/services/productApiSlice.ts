@@ -10,7 +10,7 @@ export const productApiSlice = createApi({
             query: (limit) => ({
                 url: "/product",
                 params: {
-                    _limit: limit,
+                    limit,
                 },
             }),
             providesTags: ["Product"],

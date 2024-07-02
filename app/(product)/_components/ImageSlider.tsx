@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import styled from "styled-components";
 import arrow from "../../../public/icons/arrow-right.svg";
 import { IProduct } from "@/app/_types/types";
+import { imageLinkHandler } from "@/app/_global";
 
 interface IProps {
     product?: IProduct;
@@ -16,7 +17,12 @@ const ImageSlider: FC<IProps> = ({ product, backgroundColor }) => {
     const [active, setActive] = useState<number>(0);
     const isNew = product ? Date.now() - new Date(product.createdAt).getTime() < 604800000 : false;
     const optionalImages = product?.images
-        ? [...product.images, product.images[0], product.images[1], product.images[2]]
+        ? [
+              ...product.images.map((el) => imageLinkHandler(el)),
+              imageLinkHandler(product.images[0]),
+              imageLinkHandler(product.images[1]),
+              imageLinkHandler(product.images[2]),
+          ]
         : [];
     const handleLeftButtonClick = () => {
         if (active === 0) {
