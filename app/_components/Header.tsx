@@ -53,7 +53,9 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
                     <Icon
                         src={userIcon.src}
                         onClick={() => {
-                            user.id ? router.replace("/account") : router.replace("/signin");
+                            (typeof window !== "undefined" ? localStorage.getItem("token") : false)
+                                ? router.replace("/account")
+                                : router.replace("/signin");
                         }}
                     />
                     <CartIcons>
