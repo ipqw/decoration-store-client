@@ -10,6 +10,7 @@ import likeIcon from "@/public/icons/product/Wishlist.svg";
 import filledLikeIcon from "@/public/icons/product/FilledWishlist.svg";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import { useAppSelector } from "@/store/hooks";
+import { imageLinkHandler } from "@/app/_global";
 
 interface IProps {
     review: IReview;
@@ -53,7 +54,7 @@ const Review: FC<IProps> = ({ review }) => {
     };
     return (
         <Wrapper>
-            <Avatar src={reviewAuthor?.imageUrl || blankAvatar.src} />
+            <Avatar src={imageLinkHandler(reviewAuthor?.imageUrl || "") || blankAvatar.src} />
             <InfoBlock>
                 <Name>{reviewAuthor?.displayName}</Name>
                 <StarsWrapper>

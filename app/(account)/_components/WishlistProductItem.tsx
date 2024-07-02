@@ -6,6 +6,7 @@ import { IWishlistProduct } from "@/app/_types/types";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
+import { imageLinkHandler } from "@/app/_global";
 
 const WishlistProductItem: FC<{ wishlistProduct: IWishlistProduct }> = ({ wishlistProduct }) => {
     const user = useAppSelector((state) => state.user);
@@ -44,7 +45,7 @@ const WishlistProductItem: FC<{ wishlistProduct: IWishlistProduct }> = ({ wishli
                             alt="image"
                             src={
                                 wishlistProduct?.product?.images
-                                    ? wishlistProduct?.product?.images[0]
+                                    ? imageLinkHandler(wishlistProduct?.product?.images[0])
                                     : ""
                             }
                         />

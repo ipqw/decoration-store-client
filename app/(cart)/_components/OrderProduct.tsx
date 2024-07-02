@@ -1,4 +1,5 @@
 "use client";
+import { imageLinkHandler } from "@/app/_global";
 import { ICartProduct } from "@/app/_types/types";
 import React, { FC } from "react";
 import styled from "styled-components";
@@ -15,7 +16,7 @@ const OrderProduct: FC<IProps> = ({ sortedCartProducts }) => {
                     alt="product image"
                     src={
                         sortedCartProducts[0].product.images
-                            ? sortedCartProducts[0]?.product?.images[0]
+                            ? imageLinkHandler(sortedCartProducts[0]?.product?.images[0])
                             : ""
                     }
                 />

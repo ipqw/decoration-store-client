@@ -198,7 +198,9 @@ const ProductPage: FC<IProps> = ({ params }) => {
                                             router.replace(el.id.toString());
                                         }}
                                         key={index}>
-                                        <ColorImage src={el?.images ? el.images[0] : ""} />
+                                        <ColorImage
+                                            src={el?.images ? imageLinkHandler(el.images[0]) : ""}
+                                        />
                                     </ColorImageWrapper>
                                 );
                             })}

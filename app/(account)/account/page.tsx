@@ -9,6 +9,7 @@ import { useAppSelector } from "@/store/hooks";
 import AddressSection from "../_components/AddressSection";
 import OrderSection from "../_components/OrderSection";
 import WishlistSection from "../_components/WishlistSection";
+import { imageLinkHandler } from "@/app/_global";
 
 const AccountPage: FC = () => {
     const router = useRouter();
@@ -29,7 +30,13 @@ const AccountPage: FC = () => {
                 <MenuBlock>
                     <ProfileBlock>
                         <ProfileImageWrapper>
-                            <ProfileImage src={user?.imageUrl ? user.imageUrl : blankAvatar.src} />
+                            <ProfileImage
+                                src={
+                                    user?.imageUrl
+                                        ? imageLinkHandler(user.imageUrl)
+                                        : blankAvatar.src
+                                }
+                            />
                             <CameraIconWrapper>
                                 <CameraIcon src={cameraIcon.src} />
                             </CameraIconWrapper>

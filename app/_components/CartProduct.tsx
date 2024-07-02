@@ -6,6 +6,7 @@ import Counter from "./Counter";
 import crossIcon from "@/public/icons/cross.svg";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
+import { imageLinkHandler } from "../_global";
 
 interface IProps {
     cartProducts: ICartProduct[];
@@ -47,7 +48,10 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
         <Wrapper>
             <LeftBlock>
                 <ImageWrapper>
-                    <Image alt="product image" src={product?.images ? product?.images[0] : ""} />
+                    <Image
+                        alt="product image"
+                        src={product?.images ? imageLinkHandler(product?.images[0]) : ""}
+                    />
                 </ImageWrapper>
                 <InfoBlock>
                     <Title href={`/product/${product?.id}`}>{product?.name}</Title>
