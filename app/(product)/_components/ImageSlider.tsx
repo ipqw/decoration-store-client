@@ -64,7 +64,14 @@ const ImageSlider: FC<IProps> = ({ product, backgroundColor }) => {
                     <ArrowImage $rotation="180" src={arrow.src} />
                 </ArrowButton>
                 {product?.images?.map((image, index) => {
-                    return <Image $active={index === active} alt="image" key={index} src={image} />;
+                    return (
+                        <Image
+                            $active={index === active}
+                            alt="image"
+                            key={index}
+                            src={imageLinkHandler(image)}
+                        />
+                    );
                 })}
                 <ArrowButton onClick={handleRightButtonClick} $position="right">
                     <ArrowImage src={arrow.src} />
