@@ -54,7 +54,13 @@ const Review: FC<IProps> = ({ review }) => {
     };
     return (
         <Wrapper>
-            <Avatar src={imageLinkHandler(reviewAuthor?.imageUrl || "") || blankAvatar.src} />
+            <Avatar
+                src={
+                    reviewAuthor?.imageUrl
+                        ? imageLinkHandler(reviewAuthor?.imageUrl)
+                        : blankAvatar.src
+                }
+            />
             <InfoBlock>
                 <Name>{reviewAuthor?.displayName}</Name>
                 <StarsWrapper>

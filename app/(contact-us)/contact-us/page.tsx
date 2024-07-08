@@ -8,8 +8,10 @@ import storeIcon from "@/public/icons/contact-us/store.svg";
 import callIcon from "@/public/icons/contact-us/call.svg";
 import emailIcon from "@/public/icons/contact-us/mail.svg";
 import MapComponent from "../_components/MapComponent";
+import { useRouter } from "next/navigation";
 
 const ContactUsPage: FC = () => {
+    const router = useRouter();
     return (
         <Wrapper>
             <TitleSection>
@@ -29,7 +31,7 @@ const ContactUsPage: FC = () => {
                         3legant is a gift & decorations store based in HCMC, Vietnam. Est since
                         2019. Our customer service is always prepared to support you 24/7
                     </AboutText>
-                    <AboutLink>
+                    <AboutLink onClick={() => router.replace("/shop")}>
                         <AboutLinkText>Shop Now</AboutLinkText>
                         <AboutLinkIcon src={arrowRight.src} />
                     </AboutLink>
@@ -120,6 +122,7 @@ const AboutLink = styled.div`
     align-items: center;
     border-bottom: 1px solid #121212;
     column-gap: 4px;
+    cursor: pointer;
 `;
 const AboutLinkIcon = styled.img`
     width: 20px;
