@@ -141,6 +141,8 @@ const ProfileImageWrapper = styled.div`
 `;
 const ProfileBlock = styled.div`
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
     row-gap: 6px;
 `;
