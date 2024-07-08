@@ -20,6 +20,8 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const cartButtonHandler = () => {
         if (!isLoadingCreateCartProduct && user?.cart && product) {
             createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
+        } else if (!(typeof window !== "undefined" ? localStorage.getItem("token") : true)) {
+            router.replace("/signin");
         }
     };
     return (

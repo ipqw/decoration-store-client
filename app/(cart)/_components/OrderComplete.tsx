@@ -41,7 +41,7 @@ const OrderComplete: FC<IProps> = ({ sortedCartProducts, order }) => {
                     </OrderDetailText>
                 </OrderDetailColumn>
             </OrderDetails>
-            <OrdersHistoryButton href="">Orders history</OrdersHistoryButton>
+            <OrdersHistoryButton href="/account">Orders history</OrdersHistoryButton>
         </Wrapper>
     );
 };

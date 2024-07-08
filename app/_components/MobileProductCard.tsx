@@ -12,6 +12,7 @@ import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
 import { imageLinkHandler } from "../_global";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     product: IProduct;
@@ -19,6 +20,7 @@ interface IProps {
 }
 
 const MobileProductCard: FC<IProps> = ({ product, variation }) => {
+    const router = useRouter();
     const user = useAppSelector((state) => state.user);
     const [isAddedToWishlistBtn, setIsAddedToWishlistBtn] = useState<boolean>(false);
 
@@ -55,6 +57,8 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
     const cartButtonHandler = () => {
         if (!isLoadingCreateCartProduct && user?.cart && product) {
             createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
+        } else if (!(typeof window !== "undefined" ? localStorage.getItem("token") : true)) {
+            router.replace("/signin");
         }
     };
     return (
