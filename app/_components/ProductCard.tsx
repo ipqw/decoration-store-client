@@ -7,7 +7,7 @@ import emptyStarIcon from "@/public/icons/emptyStar.svg";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useRouter } from "next/navigation";
-import { imageLinkHandler } from "../_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 
 const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const [isVisibleCartButton, setIsVisibleCartButton] = useState<boolean>(false);

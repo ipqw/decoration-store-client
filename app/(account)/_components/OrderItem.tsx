@@ -1,5 +1,5 @@
 "use client";
-import { months } from "@/app/_global";
+import { months } from "@/app/_lib/constants";
 import { IOrder } from "@/app/_types/types";
 import React, { FC } from "react";
 import styled from "styled-components";

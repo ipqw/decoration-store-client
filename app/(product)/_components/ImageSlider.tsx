@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import styled from "styled-components";
 import arrow from "../../../public/icons/arrow-right.svg";
 import { IProduct } from "@/app/_types/types";
-import { imageLinkHandler } from "@/app/_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 
 interface IProps {
     product?: IProduct;

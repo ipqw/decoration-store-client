@@ -9,7 +9,7 @@ import { useAppSelector } from "@/store/hooks";
 import AddressSection from "../_components/AddressSection";
 import OrderSection from "../_components/OrderSection";
 import WishlistSection from "../_components/WishlistSection";
-import { imageLinkHandler } from "@/app/_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 
 const AccountPage: FC = () => {
     const router = useRouter();

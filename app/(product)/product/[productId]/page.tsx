@@ -18,7 +18,7 @@ import { useAppSelector } from "@/store/hooks";
 import ReviewsList from "../../_components/ReviewList";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import AdditionalInfo from "../../_components/AdditionalInfo";
-import { imageLinkHandler } from "@/app/_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 
 interface IProps {
     params: { productId: string };

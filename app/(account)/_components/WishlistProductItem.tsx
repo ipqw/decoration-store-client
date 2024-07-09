@@ -6,7 +6,7 @@ import { IWishlistProduct } from "@/app/_types/types";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
-import { imageLinkHandler } from "@/app/_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 
 const WishlistProductItem: FC<{ wishlistProduct: IWishlistProduct }> = ({ wishlistProduct }) => {
     const user = useAppSelector((state) => state.user);

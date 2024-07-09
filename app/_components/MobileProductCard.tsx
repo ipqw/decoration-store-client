@@ -11,7 +11,7 @@ import filledWishlistIcon from "@/public/icons/product/FilledWishlist.svg";
 import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
-import { imageLinkHandler } from "../_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 import { useRouter } from "next/navigation";
 
 interface IProps {

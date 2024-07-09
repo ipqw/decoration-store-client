@@ -10,7 +10,7 @@ import likeIcon from "@/public/icons/product/Wishlist.svg";
 import filledLikeIcon from "@/public/icons/product/FilledWishlist.svg";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import { useAppSelector } from "@/store/hooks";
-import { imageLinkHandler } from "@/app/_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 
 interface IProps {
     review: IReview;

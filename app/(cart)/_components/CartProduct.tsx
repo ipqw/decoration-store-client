@@ -8,7 +8,7 @@ import noImageIcon from "@/public/icons/no-image.ico";
 import crossIcon from "@/public/icons/cross.svg";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
-import { imageLinkHandler } from "@/app/_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 
 interface IProps {
     cartProducts: ICartProduct[];

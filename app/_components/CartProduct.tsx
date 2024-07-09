@@ -6,7 +6,7 @@ import Counter from "./Counter";
 import crossIcon from "@/public/icons/cross.svg";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
-import { imageLinkHandler } from "../_global";
+import { imageLinkHandler } from "@/app/_lib/functions";
 
 interface IProps {
     cartProducts: ICartProduct[];
