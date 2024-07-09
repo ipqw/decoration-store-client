@@ -8,7 +8,7 @@ interface ILogo {
 }
 const Logo: FC<ILogo> = ({ maincolor, dotcolor }) => {
     return (
-        <LogoWrapper $maincolor={maincolor} className="poppins">
+        <LogoWrapper $maincolor={maincolor}>
             3legant<LogoSpan $dotcolor={dotcolor}>.</LogoSpan>
         </LogoWrapper>
     );
@@ -16,6 +16,7 @@ const Logo: FC<ILogo> = ({ maincolor, dotcolor }) => {
 const LogoWrapper = styled.p<{ $maincolor?: string }>`
     color: ${({ $maincolor }) => $maincolor || "#000000"};
     font-weight: 500;
+    font-family: "Poppins", sans-serif;
     font-size: 24px;
     cursor: default;
     user-select: none;

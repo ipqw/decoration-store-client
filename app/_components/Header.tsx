@@ -25,25 +25,21 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
                 <NavBlock>
                     <StyledLink
                         style={{ color: pathname === "/" ? "#000000" : "#6C7275" }}
-                        className="space-grotesk"
                         href="/">
                         Home
                     </StyledLink>
                     <StyledLink
                         style={{ color: pathname === "/shop" ? "#000000" : "#6C7275" }}
-                        className="space-grotesk"
                         href="/shop">
                         Shop
                     </StyledLink>
                     <StyledLink
                         style={{ color: pathname.includes("/product") ? "#000000" : "#6C7275" }}
-                        className="space-grotesk"
                         href="">
                         Product
                     </StyledLink>
                     <StyledLink
                         style={{ color: pathname === "/contact-us" ? "#000000" : "#6C7275" }}
-                        className="space-grotesk"
                         href="/contact-us">
                         Contact us
                     </StyledLink>
@@ -72,9 +68,7 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
                             src={shoppingBagIcon.src}
                         />
                         <NumberIcon>
-                            <NumberTextIcon className="inter">
-                                {cartProducts?.length || 0}
-                            </NumberTextIcon>
+                            <NumberTextIcon>{cartProducts?.length || 0}</NumberTextIcon>
                         </NumberIcon>
                     </CartIcons>
                 </IconsBlock>
@@ -91,10 +85,12 @@ const CartIcons = styled.div`
 const StyledLink = styled(Link)`
     font-weight: 500;
     font-size: 14px;
+    font-family: "Space Grotesk", sans-serif;
 `;
 
 const NumberTextIcon = styled.p`
     font-size: 12px;
+    font-family: "Inter", sans-serif;
     font-weight: bold;
     line-height: 10px;
     user-select: none;

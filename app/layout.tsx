@@ -4,6 +4,7 @@ import "./_styles/fonts.css";
 import { Provider } from "react-redux";
 import { setupStore } from "../store/store";
 import { userApiSlice } from "@/store/services/userApiSlice";
+import StyledComponentsRegistry from "./_lib/registry";
 
 const store = setupStore();
 
@@ -16,7 +17,9 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
         <Provider store={store}>
             <html lang="en">
-                <body>{children}</body>
+                <body>
+                    <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+                </body>
             </html>
         </Provider>
     );

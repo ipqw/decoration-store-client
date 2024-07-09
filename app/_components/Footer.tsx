@@ -13,7 +13,7 @@ const Footer: FC = () => {
                 <TopBlock>
                     <LogoBlock>
                         <Logo maincolor="#ffffff" />
-                        <LogoText className="inter">Gift & Decoration Store</LogoText>
+                        <LogoText>Gift & Decoration Store</LogoText>
                     </LogoBlock>
                     <NavBlock>
                         <NavLink href={"./"}>Home</NavLink>
@@ -105,6 +105,7 @@ const NavLink = styled(Link)`
 const LogoText = styled.p`
     color: #e8ecef;
     font-size: 14px;
+    font-family: "Inter", sans-serif;
     line-height: 22px;
     height: 24px;
     font-weight: 400;
