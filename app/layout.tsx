@@ -5,8 +5,13 @@ import { Provider } from "react-redux";
 import { setupStore } from "../store/store";
 import { userApiSlice } from "@/store/services/userApiSlice";
 import StyledComponentsRegistry from "./_lib/registry";
+import { Metadata } from "next";
 
 const store = setupStore();
+
+export const metadata: Metadata = {
+    title: "3legant.",
+};
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     store.dispatch(
