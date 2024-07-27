@@ -5,14 +5,9 @@ import arrow from "../../../public/icons/arrow-right.svg";
 
 interface IProps {
     images: StaticImageData[];
-    width?: number;
-    height?: number;
 }
-interface IWrapperProps {
-    $width?: number;
-    $height?: number;
-}
-const ImageSlider: FC<IProps> = ({ images, width, height }) => {
+
+const ImageSlider: FC<IProps> = ({ images }) => {
     const [active, setActive] = useState<number>(0);
     const [leftDisable, setLeftDisable] = useState<boolean>(true);
     const [rightDisable, setRightDisable] = useState<boolean>(false);
@@ -46,7 +41,7 @@ const ImageSlider: FC<IProps> = ({ images, width, height }) => {
         }
     };
     return (
-        <Wrapper $width={width} $height={height}>
+        <Wrapper>
             <ArrowButton onClick={handleLeftButtonClick} $position="left">
                 <ArrowImage $rotation="180" $disable={leftDisable} src={arrow.src} />
             </ArrowButton>
@@ -90,6 +85,7 @@ const Dot = styled.div<{ $active: boolean }>`
     cursor: pointer;
 `;
 const ArrowButton = styled.div<{ $position: string }>`
+    display: none;
     position: absolute;
     left: ${({ $position }) => ($position === "left" ? "32px" : "none")};
     right: ${({ $position }) => ($position === "right" ? "32px" : "none")};
@@ -100,10 +96,12 @@ const ArrowButton = styled.div<{ $position: string }>`
     height: 52px;
     border-radius: 50%;
     cursor: pointer;
-    display: flex;
     align-items: center;
     justify-content: center;
     background-color: #ffffff;
+    @media screen and (min-width: 1440px) {
+        display: flex;
+    }
 `;
 const ArrowImage = styled.img<{ $disable: boolean; $rotation?: string }>`
     filter: ${({ $disable }) =>
@@ -116,16 +114,20 @@ const ArrowImage = styled.img<{ $disable: boolean; $rotation?: string }>`
 `;
 const Image = styled.img<{ $active: boolean }>`
     display: ${({ $active }) => ($active ? "block" : "none")};
+    height: 100%;
 `;
-const Wrapper = styled.div<IWrapperProps>`
+const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     position: relative;
-    width: ${({ $width }) => $width || "1120px"};
-    height: ${({ $height }) => $height || "536px"};
+    width: 100%;
+    height: 304px;
     user-select: none;
+    @media screen and (min-width: 1440px) {
+        height: 536px;
+    }
 `;
 
 export default ImageSlider;

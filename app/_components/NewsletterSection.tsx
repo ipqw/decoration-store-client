@@ -57,34 +57,48 @@ const Input = styled.input`
     font-weight: 500;
     font-size: 16px;
     line-height: 28px;
-    width: 396px;
+
     &:focus {
         border: none;
         outline: none;
+    }
+
+    @media screen and (min-width: 1440px) {
+        width: 396px;
     }
 `;
 const Block = styled.div`
     display: flex;
     align-items: center;
-    width: 488px;
     height: 52px;
     border-bottom: 1px solid #6c7275;
+    @media screen and (min-width: 1440px) {
+        width: 488px;
+    }
 `;
 const Text = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
     font-weight: 400;
-    font-size: 18px;
-    line-height: 30px;
+    font-size: 14px;
+    line-height: 22px;
     margin-bottom: 32px;
+    @media screen and (min-width: 1440px) {
+        font-size: 18px;
+        line-height: 30px;
+    }
 `;
 const Title = styled.p`
     color: #141718;
     font-weight: 500;
     margin-bottom: 8px;
     font-family: "Poppins", sans-serif;
-    font-size: 40px;
-    line-height: 44px;
+    font-size: 28px;
+    line-height: 34px;
+    @media screen and (min-width: 1440px) {
+        font-size: 40px;
+        line-height: 44px;
+    }
 `;
 const SignUpContent = styled.div`
     width: 540px;
@@ -101,8 +115,13 @@ const Wrapper = styled.section`
     background-image: url(${signupBackground.src});
     background-repeat: no-repeat;
     background-position-x: center;
-    width: 100%;
+    width: 375px;
     height: 360px;
+    padding: 95px 32px;
+    @media screen and (min-width: 1440px) {
+        width: 100%;
+        padding: 0;
+    }
 `;
 
 export default NewsletterSection;
