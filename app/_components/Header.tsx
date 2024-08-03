@@ -99,7 +99,7 @@ const LogoBlock = styled.div`
     display: flex;
     column-gap: 4px;
     align-items: center;
-    padding-left: 10px;
+    padding-left: 20px;
 `;
 const CartIcons = styled.div`
     display: flex;
@@ -141,7 +141,7 @@ const Icon = styled.img`
 const IconsBlock = styled.div`
     display: flex;
     column-gap: 16px;
-    padding-right: 10px;
+    padding-right: 20px;
 `;
 const HeaderContent = styled.div`
     max-width: 1120px;

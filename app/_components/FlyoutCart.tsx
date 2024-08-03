@@ -1,7 +1,16 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import {
+    Dispatch,
+    FC,
+    KeyboardEvent,
+    KeyboardEventHandler,
+    SetStateAction,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import styled from "styled-components";
 import CartProduct from "./CartProduct";
 import { ICartProduct } from "../_types/types";
@@ -56,6 +65,21 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
     useEffect(() => {
         refetch();
     }, [isFlyoutCartVisible]);
+
+    const handleTabKey: EventListener = (e: any) => {
+        if (e.key === "Tab") {
+            setIsFlyoutCartVisible(false);
+        }
+    };
+    useEffect(() => {
+        typeof document !== "undefined" ? document.addEventListener("keydown", handleTabKey) : "";
+
+        return () => {
+            typeof document !== "undefined"
+                ? document.removeEventListener("keydown", handleTabKey)
+                : "";
+        };
+    }, []);
     return (
         <Wrapper onClick={() => setIsFlyoutCartVisible(false)} $isVisible={isFlyoutCartVisible}>
             <Cart onClick={(e) => e.stopPropagation()} $isFlyoutCartVisible={isFlyoutCartVisible}>

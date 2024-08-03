@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import crossIcon from "@/public/icons/cross.svg";
@@ -15,9 +15,23 @@ interface IProps {
 const MobileMenu: FC<IProps> = ({ isMobileMenuVisible, setIsMobileMenuVisible }) => {
     const pathname = usePathname();
     const user = useAppSelector((state) => state.user);
-    console.log(user.id);
     const { data: cartProducts } = cartApiSlice.useGetCartProductsByCartIdQuery(user.cart?.id || 0);
     const router = useRouter();
+
+    const handleTabKey: EventListener = (e: any) => {
+        if (e.key === "Tab") {
+            setIsMobileMenuVisible(false);
+        }
+    };
+    useEffect(() => {
+        typeof document !== "undefined" ? document.addEventListener("keydown", handleTabKey) : "";
+
+        return () => {
+            typeof document !== "undefined"
+                ? document.removeEventListener("keydown", handleTabKey)
+                : "";
+        };
+    }, []);
     return (
         <Wrapper onClick={() => setIsMobileMenuVisible(false)} $isVisible={isMobileMenuVisible}>
             <Menu onClick={(e) => e.stopPropagation()} $isFlyoutCartVisible={isMobileMenuVisible}>
