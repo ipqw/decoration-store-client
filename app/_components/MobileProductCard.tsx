@@ -58,7 +58,7 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
         if (!isLoadingCreateCartProduct && user?.cart && product) {
             createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
         } else if (!(typeof window !== "undefined" ? localStorage.getItem("token") : true)) {
-            router.replace("/signin");
+            router.push("/signin");
         }
     };
     return (
@@ -121,10 +121,14 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
                     />
                 </StarsWrapper>
                 {variation === "horizontal" ? (
-                    <Title href={`./product/${product.id}`}>{product.name}</Title>
+                    <Title onClick={() => router.push(`./product/${product.id}`)}>
+                        {product.name}
+                    </Title>
                 ) : (
                     <TitleWrapper>
-                        <Title href={`./product/${product.id}`}>{product.name}</Title>
+                        <Title onClick={() => router.push(`./product/${product.id}`)}>
+                            {product.name}
+                        </Title>
                         <WishlistIcon
                             onClick={wishlistButtonHandler}
                             $variation={variation}
@@ -234,7 +238,7 @@ const Text = styled.p<{ $variation: "horizontal" | "vertical" }>`
     font-weight: 400;
     padding-bottom: ${({ $variation }) => ($variation === "horizontal" ? "24px" : "16px")};
 `;
-const Title = styled.a`
+const Title = styled.p`
     font-family: "Inter", sans-serif;
     text-decoration: none;
     font-size: 16px;

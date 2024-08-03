@@ -7,6 +7,7 @@ import crossIcon from "@/public/icons/cross.svg";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useAppSelector } from "@/store/hooks";
 import { imageLinkHandler } from "@/app/_lib/functions";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     cartProducts: ICartProduct[];
@@ -44,6 +45,7 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
     useEffect(() => {
         setCounter(cartProducts.length);
     }, [cartProducts]);
+    const router = useRouter();
     return (
         <Wrapper>
             <LeftBlock>
@@ -54,7 +56,9 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
                     />
                 </ImageWrapper>
                 <InfoBlock>
-                    <Title href={`/product/${product?.id}`}>{product?.name}</Title>
+                    <Title onClick={() => router.push(`/product/${product?.id}`)}>
+                        {product?.name}
+                    </Title>
                     <ColorText>
                         Color: {color ? color[0].toUpperCase() + color.substring(1) : "undefined"}
                     </ColorText>
@@ -107,7 +111,7 @@ const ColorText = styled.p`
     font-weight: 400;
     line-height: 20px;
 `;
-const Title = styled.a`
+const Title = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
     font-size: 14px;

@@ -4,6 +4,7 @@ import Header from "../_components/Header";
 import Footer from "../_components/Footer";
 import styled from "styled-components";
 import FlyoutCart from "../_components/FlyoutCart";
+import MobileMenu from "../_components/MobileMenu";
 
 interface IProps {
     children: ReactNode;
@@ -11,9 +12,17 @@ interface IProps {
 
 const Template: FC<IProps> = ({ children }) => {
     const [isFlyoutCartVisible, setIsFlyoutCartVisible] = useState<boolean>(false);
+    const [isMobileMenuVisible, setIsMobileMenuVisible] = useState<boolean>(false);
     return (
-        <Wrapper $isScrollVisible={!isFlyoutCartVisible}>
-            <Header setIsFlyoutCartVisible={setIsFlyoutCartVisible} />
+        <Wrapper $isScrollVisible={!isFlyoutCartVisible && !isMobileMenuVisible}>
+            <Header
+                setIsMobileMenuVisible={setIsMobileMenuVisible}
+                setIsFlyoutCartVisible={setIsFlyoutCartVisible}
+            />
+            <MobileMenu
+                isMobileMenuVisible={isMobileMenuVisible}
+                setIsMobileMenuVisible={setIsMobileMenuVisible}
+            />
             <FlyoutCart
                 isFlyoutCartVisible={isFlyoutCartVisible}
                 setIsFlyoutCartVisible={setIsFlyoutCartVisible}

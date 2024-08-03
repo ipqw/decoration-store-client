@@ -2,6 +2,7 @@ import { StaticImageData } from "next/image";
 import React, { FC } from "react";
 import styled from "styled-components";
 import arrowIcon from "../../../public/icons/arrow-right.svg";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     image: StaticImageData;
@@ -11,12 +12,16 @@ interface IProps {
 }
 
 const BannerCard: FC<IProps> = ({ image, smallImage, title, variety }) => {
+    const router = useRouter();
     return (
         <Wrapper $smallImage={smallImage} $variety={variety || "default"} $image={image}>
             <Content $variety={variety || "default"}>
                 <Title>{title}</Title>
                 <Button>
-                    <ButtonText href={`/shop?category=${title.split(" ")[0]}`}>Shop Now</ButtonText>
+                    <ButtonText
+                        onClick={() => router.push(`/shop?category=${title.split(" ")[0]}`)}>
+                        Shop Now
+                    </ButtonText>
                     <ButtonImage src={arrowIcon.src} />
                 </Button>
             </Content>

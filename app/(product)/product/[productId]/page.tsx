@@ -195,7 +195,7 @@ const ProductPage: FC<IProps> = ({ params }) => {
                                 return (
                                     <ColorImageWrapper
                                         onClick={() => {
-                                            router.replace(el.id.toString());
+                                            router.push(el.id.toString());
                                         }}
                                         key={index}>
                                         <ColorImage

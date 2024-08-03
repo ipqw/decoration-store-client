@@ -19,10 +19,10 @@ const Footer: FC = () => {
                         <LogoText>Gift & Decoration Store</LogoText>
                     </LogoBlock>
                     <NavBlock>
-                        <NavLink href={"./"}>Home</NavLink>
-                        <NavLink href={"./shop"}>Shop</NavLink>
+                        <NavLink href={"/"}>Home</NavLink>
+                        <NavLink href={"/shop"}>Shop</NavLink>
                         <NavLink href={""}>Product</NavLink>
-                        <NavLink href={"./contact-us"}>Contact us</NavLink>
+                        <NavLink href={"/contact-us"}>Contact us</NavLink>
                     </NavBlock>
                 </TopBlock>
                 <BottomBlock>

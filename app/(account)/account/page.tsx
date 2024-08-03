@@ -20,7 +20,7 @@ const AccountPage: FC = () => {
     const user = useAppSelector((state) => state.user);
     useEffect(() => {
         if (!(typeof window !== "undefined" ? localStorage.getItem("token") : false)) {
-            router.replace("/signin");
+            router.push("/signin");
         }
     }, []);
     return (
@@ -71,7 +71,7 @@ const AccountPage: FC = () => {
                                 typeof window !== "undefined"
                                     ? localStorage.removeItem("token")
                                     : "";
-                                router.replace("/signin");
+                                router.push("/signin");
                             }}>
                             Log Out
                         </MenuSection>

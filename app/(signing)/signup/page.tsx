@@ -35,7 +35,7 @@ const SignUp: FC = () => {
                     typeof window !== "undefined"
                         ? localStorage.setItem("token", res.data.token)
                         : "";
-                    router.replace("/");
+                    router.push("/");
                 }
                 return null;
             });
@@ -43,6 +43,7 @@ const SignUp: FC = () => {
             setIsFirstAttempt(false);
         }
     };
+
     return (
         <Wrapper>
             <LeftBlock>
@@ -57,7 +58,8 @@ const SignUp: FC = () => {
                 <Form>
                     <FormTitle>Sign up</FormTitle>
                     <FormText>
-                        Already have an account? <FormLink href="./signin">Sign in</FormLink>
+                        Already have an account?{" "}
+                        <FormLink onClick={() => router.push("/signin")}>Sign in</FormLink>
                     </FormText>
                     <FormInputs>
                         <FormInputWrapper $outlined={!name && !isFirstAttempt ? true : false}>
@@ -210,7 +212,7 @@ const FormText = styled.p`
     color: #6c7275;
     margin-bottom: 32px;
 `;
-const FormLink = styled.a`
+const FormLink = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;

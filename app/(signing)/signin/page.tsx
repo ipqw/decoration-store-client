@@ -31,7 +31,7 @@ const SignUp: FC = () => {
                     typeof window !== "undefined"
                         ? localStorage.setItem("token", res.data.token)
                         : "";
-                    router.replace("/");
+                    router.push("/");
                 }
                 return null;
             });
@@ -54,7 +54,8 @@ const SignUp: FC = () => {
                 <Form>
                     <FormTitle>Sign In</FormTitle>
                     <FormText>
-                        Don’t have an accout yet? <FormLink href="./signup">Sign Up</FormLink>
+                        Don’t have an accout yet?{" "}
+                        <FormLink onClick={() => router.push("/signup")}>Sign Up</FormLink>
                     </FormText>
                     <FormInputs>
                         <FormInputWrapper $outlined={!email && !isFirstAttempt ? true : false}>
@@ -87,7 +88,7 @@ const SignUp: FC = () => {
                                 </FormInputWrapper>
                                 <RememberText>Remember me</RememberText>
                             </RememberWrapper>
-                            <OptionsLink href="#">Forgot password?</OptionsLink>
+                            <OptionsLink>Forgot password?</OptionsLink>
                         </OptionsBlock>
                         <SubmitButton onClick={submitButtonHandler}>
                             <SubmitButtonText>Sign In</SubmitButtonText>
@@ -123,7 +124,7 @@ const AgreementText = styled.p`
     font-weight: 400;
     line-height: 26px;
 `;
-const AgreementLink = styled.a`
+const AgreementLink = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
     font-size: 16px;
@@ -191,7 +192,7 @@ const FormText = styled.p`
     color: #6c7275;
     margin-bottom: 32px;
 `;
-const FormLink = styled.a`
+const FormLink = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;

@@ -3,6 +3,7 @@ import { ICartProduct, IOrder } from "@/app/_types/types";
 import React, { Dispatch, FC, SetStateAction } from "react";
 import styled from "styled-components";
 import OrderProduct from "./OrderProduct";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     sortedCartProducts: ICartProduct[][];
@@ -10,6 +11,7 @@ interface IProps {
 }
 
 const OrderComplete: FC<IProps> = ({ sortedCartProducts, order }) => {
+    const router = useRouter();
     return (
         <Wrapper>
             <TitleBlock>
@@ -41,7 +43,9 @@ const OrderComplete: FC<IProps> = ({ sortedCartProducts, order }) => {
                     </OrderDetailText>
                 </OrderDetailColumn>
             </OrderDetails>
-            <OrdersHistoryButton href="/account">Orders history</OrdersHistoryButton>
+            <OrdersHistoryButton onClick={() => router.push("/account")}>
+                Orders history
+            </OrdersHistoryButton>
         </Wrapper>
     );
 };

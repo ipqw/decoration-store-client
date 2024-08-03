@@ -21,7 +21,7 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
         if (!isLoadingCreateCartProduct && user?.cart && product) {
             createCartProduct({ productId: product.id, cartId: user.cart.id, amount: 1 });
         } else if (!(typeof window !== "undefined" ? localStorage.getItem("token") : true)) {
-            router.replace("/signin");
+            router.push("/signin");
         }
     };
     return (
@@ -89,7 +89,7 @@ const ProductCard: FC<{ product: IProduct }> = ({ product }) => {
                         }
                     />
                 </StarsWrapper>
-                <Title href={`./product/${product.id}`}>{product.name}</Title>
+                <Title onClick={() => router.push(`./product/${product.id}`)}>{product.name}</Title>
                 <PriceWrapper>
                     <Price>
                         $
@@ -134,7 +134,7 @@ const CartText = styled.p`
     color: #fefefe;
     user-select: none;
 `;
-const Title = styled.a`
+const Title = styled.p`
     font-family: "Inter", sans-serif;
     text-decoration: none;
     font-size: 16px;

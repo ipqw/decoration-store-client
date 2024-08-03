@@ -5,19 +5,20 @@ import styled from "styled-components";
 interface ILogo {
     maincolor?: string;
     dotcolor?: string;
+    small?: boolean;
 }
-const Logo: FC<ILogo> = ({ maincolor, dotcolor }) => {
+const Logo: FC<ILogo> = ({ maincolor, dotcolor, small }) => {
     return (
-        <LogoWrapper $maincolor={maincolor}>
+        <LogoWrapper $maincolor={maincolor} $small={small}>
             3legant<LogoSpan $dotcolor={dotcolor}>.</LogoSpan>
         </LogoWrapper>
     );
 };
-const LogoWrapper = styled.p<{ $maincolor?: string }>`
+const LogoWrapper = styled.p<{ $maincolor?: string; $small?: boolean }>`
     color: ${({ $maincolor }) => $maincolor || "#000000"};
     font-weight: 500;
     font-family: "Poppins", sans-serif;
-    font-size: 24px;
+    font-size: ${({ $small }) => ($small ? "16px" : "24px")};
     cursor: default;
     user-select: none;
     width: fit-content;

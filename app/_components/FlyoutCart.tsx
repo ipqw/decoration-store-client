@@ -6,6 +6,7 @@ import styled from "styled-components";
 import CartProduct from "./CartProduct";
 import { ICartProduct } from "../_types/types";
 import { useRouter } from "next/navigation";
+import crossIcon from "@/public/icons/cross.svg";
 
 interface IProps {
     isFlyoutCartVisible: boolean;
@@ -58,7 +59,11 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
     return (
         <Wrapper onClick={() => setIsFlyoutCartVisible(false)} $isVisible={isFlyoutCartVisible}>
             <Cart onClick={(e) => e.stopPropagation()} $isFlyoutCartVisible={isFlyoutCartVisible}>
-                <CartTitle>Cart</CartTitle>
+                <CartTitleBlock>
+                    <CartTitle>Cart</CartTitle>
+                    <CrossIcon onClick={() => setIsFlyoutCartVisible(false)} src={crossIcon.src} />
+                </CartTitleBlock>
+
                 <CartProducts>
                     {sortedCartProducts?.map((el, index) => {
                         return <CartProduct key={index} cartProducts={el} />;
@@ -88,15 +93,30 @@ const FlyoutCart: FC<IProps> = ({ isFlyoutCartVisible, setIsFlyoutCartVisible })
                         </TotalPrice>
                     </Total>
                 </Summary>
-                <CheckOutButton onClick={() => router.replace("/cart?checkout=1")}>
+                <CheckOutButton onClick={() => router.push("/cart?checkout=1")}>
                     Checkout
                 </CheckOutButton>
-                <ViewCartButton href="/cart">View Cart</ViewCartButton>
+                <ViewCartButton onClick={() => router.push("/cart")}>View Cart</ViewCartButton>
             </Cart>
         </Wrapper>
     );
 };
-const ViewCartButton = styled.a`
+const CrossIcon = styled.img`
+    display: flex;
+    width: 24px;
+    height: 24px;
+    user-select: none;
+    cursor: pointer;
+    @media screen and (min-width: 650px) {
+        display: none;
+    }
+`;
+const CartTitleBlock = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+const ViewCartButton = styled.p`
     font-size: 14px;
     width: fit-content;
     line-height: 22px;
@@ -195,10 +215,10 @@ const Cart = styled.div<{ $isFlyoutCartVisible: boolean }>`
     top: 0;
     right: ${({ $isFlyoutCartVisible }) => ($isFlyoutCartVisible ? "0px" : "413px")};
     animation-duration: 0.5s;
-    animation-name: slidein;
+    animation-name: cartSlide;
     padding: 40px 24px;
 
-    @keyframes slidein {
+    @keyframes cartSlide {
         from {
             right: -413px;
         }

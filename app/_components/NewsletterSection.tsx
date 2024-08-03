@@ -115,11 +115,10 @@ const Wrapper = styled.section`
     background-image: url(${signupBackground.src});
     background-repeat: no-repeat;
     background-position-x: center;
-    width: 375px;
+    width: 100%;
     height: 360px;
     padding: 95px 32px;
     @media screen and (min-width: 1440px) {
-        width: 100%;
         padding: 0;
     }
 `;

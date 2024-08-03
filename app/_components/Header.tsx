@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
-import searchIcon from "../../public/icons/search.svg";
+import menuIcon from "@/public/icons/main/menu-line-horizontal.svg";
 import userIcon from "../../public/icons/user-circle.svg";
 import shoppingBagIcon from "../../public/icons/shoppingBag.svg";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,12 +8,15 @@ import Logo from "./Logo";
 import { Dispatch, FC, SetStateAction } from "react";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
+import { useWindowSize } from "../_lib/hooks";
 
 interface IProps {
     setIsFlyoutCartVisible?: Dispatch<SetStateAction<boolean>>;
+    setIsMobileMenuVisible: Dispatch<SetStateAction<boolean>>;
 }
 
-const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
+const Header: FC<IProps> = ({ setIsFlyoutCartVisible, setIsMobileMenuVisible }) => {
+    const windowSize = useWindowSize();
     const pathname = usePathname();
     const router = useRouter();
     const user = useAppSelector((state) => state.user);
@@ -21,8 +24,12 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
     return (
         <Wrapper>
             <HeaderContent>
-                <Logo />
-                <NavBlock>
+                <LogoBlock>
+                    <MenuIcon src={menuIcon.src} onClick={() => setIsMobileMenuVisible(true)} />
+                    <Logo small={windowSize.width < 650} />
+                </LogoBlock>
+
+                <NavBlock $isVisible={windowSize.width >= 650}>
                     <StyledLink
                         style={{ color: pathname === "/" ? "#000000" : "#6C7275" }}
                         href="/">
@@ -45,25 +52,28 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
                     </StyledLink>
                 </NavBlock>
                 <IconsBlock>
-                    {/* <Icon src={searchIcon.src} /> */}
                     <Icon
                         src={userIcon.src}
                         onClick={() => {
                             if (user.id) {
-                                router.replace("/account");
+                                router.push("/account");
                             } else if (
                                 !(typeof window !== "undefined"
                                     ? localStorage.getItem("token")
                                     : true)
                             ) {
-                                router.replace("/signin");
+                                router.push("/signin");
                             }
                         }}
                     />
                     <CartIcons>
                         <Icon
                             onClick={() =>
-                                setIsFlyoutCartVisible ? setIsFlyoutCartVisible(true) : null
+                                windowSize.width >= 413
+                                    ? setIsFlyoutCartVisible
+                                        ? setIsFlyoutCartVisible(true)
+                                        : null
+                                    : router.push("/cart")
                             }
                             src={shoppingBagIcon.src}
                         />
@@ -76,6 +86,21 @@ const Header: FC<IProps> = ({ setIsFlyoutCartVisible }) => {
         </Wrapper>
     );
 };
+const MenuIcon = styled.img`
+    display: block;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    @media screen and (min-width: 650px) {
+        display: none;
+    }
+`;
+const LogoBlock = styled.div`
+    display: flex;
+    column-gap: 4px;
+    align-items: center;
+    padding-left: 10px;
+`;
 const CartIcons = styled.div`
     display: flex;
     column-gap: 5px;
@@ -116,6 +141,7 @@ const Icon = styled.img`
 const IconsBlock = styled.div`
     display: flex;
     column-gap: 16px;
+    padding-right: 10px;
 `;
 const HeaderContent = styled.div`
     max-width: 1120px;
@@ -135,8 +161,8 @@ const Wrapper = styled.div`
     justify-content: center;
     background-color: #ffffff;
 `;
-const NavBlock = styled.div`
-    display: flex;
+const NavBlock = styled.div<{ $isVisible: boolean }>`
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
     justify-content: space-between;
     align-items: center;
     width: 100%;

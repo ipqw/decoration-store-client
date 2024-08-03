@@ -24,6 +24,7 @@ import NewsletterSection from "../_components/NewsletterSection";
 import { productApiSlice } from "@/store/services/productApiSlice";
 import { IProduct } from "../_types/types";
 import { useWindowSize } from "../_lib/hooks";
+import { useRouter } from "next/navigation";
 
 const Home: FC = () => {
     const {
@@ -45,6 +46,7 @@ const Home: FC = () => {
         });
     }, [products]);
     const windowSize = useWindowSize();
+    const router = useRouter();
     return (
         <Wrapper>
             <SectionsWrapper>
@@ -85,13 +87,17 @@ const Home: FC = () => {
                     <ProductCarouselTitleBlock>
                         <ProductCarouselTitleText>New Arrivals</ProductCarouselTitleText>
                         <StyledLink $isVisible={windowSize.width > 1440}>
-                            <StyledLinkText href="/shop">More Products</StyledLinkText>
+                            <StyledLinkText onClick={() => router.push("/shop")}>
+                                More Products
+                            </StyledLinkText>
                             <StyledLinkIcon src={arrowIcon.src} />
                         </StyledLink>
                     </ProductCarouselTitleBlock>
                     <ProductCarousel products={filteredProducts} />
                     <StyledLink $isVisible={windowSize.width <= 1440}>
-                        <StyledLinkText href="/shop">More Products</StyledLinkText>
+                        <StyledLinkText onClick={() => router.push("/shop")}>
+                            More Products
+                        </StyledLinkText>
                         <StyledLinkIcon src={arrowIcon.src} />
                     </StyledLink>
                 </ProductCarouselSection>
@@ -133,7 +139,9 @@ const Home: FC = () => {
                             makeover
                         </SaleInfoText>
                         <StyledLink $isVisible>
-                            <StyledLinkText href="/shop">Shop Now</StyledLinkText>
+                            <StyledLinkText onClick={() => router.push("/shop")}>
+                                Shop Now
+                            </StyledLinkText>
                             <StyledLinkIcon src={arrowIcon.src} />
                         </StyledLink>
                     </SaleInfo>
@@ -320,7 +328,7 @@ const StyledLink = styled.div<{ $isVisible: boolean }>`
     align-self: flex-start;
     display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
 `;
-const StyledLinkText = styled.a`
+const StyledLinkText = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;

@@ -31,7 +31,7 @@ const ContactUsPage: FC = () => {
                         3legant is a gift & decorations store based in HCMC, Vietnam. Est since
                         2019. Our customer service is always prepared to support you 24/7
                     </AboutText>
-                    <AboutLink onClick={() => router.replace("/shop")}>
+                    <AboutLink onClick={() => router.push("/shop")}>
                         <AboutLinkText>Shop Now</AboutLinkText>
                         <AboutLinkIcon src={arrowRight.src} />
                     </AboutLink>

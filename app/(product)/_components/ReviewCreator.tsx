@@ -59,7 +59,7 @@ const ReviewCreator: FC<IProps> = ({ productGroup, userReview, rate, setRate }) 
                 });
             }
         } else if (!(typeof window !== "undefined" ? localStorage.getItem("token") : false)) {
-            router.replace("/signin");
+            router.push("/signin");
         }
     };
     return (
