@@ -15,6 +15,7 @@ import fourthGridActiveIcon from "@/public/icons/shop/fourthGridIconActive.svg";
 
 import MobileProductCard from "@/app/_components/MobileProductCard";
 import { useWindowSize } from "@/app/_lib/hooks";
+import SmallMoblieProductCard from "@/app/_components/SmallMobileProductCard";
 
 interface IProps {
     products: IProduct[];
@@ -26,7 +27,11 @@ interface IProps {
 const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActiveGridButton }) => {
     const windowSize = useWindowSize();
     useEffect(() => {
-        if (windowSize.width < 1120 && (activeGridButton === 0 || activeGridButton === 1)) {
+        if (
+            windowSize.width !== 0 &&
+            windowSize.width < 1120 &&
+            (activeGridButton === 0 || activeGridButton === 1)
+        ) {
             setActiveGridButton(2);
         }
     }, [windowSize.width]);
@@ -47,7 +52,7 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
                     <GridButtonsBlock>
                         <GridButton
                             $first
-                            $invisible={windowSize.width < 1120}
+                            $invisible={windowSize.width < 1120 && windowSize.width !== 0}
                             onClick={() => setActiveGridButton(0)}
                             $active={activeGridButton === 0}>
                             <GridButtonIcon
@@ -59,7 +64,7 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
                             />
                         </GridButton>
                         <GridButton
-                            $invisible={windowSize.width < 1120}
+                            $invisible={windowSize.width < 1120 && windowSize.width !== 0}
                             onClick={() => setActiveGridButton(1)}
                             $active={activeGridButton === 1}>
                             <GridButtonIcon
@@ -111,12 +116,14 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
                       })
                     : activeGridButton === 2
                       ? products.map((product, index) => {
-                            return (
+                            return windowSize.width >= 1120 ? (
                                 <MobileProductCard
                                     key={index}
                                     product={product}
                                     variation="horizontal"
                                 />
+                            ) : (
+                                <SmallMoblieProductCard key={index} product={product} />
                             );
                         })
                       : products.map((product, index) => {
@@ -215,6 +222,7 @@ const Wrapper = styled.div<{ $gridVariation?: string }>`
         }
     }};
     flex-direction: column;
+    align-items: center;
     row-gap: 40px;
     margin-bottom: 40px;
 `;

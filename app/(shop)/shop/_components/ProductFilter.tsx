@@ -44,7 +44,11 @@ const ProductFilter: FC<IProps> = ({
     const windowSize = useWindowSize();
 
     useEffect(() => {
-        if (windowSize.width < 1120 && (activeGridButton === 0 || activeGridButton === 1)) {
+        if (
+            windowSize.width !== 0 &&
+            windowSize.width < 1120 &&
+            (activeGridButton === 0 || activeGridButton === 1)
+        ) {
             setActiveGridButton(2);
         }
     }, [windowSize.width]);
@@ -330,7 +334,7 @@ const ProductFilter: FC<IProps> = ({
                     <GridButtonsBlock>
                         <GridButton
                             $first
-                            $invisible={windowSize.width < 1120}
+                            $invisible={windowSize.width < 1120 && windowSize.width !== 0}
                             onClick={() => setActiveGridButton(0)}
                             $active={activeGridButton === 0}>
                             <GridButtonIcon
@@ -342,7 +346,7 @@ const ProductFilter: FC<IProps> = ({
                             />
                         </GridButton>
                         <GridButton
-                            $invisible={windowSize.width < 1120}
+                            $invisible={windowSize.width < 1120 && windowSize.width !== 0}
                             onClick={() => setActiveGridButton(1)}
                             $active={activeGridButton === 1}>
                             <GridButtonIcon
