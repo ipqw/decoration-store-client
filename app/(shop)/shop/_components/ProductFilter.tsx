@@ -4,14 +4,21 @@ import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react"
 import styled from "styled-components";
 
 import filterIcon from "@/public/icons/shop/filter.svg";
+
 import firstGridIcon from "@/public/icons/shop/firstGridIcon.svg";
+import firstGridActiveIcon from "@/public/icons/shop/firstGridIconActive.svg";
 import secondGridIcon from "@/public/icons/shop/secondGridIcon.svg";
+import secondGridActiveIcon from "@/public/icons/shop/secondGridIconActive.svg";
 import thirdGridIcon from "@/public/icons/shop/thirdGridIcon.svg";
+import thirdGridActiveIcon from "@/public/icons/shop/thirdGridIconActive.svg";
 import fourthGridIcon from "@/public/icons/shop/fourthGridIcon.svg";
+import fourthGridActiveIcon from "@/public/icons/shop/fourthGridIconActive.svg";
+
 import { typeApiSlice } from "@/store/services/typeApiSlice";
 import CheckboxInput from "@/app/_components/CheckboxInput";
 import Dropdown from "./Dropdown";
 import { GridButton, GridButtonIcon, GridButtonsBlock, SettingsBlock } from "./ProductGrid";
+import { useWindowSize } from "@/app/_lib/hooks";
 
 interface IProps {
     products: IProduct[];
@@ -34,6 +41,14 @@ const ProductFilter: FC<IProps> = ({
     const { data: types } = typeApiSlice.useGetAllTypesQuery(null);
 
     // hooks
+    const windowSize = useWindowSize();
+
+    useEffect(() => {
+        if (windowSize.width < 1120 && (activeGridButton === 0 || activeGridButton === 1)) {
+            setActiveGridButton(2);
+        }
+    }, [windowSize.width]);
+
     const [activePrice, setActivePrice] = useState<{ text: string; value: string }>({
         text: "All Price",
         value: "all",
@@ -270,6 +285,7 @@ const ProductFilter: FC<IProps> = ({
                     </PriceBlock>
                 </PriceSection>
             </FirstVariation>
+
             <SecondVariation $isVisible={activeGridButton > 0}>
                 <DropdownsWrapper>
                     <DropdownWrapper>
@@ -310,26 +326,54 @@ const ProductFilter: FC<IProps> = ({
                     </DropdownWrapper>
                 </DropdownsWrapper>
                 <SettingsBlock $isVisible={true}>
+                    <GridTitle $invisible={windowSize.width >= 1120}>Variations</GridTitle>
                     <GridButtonsBlock>
                         <GridButton
+                            $first
+                            $invisible={windowSize.width < 1120}
                             onClick={() => setActiveGridButton(0)}
                             $active={activeGridButton === 0}>
-                            <GridButtonIcon src={firstGridIcon.src} />
+                            <GridButtonIcon
+                                src={
+                                    activeGridButton === 0
+                                        ? firstGridActiveIcon.src
+                                        : firstGridIcon.src
+                                }
+                            />
                         </GridButton>
                         <GridButton
+                            $invisible={windowSize.width < 1120}
                             onClick={() => setActiveGridButton(1)}
                             $active={activeGridButton === 1}>
-                            <GridButtonIcon src={secondGridIcon.src} />
+                            <GridButtonIcon
+                                src={
+                                    activeGridButton === 1
+                                        ? secondGridActiveIcon.src
+                                        : secondGridIcon.src
+                                }
+                            />
                         </GridButton>
                         <GridButton
                             onClick={() => setActiveGridButton(2)}
                             $active={activeGridButton === 2}>
-                            <GridButtonIcon src={thirdGridIcon.src} />
+                            <GridButtonIcon
+                                src={
+                                    activeGridButton === 2
+                                        ? thirdGridActiveIcon.src
+                                        : thirdGridIcon.src
+                                }
+                            />
                         </GridButton>
                         <GridButton
                             onClick={() => setActiveGridButton(3)}
                             $active={activeGridButton === 3}>
-                            <GridButtonIcon src={fourthGridIcon.src} />
+                            <GridButtonIcon
+                                src={
+                                    activeGridButton === 3
+                                        ? fourthGridActiveIcon.src
+                                        : fourthGridIcon.src
+                                }
+                            />
                         </GridButton>
                     </GridButtonsBlock>
                 </SettingsBlock>
@@ -337,9 +381,22 @@ const ProductFilter: FC<IProps> = ({
         </Wrapper>
     );
 };
+const GridTitle = styled.p<{ $invisible: boolean }>`
+    display: ${({ $invisible }) => ($invisible ? "none" : "block")};
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 600;
+    color: #121212;
+`;
 const DropdownsWrapper = styled.div`
     display: flex;
     column-gap: 24px;
+    row-gap: 24px;
+    flex-direction: column;
+    @media screen and (min-width: 1120px) {
+        flex-direction: row;
+    }
 `;
 const DropdownText = styled.p`
     font-family: "Inter", sans-serif;
@@ -355,8 +412,14 @@ const DropdownWrapper = styled.div`
 `;
 const SecondVariation = styled.div<{ $isVisible: boolean }>`
     display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
-    justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 32px;
+    @media screen and (min-width: 1120px) {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
 `;
 const FirstVariation = styled.div<{ $isVisible: boolean }>`
     display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};

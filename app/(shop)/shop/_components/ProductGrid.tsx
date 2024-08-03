@@ -1,13 +1,20 @@
 "use client";
 import ProductCard from "@/app/_components/ProductCard";
 import { IProduct } from "@/app/_types/types";
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
+
 import firstGridIcon from "@/public/icons/shop/firstGridIcon.svg";
+import firstGridActiveIcon from "@/public/icons/shop/firstGridIconActive.svg";
 import secondGridIcon from "@/public/icons/shop/secondGridIcon.svg";
+import secondGridActiveIcon from "@/public/icons/shop/secondGridIconActive.svg";
 import thirdGridIcon from "@/public/icons/shop/thirdGridIcon.svg";
+import thirdGridActiveIcon from "@/public/icons/shop/thirdGridIconActive.svg";
 import fourthGridIcon from "@/public/icons/shop/fourthGridIcon.svg";
+import fourthGridActiveIcon from "@/public/icons/shop/fourthGridIconActive.svg";
+
 import MobileProductCard from "@/app/_components/MobileProductCard";
+import { useWindowSize } from "@/app/_lib/hooks";
 
 interface IProps {
     products: IProduct[];
@@ -17,6 +24,12 @@ interface IProps {
 }
 
 const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActiveGridButton }) => {
+    const windowSize = useWindowSize();
+    useEffect(() => {
+        if (windowSize.width < 1120 && (activeGridButton === 0 || activeGridButton === 1)) {
+            setActiveGridButton(2);
+        }
+    }, [windowSize.width]);
     return (
         <Wrapper
             $gridVariation={
@@ -33,24 +46,51 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
                 <SettingsBlock $isVisible={!(activeGridButton > 0)}>
                     <GridButtonsBlock>
                         <GridButton
+                            $first
+                            $invisible={windowSize.width < 1120}
                             onClick={() => setActiveGridButton(0)}
                             $active={activeGridButton === 0}>
-                            <GridButtonIcon src={firstGridIcon.src} />
+                            <GridButtonIcon
+                                src={
+                                    activeGridButton === 0
+                                        ? firstGridActiveIcon.src
+                                        : firstGridIcon.src
+                                }
+                            />
                         </GridButton>
                         <GridButton
+                            $invisible={windowSize.width < 1120}
                             onClick={() => setActiveGridButton(1)}
                             $active={activeGridButton === 1}>
-                            <GridButtonIcon src={secondGridIcon.src} />
+                            <GridButtonIcon
+                                src={
+                                    activeGridButton === 1
+                                        ? secondGridActiveIcon.src
+                                        : secondGridIcon.src
+                                }
+                            />
                         </GridButton>
                         <GridButton
                             onClick={() => setActiveGridButton(2)}
                             $active={activeGridButton === 2}>
-                            <GridButtonIcon src={thirdGridIcon.src} />
+                            <GridButtonIcon
+                                src={
+                                    activeGridButton === 2
+                                        ? thirdGridActiveIcon.src
+                                        : thirdGridIcon.src
+                                }
+                            />
                         </GridButton>
                         <GridButton
                             onClick={() => setActiveGridButton(3)}
                             $active={activeGridButton === 3}>
-                            <GridButtonIcon src={fourthGridIcon.src} />
+                            <GridButtonIcon
+                                src={
+                                    activeGridButton === 3
+                                        ? fourthGridActiveIcon.src
+                                        : fourthGridIcon.src
+                                }
+                            />
                         </GridButton>
                     </GridButtonsBlock>
                 </SettingsBlock>
@@ -92,16 +132,25 @@ const ProductGrid: FC<IProps> = ({ products, category, activeGridButton, setActi
         </Wrapper>
     );
 };
-const SortImage = styled.img`
-    width: 20px;
-    height: 20px;
-`;
 export const SettingsBlock = styled.div<{ $isVisible: boolean }>`
     display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
-    column-gap: 32px;
+    column-gap: 0;
+    justify-content: space-between;
+    border-top: 1px solid #e8ecef;
+    border-bottom: 1px solid #e8ecef;
+    align-items: center;
+    padding: 8px 0;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        column-gap: 32px;
+        border-top: none;
+        border-bottom: none;
+        padding: 0;
+        width: fit-content;
+    }
 `;
-export const GridButton = styled.div<{ $active: boolean; $first?: boolean }>`
-    display: flex;
+export const GridButton = styled.div<{ $active: boolean; $first?: boolean; $invisible?: boolean }>`
+    display: ${({ $invisible }) => ($invisible ? "none" : "flex")};
     align-items: center;
     justify-content: center;
     width: 46px;

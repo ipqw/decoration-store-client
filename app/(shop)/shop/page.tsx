@@ -3,6 +3,7 @@ import React, { FC, Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import mainImage from "@/public/images/shop/main.png";
+import mobileMainImage from "@/public/images/shop/mobileMain.png";
 
 import arrowIcon from "@/public/icons/arrow.svg";
 import ProductGrid from "./_components/ProductGrid";
@@ -11,6 +12,7 @@ import ProductFilter from "./_components/ProductFilter";
 import { IProduct } from "@/app/_types/types";
 import { useSearchParams } from "next/navigation";
 import { typeApiSlice } from "@/store/services/typeApiSlice";
+import { useWindowSize } from "@/app/_lib/hooks";
 
 const ShopPageContent = () => {
     const searchParams = useSearchParams();
@@ -64,6 +66,7 @@ const ShopPageContent = () => {
     const showMoreButtonHandler = () => {
         setProductLimit((prev) => (prev += 12));
     };
+    const windowSize = useWindowSize();
     return (
         <Wrapper>
             <MainImage>
@@ -141,8 +144,13 @@ const MainImageText = styled.p`
     color: #121212;
     font-family: "Inter", sans-serif;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 32px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 26px;
+    @media screen and (min-width: 1120px) {
+        font-size: 20px;
+        line-height: 32px;
+    }
 `;
 const MainImageNavIcon = styled.img`
     width: 16px;
@@ -171,22 +179,34 @@ const MainImageTitle = styled.p`
     color: #000000;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
-    font-size: 54px;
-    line-height: 58px;
+    font-size: 40px;
+    line-height: 44px;
+    @media screen and (min-width: 1120px) {
+        font-size: 54px;
+        line-height: 58px;
+    }
 `;
 const MainImageBlock = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    row-gap: 24px;
+    row-gap: 16px;
+    @media screen and (min-width: 1120px) {
+        row-gap: 24px;
+    }
 `;
 const MainImage = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url(${mainImage.src});
-    height: 392px;
-    width: 1120px;
+    background-image: url(${mobileMainImage.src});
+    width: 311px;
+    height: 308px;
+    @media screen and (min-width: 1120px) {
+        background-image: url(${mainImage.src});
+        width: 1120px;
+        height: 392px;
+    }
 `;
 const Wrapper = styled.div`
     display: flex;

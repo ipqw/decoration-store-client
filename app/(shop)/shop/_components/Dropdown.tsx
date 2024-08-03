@@ -116,13 +116,16 @@ const DropdownItems = styled.div<{ $isOpened: boolean }>`
 `;
 const DropdownOpener = styled.div`
     display: flex;
-    min-width: 262px;
+    min-width: 312px;
     border-radius: 8px;
     border: 2px #6c7275 solid;
     align-items: center;
     justify-content: space-between;
     padding: 12px;
     cursor: pointer;
+    @media screen and (min-width: 1120px) {
+        min-width: 262px;
+    }
 `;
 const Wrapper = styled.div`
     display: flex;
