@@ -3,6 +3,7 @@ import styled from "styled-components";
 import arrow from "../../../public/icons/arrow-right.svg";
 import { IProduct } from "@/app/_types/types";
 import { imageLinkHandler } from "@/app/_lib/functions";
+import { useWindowSize } from "@/app/_lib/hooks";
 
 interface IProps {
     product?: IProduct;
@@ -14,6 +15,7 @@ interface IWrapperProps {
     $backgroundColor?: string;
 }
 const ImageSlider: FC<IProps> = ({ product, backgroundColor }) => {
+    const windowSize = useWindowSize();
     const [active, setActive] = useState<number>(0);
     const isNew = product ? Date.now() - new Date(product.createdAt).getTime() < 604800000 : false;
     const optionalImages = product?.images
@@ -77,7 +79,8 @@ const ImageSlider: FC<IProps> = ({ product, backgroundColor }) => {
                     <ArrowImage src={arrow.src} />
                 </ArrowButton>
             </MainImageWrapper>
-            <OptionalImagesWrapper $invisible={(product?.images?.length || 0) < 4}>
+            <OptionalImagesWrapper
+                $invisible={(product?.images?.length || 0) < 4 || windowSize.width < 1120}>
                 {optionalImages.map((image, index) => {
                     return (
                         <OptionalImage
@@ -191,8 +194,12 @@ const MainImageWrapper = styled.div<IWrapperProps>`
     align-items: center;
     overflow: hidden;
     position: relative;
-    min-width: 547px;
-    min-height: 728px;
+    width: 311px;
+    height: 414px;
+    @media screen and (min-width: 1120px) {
+        width: 547px;
+        height: 728px;
+    }
     user-select: none;
     background-color: ${({ $backgroundColor }) =>
         $backgroundColor ? `#${$backgroundColor}` : "transparent"};

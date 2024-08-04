@@ -209,7 +209,13 @@ const ProductPage: FC<IProps> = ({ params }) => {
                     </ColorWrapper>
                     <AddProductBlock>
                         <AddProductTop>
-                            <Counter counter={counter} setCounter={setCounter} />
+                            <Counter
+                                small
+                                noBorders
+                                backgroundColor="#F5F5F5"
+                                counter={counter}
+                                setCounter={setCounter}
+                            />
                             <WishlistButton onClick={wishlistButtonHandler}>
                                 <WishlistIcon
                                     src={
@@ -286,9 +292,13 @@ const CategoryWrapper = styled.div`
 const CartText = styled.p`
     font-family: "Inter", sans-serif;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 32px;
+    font-size: 14px;
+    line-height: 24px;
     color: #ffffff;
+    @media screen and (min-width: 1120px) {
+        font-size: 18px;
+        line-height: 32px;
+    }
 `;
 const CartButton = styled.div`
     display: flex;
@@ -297,31 +307,47 @@ const CartButton = styled.div`
     user-select: none;
     cursor: pointer;
     border-radius: 8px;
-    height: 52px;
+    height: 32px;
     background-color: #141718;
+    @media screen and (min-width: 1120px) {
+        height: 52px;
+    }
 `;
 const WishlistText = styled.p`
     font-family: "Inter", sans-serif;
     font-weight: 500;
-    font-size: 18px;
-    line-height: 32px;
+    font-size: 14px;
+    line-height: 24px;
     color: #141718;
     margin-left: 8px;
+    @media screen and (min-width: 1120px) {
+        font-size: 18px;
+        line-height: 32px;
+    }
 `;
 const WishlistIcon = styled.img`
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
+    @media screen and (min-width: 1120px) {
+        width: 24px;
+        height: 24px;
+    }
 `;
 const WishlistButton = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 357px;
-    height: 52px;
-    border-radius: 8px;
+    width: 223px;
+    height: 32px;
+    border-radius: 4px;
     border: 1px solid #141718;
     user-select: none;
     cursor: pointer;
+    @media screen and (min-width: 1120px) {
+        width: 357px;
+        height: 52px;
+        border-radius: 8px;
+    }
 `;
 const AddProductTop = styled.div`
     display: flex;
@@ -488,14 +514,22 @@ const ProductImages = styled.aside`
     max-width: 547px;
 `;
 const ProductInfoAside = styled.aside`
-    width: fit-content;
-    max-width: 508px;
+    max-width: 311px;
+    margin-top: 32px;
+    @media screen and (min-width: 1120px) {
+        max-width: 508px;
+        margin-top: 0;
+    }
 `;
 const ProductSection = styled.section`
     display: flex;
     justify-content: center;
     column-gap: 63px;
     padding-bottom: 40px;
+    flex-direction: column;
+    @media screen and (min-width: 1120px) {
+        flex-direction: row;
+    }
 `;
 
 const Wrapper = styled.div<{ $invisible?: boolean }>`

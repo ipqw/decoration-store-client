@@ -7,11 +7,13 @@ interface IProps {
     counter: number;
     setCounter: Dispatch<SetStateAction<number>>;
     small?: boolean;
+    noBorders?: boolean;
+    backgroundColor?: string;
 }
 
-const Counter: FC<IProps> = ({ counter, setCounter, small }) => {
+const Counter: FC<IProps> = ({ counter, setCounter, small, backgroundColor, noBorders }) => {
     return (
-        <Wrapper $small={small || false}>
+        <Wrapper $noBorders={noBorders} $backgroundColor={backgroundColor} $small={small || false}>
             <Button
                 $small={small || false}
                 onClick={() => {
@@ -51,8 +53,9 @@ const Button = styled.div<{ $small: boolean }>`
     height: ${({ $small }) => ($small ? "16px" : "auto")};
     cursor: pointer;
 `;
-const Wrapper = styled.div<{ $small: boolean }>`
-    background-color: ${({ $small }) => ($small ? "#FFFFFF" : "#f5f5f5")};
+const Wrapper = styled.div<{ $small: boolean; $backgroundColor?: string; $noBorders?: boolean }>`
+    background-color: ${({ $small, $backgroundColor }) =>
+        $backgroundColor ? $backgroundColor : $small ? "#FFFFFF" : "#f5f5f5"};
     border-radius: ${({ $small }) => ($small ? "4px" : "8px")};
     display: flex;
     padding: ${({ $small }) => ($small ? "6px 8px" : "12px 16px")};
@@ -61,7 +64,8 @@ const Wrapper = styled.div<{ $small: boolean }>`
     min-width: ${({ $small }) => ($small ? "80px" : "127px")};
     height: ${({ $small }) => ($small ? "32px" : "52px")};
     user-select: none;
-    border: ${({ $small }) => ($small ? "1px solid #6C7275" : "none")};
+    border: ${({ $small, $noBorders }) =>
+        $noBorders ? "none" : $small ? "1px solid #6C7275" : "none"};
 `;
 
 export default Counter;
