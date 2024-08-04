@@ -1,6 +1,6 @@
 "use client";
 import { ICartProduct, IOrder } from "@/app/_types/types";
-import React, { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import styled from "styled-components";
 import OrderProduct from "./OrderProduct";
 import { useRouter } from "next/navigation";

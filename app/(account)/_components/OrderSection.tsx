@@ -1,7 +1,6 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
 import { orderApiSlice } from "@/store/services/orderApiSlice";
-import React from "react";
 import styled from "styled-components";
 import OrderItem from "./OrderItem";
 

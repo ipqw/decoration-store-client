@@ -1,7 +1,7 @@
 "use client";
 import { IReview } from "@/app/_types/types";
 import { userApiSlice } from "@/store/services/userApiSlice";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import blankAvatar from "@/public/icons/blankAvatar.png";
 import emptyStar from "@/public/icons/emptyStar.svg";

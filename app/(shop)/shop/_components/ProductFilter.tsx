@@ -1,6 +1,6 @@
 "use client";
 import { IProduct } from "@/app/_types/types";
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import filterIcon from "@/public/icons/shop/filter.svg";

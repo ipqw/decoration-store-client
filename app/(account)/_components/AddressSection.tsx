@@ -1,6 +1,5 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
-import React from "react";
 import styled from "styled-components";
 import AddressCard from "./AddressCard";
 

@@ -1,7 +1,7 @@
 "use client";
 import { months } from "@/app/_lib/constants";
 import { IOrder } from "@/app/_types/types";
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 
 const OrderItem: FC<{ order: IOrder }> = ({ order }) => {

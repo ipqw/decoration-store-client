@@ -1,5 +1,5 @@
 import { IProduct } from "@/app/_types/types";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";

@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
+import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import crossIcon from "@/public/icons/cross.svg";

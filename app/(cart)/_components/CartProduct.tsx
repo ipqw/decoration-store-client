@@ -1,6 +1,6 @@
 "use client";
 import { ICartProduct } from "@/app/_types/types";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import Counter from "@/app/_components/Counter";
 

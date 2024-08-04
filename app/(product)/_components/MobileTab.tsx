@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import styled from "styled-components";
 import arrowIcon from "@/public/icons/product/arrowDown.svg";
 

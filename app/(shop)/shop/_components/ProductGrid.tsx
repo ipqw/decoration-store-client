@@ -1,7 +1,7 @@
 "use client";
 import ProductCard from "@/app/_components/ProductCard";
 import { IProduct } from "@/app/_types/types";
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import firstGridIcon from "@/public/icons/shop/firstGridIcon.svg";

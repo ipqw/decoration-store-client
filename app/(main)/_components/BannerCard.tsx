@@ -1,5 +1,5 @@
 import { StaticImageData } from "next/image";
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import arrowIcon from "../../../public/icons/arrow-right.svg";
 import { useRouter } from "next/navigation";

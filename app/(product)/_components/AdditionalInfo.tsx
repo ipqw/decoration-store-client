@@ -1,6 +1,6 @@
 "use client";
 import { IProductInfo } from "@/app/_types/types";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import Info from "./Info";
 

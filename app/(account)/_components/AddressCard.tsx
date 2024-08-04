@@ -1,6 +1,6 @@
 "use client";
 import { IAddress } from "@/app/_types/types";
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import editIcon from "@/public/icons/account/edit.svg";
 

@@ -1,7 +1,6 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
 import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
-import React from "react";
 import styled from "styled-components";
 import WishlistProductItem from "./WishlistProductItem";
 

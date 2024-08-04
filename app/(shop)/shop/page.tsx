@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, Suspense, useEffect, useState } from "react";
+import { FC, Suspense, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import mainImage from "@/public/images/shop/main.png";

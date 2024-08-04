@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 
 import aboutImage from "@/public/images/contact-us/image-0.png";

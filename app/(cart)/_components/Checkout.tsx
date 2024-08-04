@@ -1,5 +1,5 @@
 "use client";
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import styled from "styled-components";
 import RadioVariant from "./RadioVariant";
 import { ICartProduct, IOrder } from "@/app/_types/types";

@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import mainImage from "../../../public/images/signup/main-image.png";
 import eyeIcon from "@/public/icons/eye.svg";

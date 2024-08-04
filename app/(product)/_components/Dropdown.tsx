@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
+import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import styled from "styled-components";
 import arrowIcon from "@/public/icons/product/arrowDown.svg";
 

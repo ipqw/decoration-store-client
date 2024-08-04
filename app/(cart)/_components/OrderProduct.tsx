@@ -1,7 +1,7 @@
 "use client";
 import { imageLinkHandler } from "@/app/_lib/functions";
 import { ICartProduct } from "@/app/_types/types";
-import React, { FC } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 
 interface IProps {

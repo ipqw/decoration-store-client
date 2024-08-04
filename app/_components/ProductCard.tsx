@@ -1,5 +1,5 @@
 import { IProduct } from "@/app/_types/types";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import noImageIcon from "@/public/icons/no-image.ico";
 import fullStarIcon from "@/public/icons/fullStar.svg";

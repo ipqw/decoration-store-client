@@ -1,6 +1,6 @@
 "use client";
 import { IReview } from "@/app/_types/types";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import Review from "./Review";
 

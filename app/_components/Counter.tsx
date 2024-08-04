@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import styled from "styled-components";
 import removeIcon from "@/public/icons/product/Minus.svg";
 import addIcon from "@/public/icons/product/Add.svg";

@@ -1,7 +1,7 @@
 "use client";
 import { useAppSelector } from "@/store/hooks";
 import { userApiSlice } from "@/store/services/userApiSlice";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import eyeIcon from "@/public/icons/eye.svg";
 
