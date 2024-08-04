@@ -8,14 +8,25 @@ interface IProps {
     activeItem: string;
     setActiveItem: Dispatch<SetStateAction<string>>;
     items: string[];
+    absolute?: boolean;
 }
 
-const Dropdown: FC<IProps> = ({ isOpened, setIsOpened, activeItem, setActiveItem, items }) => {
+const Dropdown: FC<IProps> = ({
+    isOpened,
+    setIsOpened,
+    activeItem,
+    setActiveItem,
+    items,
+    absolute,
+}) => {
     useEffect(() => {
         setActiveItem(items[0]);
     }, []);
     return (
-        <Wrapper onClick={() => setIsOpened((prev) => !prev)} $isOpened={isOpened}>
+        <Wrapper
+            $absolute={absolute}
+            onClick={() => setIsOpened((prev) => !prev)}
+            $isOpened={isOpened}>
             <DropdownItems $isOpened={isOpened}>
                 {items.map((el, index) => {
                     return (
@@ -73,8 +84,11 @@ const DropdownItem = styled.div<{ $isActive: boolean; $isOpened: boolean }>`
 const DropdownItems = styled.div<{ $isOpened: boolean }>`
     width: ${({ $isOpened }) => ($isOpened ? "100%" : "fit-content")};
 `;
-const Wrapper = styled.div<{ $isOpened: boolean }>`
+const Wrapper = styled.div<{ $isOpened: boolean; $absolute?: boolean }>`
     display: flex;
+    position: ${({ $absolute }) => ($absolute ? "absolute" : "static")};
+    top: 0;
+    right: 0;
     min-width: 256px;
     border-radius: 8px;
     border: 2px #e8ecef solid;

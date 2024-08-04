@@ -54,22 +54,52 @@ const Review: FC<IProps> = ({ review }) => {
     };
     return (
         <Wrapper>
-            <Avatar
-                src={
-                    reviewAuthor?.imageUrl
-                        ? imageLinkHandler(reviewAuthor?.imageUrl)
-                        : blankAvatar.src
-                }
-            />
-            <InfoBlock>
-                <Name>{reviewAuthor?.displayName}</Name>
-                <StarsWrapper>
-                    <Star src={review.rate >= 1 ? fullStar.src : emptyStar.src} />
-                    <Star src={review.rate >= 2 ? fullStar.src : emptyStar.src} />
-                    <Star src={review.rate >= 3 ? fullStar.src : emptyStar.src} />
-                    <Star src={review.rate >= 4 ? fullStar.src : emptyStar.src} />
-                    <Star src={review.rate >= 5 ? fullStar.src : emptyStar.src} />
-                </StarsWrapper>
+            <MainVersion>
+                <Avatar
+                    src={
+                        reviewAuthor?.imageUrl
+                            ? imageLinkHandler(reviewAuthor?.imageUrl)
+                            : blankAvatar.src
+                    }
+                />
+                <InfoBlock>
+                    <Name>{reviewAuthor?.displayName}</Name>
+                    <StarsWrapper>
+                        <Star src={review.rate >= 1 ? fullStar.src : emptyStar.src} />
+                        <Star src={review.rate >= 2 ? fullStar.src : emptyStar.src} />
+                        <Star src={review.rate >= 3 ? fullStar.src : emptyStar.src} />
+                        <Star src={review.rate >= 4 ? fullStar.src : emptyStar.src} />
+                        <Star src={review.rate >= 5 ? fullStar.src : emptyStar.src} />
+                    </StarsWrapper>
+                    <Text>{review.text}</Text>
+                    <LikeWrapper>
+                        <LikeText>{likeCounter} likes</LikeText>•
+                        <Button onClick={buttonClickHandler}>
+                            <ButtonImg src={isLiked ? filledLikeIcon.src : likeIcon.src} /> Like
+                        </Button>
+                    </LikeWrapper>
+                </InfoBlock>
+            </MainVersion>
+            <MobileVersion>
+                <MobileAccountInfo>
+                    <Avatar
+                        src={
+                            reviewAuthor?.imageUrl
+                                ? imageLinkHandler(reviewAuthor?.imageUrl)
+                                : blankAvatar.src
+                        }
+                    />
+                    <InfoWrapper>
+                        <Name>{reviewAuthor?.displayName}</Name>
+                        <StarsWrapper>
+                            <Star src={review.rate >= 1 ? fullStar.src : emptyStar.src} />
+                            <Star src={review.rate >= 2 ? fullStar.src : emptyStar.src} />
+                            <Star src={review.rate >= 3 ? fullStar.src : emptyStar.src} />
+                            <Star src={review.rate >= 4 ? fullStar.src : emptyStar.src} />
+                            <Star src={review.rate >= 5 ? fullStar.src : emptyStar.src} />
+                        </StarsWrapper>
+                    </InfoWrapper>
+                </MobileAccountInfo>
                 <Text>{review.text}</Text>
                 <LikeWrapper>
                     <LikeText>{likeCounter} likes</LikeText>•
@@ -77,10 +107,33 @@ const Review: FC<IProps> = ({ review }) => {
                         <ButtonImg src={isLiked ? filledLikeIcon.src : likeIcon.src} /> Like
                     </Button>
                 </LikeWrapper>
-            </InfoBlock>
+            </MobileVersion>
         </Wrapper>
     );
 };
+const InfoWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+`;
+const MobileAccountInfo = styled.div`
+    display: flex;
+    column-gap: 16px;
+`;
+const MobileVersion = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+    @media screen and (min-width: 1120px) {
+        display: none;
+    }
+`;
+const MainVersion = styled.div`
+    display: none;
+    @media screen and (min-width: 1120px) {
+        display: block;
+    }
+`;
 const LikeText = styled.p`
     font-family: "Inter", sans-serif;
     font-size: 16px;
@@ -136,14 +189,15 @@ const Name = styled.p`
     font-size: 20px;
     font-weight: 600;
     line-height: 32px;
-    padding-bottom: 8px;
     hyphens: auto;
     word-wrap: break-word;
+    @media screen and (min-width: 1120px) {
+        padding-bottom: 8px;
+    }
 `;
 const InfoBlock = styled.div`
     display: flex;
     flex-direction: column;
-    max-width: 740px;
 `;
 const Avatar = styled.img`
     border-radius: 48px;
@@ -157,7 +211,6 @@ const Wrapper = styled.div`
     padding-bottom: 24px;
     border-bottom: 1px solid #e8ecef;
     width: 100%;
-    max-width: 740px;
     padding-top: 24px;
 `;
 

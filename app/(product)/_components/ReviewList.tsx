@@ -9,6 +9,7 @@ import ReviewCreator from "./ReviewCreator";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import FilteredReviews from "./FilteredReviews";
 import { useAppSelector } from "@/store/hooks";
+import { useWindowSize } from "@/app/_lib/hooks";
 
 interface IProps {
     averageRate: number;
@@ -46,6 +47,7 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
     const loadMoreButtonHandler: MouseEventHandler<HTMLImageElement> = (el) => {
         setReviewAmount((prev) => prev + 5);
     };
+    const windowSize = useWindowSize();
     return (
         <Wrapper $isVisible={!isLoading && !error && data?.reviews ? true : false}>
             <WriteReviewSection>
@@ -100,29 +102,26 @@ const ReviewsList: FC<IProps> = ({ averageRate, productGroup }) => {
                 />
             </WriteReviewSection>
             <ReviewsSection>
-                <aside>
-                    <TitleBlock>
-                        <Title>
-                            {data?.amount} {(data?.amount || 0) > 1 ? "Reviews" : "Review"}
-                        </Title>
-                    </TitleBlock>
-                    <ReviewsBlock>
-                        <FilteredReviews
-                            activeItem={activeDropdownItem}
-                            userReview={userReview}
-                            reviews={data?.reviews || []}
-                        />
-                    </ReviewsBlock>
-                </aside>
-                <aside>
-                    <Dropdown
-                        isOpened={isOpenedDropdown}
-                        setIsOpened={setIsOpenedDropdown}
+                <TitleBlock>
+                    <Title>
+                        {data?.amount} {(data?.amount || 0) > 1 ? "Reviews" : "Review"}
+                    </Title>
+                </TitleBlock>
+                <Dropdown
+                    absolute={windowSize.width >= 1120}
+                    isOpened={isOpenedDropdown}
+                    setIsOpened={setIsOpenedDropdown}
+                    activeItem={activeDropdownItem}
+                    setActiveItem={setActiveDropdownItem}
+                    items={["Newest", "Oldest", "Most liked"]}
+                />
+                <ReviewsBlock>
+                    <FilteredReviews
                         activeItem={activeDropdownItem}
-                        setActiveItem={setActiveDropdownItem}
-                        items={["Newest", "Oldest", "Most liked"]}
+                        userReview={userReview}
+                        reviews={data?.reviews || []}
                     />
-                </aside>
+                </ReviewsBlock>
             </ReviewsSection>
             <LoadMoreButton
                 $isVisible={Number(data?.amount) === data?.reviews.length ? true : false}
@@ -199,7 +198,8 @@ const WriteReviewSection = styled.div`
 `;
 const ReviewsSection = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    position: relative;
     width: 100%;
 `;
 const ReviewsBlock = styled.div`

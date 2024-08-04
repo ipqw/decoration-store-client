@@ -19,6 +19,8 @@ import ReviewsList from "../../_components/ReviewList";
 import { reviewApiSlice } from "@/store/services/reviewApiSlice";
 import AdditionalInfo from "../../_components/AdditionalInfo";
 import { imageLinkHandler } from "@/app/_lib/functions";
+import { useWindowSize } from "@/app/_lib/hooks";
+import MobileTab from "../../_components/MobileTab";
 
 interface IProps {
     params: { productId: string };
@@ -82,6 +84,8 @@ const ProductPage: FC<IProps> = ({ params }) => {
 
     // additional section
     const [activeTab, setActiveTab] = useState<number>(0);
+
+    const windowSize = useWindowSize();
 
     return (
         <Wrapper
@@ -244,9 +248,25 @@ const ProductPage: FC<IProps> = ({ params }) => {
                 </ProductInfoAside>
             </ProductSection>
             <AdditionalSection>
-                <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-                {activeTab === 0 && <AdditionalInfo infos={product?.product_infos || []} />}
-                {activeTab === 1 && (
+                {windowSize.width < 1120 ? (
+                    <>
+                        <MobileTab title="Additional Info">
+                            <AdditionalInfo infos={product?.product_infos || []} />
+                        </MobileTab>
+                        <MobileTab title="Reviews">
+                            <ReviewsList
+                                productGroup={product?.product_group}
+                                averageRate={product?.product_group?.averageRate || 0}
+                            />
+                        </MobileTab>
+                    </>
+                ) : (
+                    <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+                )}
+                {activeTab === 0 && windowSize.width >= 1120 && (
+                    <AdditionalInfo infos={product?.product_infos || []} />
+                )}
+                {activeTab === 1 && windowSize.width >= 1120 && (
                     <ReviewsList
                         productGroup={product?.product_group}
                         averageRate={product?.product_group?.averageRate || 0}
@@ -257,8 +277,11 @@ const ProductPage: FC<IProps> = ({ params }) => {
     );
 };
 const AdditionalSection = styled.section`
-    width: 1120px;
+    width: 312px;
     padding-bottom: 40px;
+    @media screen and (min-width: 1120px) {
+        width: 1120px;
+    }
 `;
 
 const CategoryText = styled.p`
