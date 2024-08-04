@@ -23,14 +23,15 @@ const MobileProductCard: FC<IProps> = ({ product, variation }) => {
     const router = useRouter();
     const user = useAppSelector((state) => state.user);
     const [isAddedToWishlistBtn, setIsAddedToWishlistBtn] = useState<boolean>(false);
+    const { data: wishlistProducts } = wishlistApiSlice.useGetWishlistProductsByWishlistIdQuery(
+        user.wishlist?.id || 0,
+    );
 
     useEffect(() => {
         setIsAddedToWishlistBtn(
-            user.wishlist?.wishlist_products?.find((el) => el.productId === Number(product.id))
-                ? true
-                : false,
+            wishlistProducts?.find((el) => el.productId === Number(product.id)) ? true : false,
         );
-    }, [user, product]);
+    }, [wishlistProducts, product]);
 
     // mutations
     const [createWishlistProduct, { isLoading: isLoadingCreateWishlistProduct }] =

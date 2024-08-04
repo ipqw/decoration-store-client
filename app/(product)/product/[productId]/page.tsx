@@ -27,17 +27,18 @@ interface IProps {
 const ProductPage: FC<IProps> = ({ params }) => {
     const router = useRouter();
     const user = useAppSelector((state) => state.user);
+    const { data: wishlistProducts } = wishlistApiSlice.useGetWishlistProductsByWishlistIdQuery(
+        user.wishlist?.id || 0,
+    );
     const [counter, setCounter] = useState<number>(0);
     const [isAddedToWishlistBtn, setIsAddedToWishlistBtn] = useState<boolean>(false);
     useEffect(() => {
         setIsAddedToWishlistBtn(
-            user.wishlist?.wishlist_products?.find(
-                (el) => el.productId === Number(params.productId),
-            )
+            wishlistProducts?.find((el) => el.productId === Number(params.productId))
                 ? true
                 : false,
         );
-    }, [user, params]);
+    }, [wishlistProducts, params]);
 
     // queries
     const {

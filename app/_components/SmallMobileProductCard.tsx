@@ -1,13 +1,17 @@
 import { IProduct } from "@/app/_types/types";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styled from "styled-components";
-import noImageIcon from "@/public/icons/no-image.ico";
-import fullStarIcon from "@/public/icons/fullStar.svg";
-import emptyStarIcon from "@/public/icons/emptyStar.svg";
 import { useAppSelector } from "@/store/hooks";
 import { cartApiSlice } from "@/store/services/cartApiSlice";
 import { useRouter } from "next/navigation";
 import { imageLinkHandler } from "@/app/_lib/functions";
+
+import noImageIcon from "@/public/icons/no-image.ico";
+import fullStarIcon from "@/public/icons/fullStar.svg";
+import emptyStarIcon from "@/public/icons/emptyStar.svg";
+import wishlistIcon from "@/public/icons/product/Wishlist.svg";
+import filledWishlistIcon from "@/public/icons/product/FilledWishlist.svg";
+import { wishlistApiSlice } from "@/store/services/wishlistApiSlice";
 
 const SmallMoblieProductCard: FC<{ product: IProduct }> = ({ product }) => {
     const [isVisibleCartButton, setIsVisibleCartButton] = useState<boolean>(false);
@@ -24,6 +28,35 @@ const SmallMoblieProductCard: FC<{ product: IProduct }> = ({ product }) => {
             router.push("/signin");
         }
     };
+
+    const [isAddedToWishlistBtn, setIsAddedToWishlistBtn] = useState<boolean>(false);
+    const { data: wishlistProducts } = wishlistApiSlice.useGetWishlistProductsByWishlistIdQuery(
+        user.wishlist?.id || 0,
+    );
+
+    useEffect(() => {
+        setIsAddedToWishlistBtn(
+            wishlistProducts?.find((el) => el.productId === Number(product.id)) ? true : false,
+        );
+    }, [product, wishlistProducts]);
+
+    const [createWishlistProduct, { isLoading: isLoadingCreateWishlistProduct }] =
+        wishlistApiSlice.useCreateWishlistProductMutation();
+    const [deleteWishlistProduct, { isLoading: isLoadingDeleteWishlistProduct }] =
+        wishlistApiSlice.useDeleteWishlistProductMutation();
+    const wishlistButtonHandler = () => {
+        if (isAddedToWishlistBtn && user?.wishlist && product) {
+            if (!isLoadingDeleteWishlistProduct) {
+                deleteWishlistProduct({ productId: product.id, wishlistId: user.wishlist.id });
+                setIsAddedToWishlistBtn(false);
+            }
+        } else {
+            if (!isLoadingCreateWishlistProduct && product && user?.wishlist) {
+                createWishlistProduct({ productId: product?.id, wishlistId: user.wishlist.id });
+                setIsAddedToWishlistBtn(true);
+            }
+        }
+    };
     return (
         <Wrapper>
             <ImageWrapper
@@ -38,6 +71,11 @@ const SmallMoblieProductCard: FC<{ product: IProduct }> = ({ product }) => {
                         <DiscountLabelText>-{product.discount?.percent}%</DiscountLabelText>
                     </DiscountLabel>
                 </LabelWrapper>
+                <WishlistButton onClick={wishlistButtonHandler} $isVisible={isVisibleCartButton}>
+                    <WishlistIcon
+                        src={isAddedToWishlistBtn ? filledWishlistIcon.src : wishlistIcon.src}
+                    />
+                </WishlistButton>
                 <CartButton onClick={cartButtonHandler} $isVisible={isVisibleCartButton}>
                     <CartText>Add to cart</CartText>
                 </CartButton>
@@ -112,6 +150,22 @@ const SmallMoblieProductCard: FC<{ product: IProduct }> = ({ product }) => {
         </Wrapper>
     );
 };
+const WishlistIcon = styled.img`
+    width: 20px;
+    height: 20px;
+`;
+const WishlistButton = styled.div<{ $isVisible: boolean }>`
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 32px;
+    position: absolute;
+    top: 16px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+`;
 const CartButton = styled.div<{ $isVisible: boolean }>`
     position: absolute;
     bottom: 16px;
