@@ -342,7 +342,7 @@ const ImageWrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
     display: flex;
     position: relative;
     width: ${({ $variation }) => ($variation === "horizontal" ? "262px " : "312px")};
-    height: ${({ $variation }) => ($variation === "horizontal" ? "349px" : "416px")};
+    height: ${({ $variation }) => ($variation === "horizontal" ? "100%" : "416px")};
     align-items: center;
     justify-content: center;
     background-color: #f3f5f7;
@@ -351,7 +351,7 @@ const ImageWrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
 const Wrapper = styled.div<{ $variation: "horizontal" | "vertical" }>`
     display: flex;
     width: ${({ $variation }) => ($variation === "horizontal" ? "548px" : "312px")};
-    height: fit-content;
+    height: auto;
     flex-direction: ${({ $variation }) => ($variation === "horizontal" ? "row" : "column")};
 `;
 

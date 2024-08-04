@@ -358,6 +358,7 @@ const ProductFilter: FC<IProps> = ({
                             />
                         </GridButton>
                         <GridButton
+                            $first={windowSize.width < 1120}
                             onClick={() => setActiveGridButton(2)}
                             $active={activeGridButton === 2}>
                             <GridButtonIcon
