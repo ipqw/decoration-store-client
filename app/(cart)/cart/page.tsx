@@ -50,6 +50,7 @@ const CartPageContent: FC = () => {
                 </Process>
                 <ProcessCircle
                     $isVisible={activeProcess === 0}
+                    $mobile
                     $isCompleted={activeProcess > 1}
                     $isActive={activeProcess === 1}>
                     2
@@ -72,6 +73,7 @@ const CartPageContent: FC = () => {
                     </ProcessText>
                 </Process>
                 <ProcessCircle
+                    $mobile
                     $isVisible={activeProcess === 1}
                     $isCompleted={activeProcess > 1}
                     $isActive={activeProcess === 1}>
@@ -143,6 +145,7 @@ const ProcessCircle = styled.div<{
     $isActive: boolean;
     $isCompleted: boolean;
     $isVisible: boolean;
+    $mobile?: boolean;
 }>`
     display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
     align-items: center;
@@ -159,7 +162,7 @@ const ProcessCircle = styled.div<{
     background-color: ${({ $isActive, $isCompleted }) =>
         $isCompleted ? "#38CB89" : $isActive ? "#23262f" : "#B1B5C3"};
     @media screen and (min-width: 1120px) {
-        display: flex;
+        display: ${({ $mobile }) => ($mobile ? "none" : "flex")};
     }
 `;
 
