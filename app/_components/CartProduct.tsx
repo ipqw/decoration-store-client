@@ -11,9 +11,10 @@ import { useRouter } from "next/navigation";
 
 interface IProps {
     cartProducts: ICartProduct[];
+    smallMobile?: boolean;
 }
 
-const CartProduct: FC<IProps> = ({ cartProducts }) => {
+const CartProduct: FC<IProps> = ({ cartProducts, smallMobile }) => {
     const product = cartProducts[0].product;
 
     const user = useAppSelector((state) => state.user);
@@ -47,7 +48,7 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
     }, [cartProducts]);
     const router = useRouter();
     return (
-        <Wrapper>
+        <Wrapper $smallMobile={smallMobile}>
             <LeftBlock>
                 <ImageWrapper>
                     <Image
@@ -139,9 +140,9 @@ const ImageWrapper = styled.div`
     background-color: #f3f5f7;
     user-select: none;
 `;
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $smallMobile?: boolean }>`
     display: flex;
-    width: 365px;
+    width: ${({ $smallMobile }) => ($smallMobile ? "280px" : "365px")};
     height: 144px;
     padding: 24px 0;
     border-bottom: 1px solid #e8ecef;

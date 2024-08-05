@@ -261,7 +261,7 @@ const Checkout: FC<IProps> = ({
                         <>
                             <InputWrapper>
                                 <InputTitle>CARD NUMBER</InputTitle>
-                                <Input type="number" $fullWidth placeholder="1234123412341234" />
+                                <Input type="number" $fullWidth placeholder="1234 1234 1234 1234" />
                             </InputWrapper>
                             <FlexWrapper>
                                 <InputWrapper>
@@ -288,13 +288,15 @@ const Checkout: FC<IProps> = ({
                         </>
                     )}
                 </FormSection>
-                <PlaceOrderButton onClick={placeOrder}>Place Order</PlaceOrderButton>
+                <PlaceOrderButton $mobile={false} onClick={placeOrder}>
+                    Place Order
+                </PlaceOrderButton>
             </Form>
             <OrderSummary>
                 <OrderSummaryTitle>Order summary</OrderSummaryTitle>
                 <CartProducts>
                     {sortedCartProducts?.map((el, index) => {
-                        return <CartProduct key={index} cartProducts={el} />;
+                        return <CartProduct smallMobile key={index} cartProducts={el} />;
                     })}
                 </CartProducts>
                 <PriceBlock>
@@ -314,6 +316,9 @@ const Checkout: FC<IProps> = ({
                     </PriceWrapper>
                 </PriceBlock>
             </OrderSummary>
+            <PlaceOrderButton $mobile={true} onClick={placeOrder}>
+                Place Order
+            </PlaceOrderButton>
         </Wrapper>
     );
 };
@@ -360,6 +365,10 @@ const OrderSummary = styled.div`
     border: 1px solid #6c7275;
     padding: 16px 24px;
     height: fit-content;
+    margin-top: 24px;
+    @media screen and (min-width: 1120px) {
+        margin-top: 0;
+    }
 `;
 const OrderSummaryTitle = styled.p`
     color: #121212;
@@ -368,8 +377,8 @@ const OrderSummaryTitle = styled.p`
     font-weight: 500;
     line-height: 34px;
 `;
-const PlaceOrderButton = styled.div`
-    display: flex;
+const PlaceOrderButton = styled.div<{ $mobile?: boolean }>`
+    display: ${({ $mobile }) => ($mobile ? "flex" : "none")};
     justify-content: center;
     align-items: center;
     border-radius: 8px;
@@ -383,6 +392,11 @@ const PlaceOrderButton = styled.div`
     background-color: #141718;
     user-select: none;
     cursor: pointer;
+    margin-top: 24px;
+    @media screen and (min-width: 1120px) {
+        margin-top: 0;
+        display: ${({ $mobile }) => ($mobile ? "none" : "flex")};
+    }
 `;
 const RadioWrapper = styled.div`
     display: flex;
@@ -401,16 +415,23 @@ const Input = styled.input<{ $fullWidth?: boolean; $outlined?: boolean }>`
     outline: ${({ $outlined }) => ($outlined ? "#ff0000 2px solid" : "none")};
     border-radius: 6px;
     padding: 7px 16px;
-    width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "285.5px")};
+    width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "136px")};
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         appearance: none;
     }
+    @media screen and (min-width: 1120px) {
+        width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "285.5px")};
+    }
 `;
 const FlexWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+    column-gap: 8px;
+    @media screen and (min-width: 1120px) {
+        column-gap: 0;
+    }
 `;
 const InputWrapper = styled.div`
     display: flex;
@@ -434,22 +455,31 @@ const FormSectionTitle = styled.p`
 const FormSection = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 40px 24px;
+    padding: 24px 16px;
     row-gap: 24px;
     border-radius: 4px;
     border: #6c7275 1px solid;
+    @media screen and (min-width: 1120px) {
+        padding: 40px 24px;
+    }
 `;
 const Form = styled.div`
     display: flex;
     flex-direction: column;
     row-gap: 24px;
-    width: 643px;
+    width: 312px;
 `;
 const Wrapper = styled.div`
     display: flex;
+    flex-direction: column;
     padding-top: 80px;
     padding-bottom: 160px;
     column-gap: 64px;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        flex-direction: row;
+        width: 100%;
+    }
 `;
 
 export default Checkout;
