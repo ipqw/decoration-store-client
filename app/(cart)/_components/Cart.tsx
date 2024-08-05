@@ -152,23 +152,33 @@ const CheckoutButton = styled.div`
     border-radius: 8px;
     color: #ffffff;
     font-family: "Inter", sans-serif;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 18px;
     line-height: 32px;
 `;
 const TotalPrice = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 32px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    @media screen and (min-width: 1120px) {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 32px;
+    }
 `;
 const TotalTitle = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 32px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    @media screen and (min-width: 1120px) {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 32px;
+    }
 `;
 const PriceBlock = styled.div<{ $border?: boolean }>`
     display: flex;
@@ -180,16 +190,26 @@ const PriceBlock = styled.div<{ $border?: boolean }>`
 const SubtotalPrice = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 26px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 700;
+    @media screen and (min-width: 1120px) {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 26px;
+    }
 `;
 const SubtotalTitle = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 26px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 700;
+    @media screen and (min-width: 1120px) {
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 26px;
+    }
 `;
 const ShippingVariants = styled.div`
     display: flex;
@@ -199,24 +219,36 @@ const ShippingVariants = styled.div`
 `;
 const SummaryTitle = styled.p`
     color: #141718;
-    font-family: "Poppins", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 28px;
+    font-family: "Inter", sans-serif;
     padding-bottom: 16px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 26px;
+    @media screen and (min-width: 1120px) {
+        font-family: "Poppins", sans-serif;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 28px;
+    }
 `;
 const SummaryBlock = styled.div`
     display: flex;
     flex-direction: column;
     border-radius: 6px;
-    padding: 24px;
+    padding: 16px;
     border: 1px solid #6c7275;
     height: fit-content;
+    @media screen and (min-width: 1120px) {
+        padding: 24px;
+    }
 `;
 const ColumnTitlesWrapper = styled.div`
-    display: flex;
+    display: none;
     justify-content: space-between;
     width: 322px;
+    @media screen and (min-width: 1120px) {
+        display: flex;
+    }
 `;
 const ColumnTitle = styled.p`
     font-family: "Inter", sans-serif;
@@ -233,13 +265,23 @@ const ColumnTitles = styled.div`
 `;
 const CartBlock = styled.div`
     display: flex;
-    width: 643px;
+    width: 100%;
     flex-direction: column;
+    @media screen and (min-width: 1120px) {
+        width: 643px;
+    }
 `;
 const Wrapper = styled.div`
     display: flex;
     column-gap: 64px;
-    padding: 80px 0;
+    padding: 40px 0 80px 0;
+    flex-direction: column;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        flex-direction: row;
+        width: 100%;
+        padding: 80px 0;
+    }
 `;
 
 export default Cart;

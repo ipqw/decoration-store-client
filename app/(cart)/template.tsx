@@ -34,6 +34,9 @@ const Template: FC<IProps> = ({ children }) => {
 };
 
 const Wrapper = styled.div<{ $isScrollVisible: boolean }>`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow-y: ${({ $isScrollVisible }) => ($isScrollVisible ? "auto" : "hidden")};
     overflow-x: hidden;
     height: ${({ $isScrollVisible }) => ($isScrollVisible ? "100%" : "100vh")};

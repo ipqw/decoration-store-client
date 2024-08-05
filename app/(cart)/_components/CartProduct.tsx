@@ -51,64 +51,134 @@ const CartProduct: FC<IProps> = ({ cartProducts }) => {
     }, [cartProducts]);
     return (
         <Wrapper>
-            <ImageWrapper>
-                <Image
-                    src={
-                        cartProducts[0].product.images?.length
-                            ? imageLinkHandler(cartProducts[0].product.images[0])
-                            : noImageIcon.src
-                    }
-                    alt="product image"
-                />
-            </ImageWrapper>
-            <InfoBlock>
-                <Name onClick={() => router.push(`product/${cartProducts[0].product.id}`)}>
-                    {cartProducts[0].product.name}
-                </Name>
-                <Color>
-                    Color: {color ? color[0].toUpperCase() + color.substring(1) : "undefined"}
-                </Color>
-                <RemoveButton onClick={removeButtonHandler}>
-                    <RemoveButtonIcon src={crossIcon.src} />
-                    <RemoveButtonText>Remove</RemoveButtonText>
-                </RemoveButton>
-            </InfoBlock>
-            <InfoWrapper>
-                <Counter small counter={counter} setCounter={setCounter} />
-                <Price>
-                    $
-                    {cartProducts[0].product.discountPrice
-                        ? cartProducts[0].product.discountPrice.toString().split(".")[1]
-                            ? cartProducts[0].product.discountPrice
-                            : `${cartProducts[0].product.discountPrice}.00`
-                        : cartProducts[0].product.price.toString().split(".")[1]
-                          ? cartProducts[0].product.price
-                          : `${cartProducts[0].product.price}.00`}
-                </Price>
-                <SubtotalPrice>
-                    $
-                    {cartProducts[0].product.discountPrice
-                        ? (cartProducts[0].product.discountPrice * cartProducts.length)
-                              .toString()
-                              .split(".")[1]
-                            ? cartProducts[0].product.discountPrice * cartProducts.length
-                            : `${cartProducts[0].product.discountPrice * cartProducts.length}.00`
-                        : (cartProducts[0].product.price * cartProducts.length)
-                                .toString()
-                                .split(".")[1]
-                          ? cartProducts[0].product.price * cartProducts.length
-                          : `${cartProducts[0].product.price * cartProducts.length}.00`}
-                </SubtotalPrice>
-            </InfoWrapper>
+            <MainVersion>
+                <ImageWrapper>
+                    <Image
+                        src={
+                            cartProducts[0].product.images?.length
+                                ? imageLinkHandler(cartProducts[0].product.images[0])
+                                : noImageIcon.src
+                        }
+                        alt="product image"
+                    />
+                </ImageWrapper>
+                <InfoBlock>
+                    <Name onClick={() => router.push(`product/${cartProducts[0].product.id}`)}>
+                        {cartProducts[0].product.name}
+                    </Name>
+                    <Color>
+                        Color: {color ? color[0].toUpperCase() + color.substring(1) : "undefined"}
+                    </Color>
+                    <RemoveButton onClick={removeButtonHandler}>
+                        <RemoveButtonIcon src={crossIcon.src} />
+                        <RemoveButtonText>Remove</RemoveButtonText>
+                    </RemoveButton>
+                </InfoBlock>
+                <InfoWrapper>
+                    <Counter small counter={counter} setCounter={setCounter} />
+                    <Price>
+                        $
+                        {cartProducts[0].product.discountPrice
+                            ? cartProducts[0].product.discountPrice.toString().split(".")[1]
+                                ? cartProducts[0].product.discountPrice
+                                : `${cartProducts[0].product.discountPrice}.00`
+                            : cartProducts[0].product.price.toString().split(".")[1]
+                              ? cartProducts[0].product.price
+                              : `${cartProducts[0].product.price}.00`}
+                    </Price>
+                    <SubtotalPrice>
+                        $
+                        {cartProducts[0].product.discountPrice
+                            ? (cartProducts[0].product.discountPrice * cartProducts.length)
+                                  .toString()
+                                  .split(".")[1]
+                                ? cartProducts[0].product.discountPrice * cartProducts.length
+                                : `${cartProducts[0].product.discountPrice * cartProducts.length}.00`
+                            : (cartProducts[0].product.price * cartProducts.length)
+                                    .toString()
+                                    .split(".")[1]
+                              ? cartProducts[0].product.price * cartProducts.length
+                              : `${cartProducts[0].product.price * cartProducts.length}.00`}
+                    </SubtotalPrice>
+                </InfoWrapper>
+            </MainVersion>
+            <MobileVersion>
+                <ImageWrapper>
+                    <Image
+                        src={
+                            cartProducts[0].product.images?.length
+                                ? imageLinkHandler(cartProducts[0].product.images[0])
+                                : noImageIcon.src
+                        }
+                        alt="product image"
+                    />
+                </ImageWrapper>
+                <MobileInfoWrapper>
+                    <InfoBlock>
+                        <Name onClick={() => router.push(`product/${cartProducts[0].product.id}`)}>
+                            {cartProducts[0].product.name}
+                        </Name>
+                        <Color>
+                            Color:{" "}
+                            {color ? color[0].toUpperCase() + color.substring(1) : "undefined"}
+                        </Color>
+                        <Counter small counter={counter} setCounter={setCounter} />
+                    </InfoBlock>
+                    <PriceBlock>
+                        <SubtotalPrice>
+                            $
+                            {cartProducts[0].product.discountPrice
+                                ? (cartProducts[0].product.discountPrice * cartProducts.length)
+                                      .toString()
+                                      .split(".")[1]
+                                    ? cartProducts[0].product.discountPrice * cartProducts.length
+                                    : `${cartProducts[0].product.discountPrice * cartProducts.length}.00`
+                                : (cartProducts[0].product.price * cartProducts.length)
+                                        .toString()
+                                        .split(".")[1]
+                                  ? cartProducts[0].product.price * cartProducts.length
+                                  : `${cartProducts[0].product.price * cartProducts.length}.00`}
+                        </SubtotalPrice>
+                        <RemoveButtonIcon src={crossIcon.src} onClick={removeButtonHandler} />
+                    </PriceBlock>
+                </MobileInfoWrapper>
+            </MobileVersion>
         </Wrapper>
     );
 };
+const MobileInfoWrapper = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+`;
+const PriceBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    align-items: flex-end;
+    justify-self: flex-end;
+`;
+const MobileVersion = styled.div`
+    display: flex;
+    padding: 24px 0;
+    width: 295px;
+    justify-content: flex-start;
+    border-bottom: 1px solid #e8ecef;
+    @media screen and (min-width: 1120px) {
+        display: none;
+    }
+`;
+const Wrapper = styled.div``;
 const SubtotalPrice = styled.p`
     color: #121212;
     font-family: "Inter", sans-serif;
     font-weight: 600;
-    font-size: 18px;
-    line-height: 30px;
+    font-size: 14px;
+    line-height: 22px;
+    @media screen and (min-width: 1120px) {
+        font-size: 18px;
+        line-height: 30px;
+    }
 `;
 const Price = styled.p`
     color: #121212;
@@ -160,10 +230,15 @@ const InfoBlock = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 7px 0;
+    padding: 0;
+    padding-bottom: 6px;
     margin-left: 16px;
-    width: 215px;
+    width: fit-content;
     height: 96px;
+    @media screen and (min-width: 1120px) {
+        padding: 7px 0;
+        width: 215px;
+    }
 `;
 const Image = styled.img`
     max-width: 100%;
@@ -177,10 +252,13 @@ const ImageWrapper = styled.div`
     height: 96px;
     background-color: #f3f5f7;
 `;
-const Wrapper = styled.div`
-    display: flex;
+const MainVersion = styled.div`
+    display: none;
     padding: 24px 0;
     align-items: center;
+    @media screen and (min-width: 1120px) {
+        display: flex;
+    }
 `;
 
 export default CartProduct;

@@ -28,32 +28,69 @@ const CartPageContent: FC = () => {
             </Title>
             <ProcessBar>
                 <Process
+                    $isVisible={activeProcess === 0}
                     onClick={() => {
                         activeProcess === 1 ? setActiveProcess(0) : "";
                     }}
                     $pointer={activeProcess === 1}
                     $isCompleted={activeProcess > 0}
                     $isActive={activeProcess === 0}>
-                    <ProcessCircle $isCompleted={activeProcess > 0} $isActive={activeProcess === 0}>
+                    <ProcessCircle
+                        $isVisible={activeProcess === 0}
+                        $isCompleted={activeProcess > 0}
+                        $isActive={activeProcess === 0}>
                         {activeProcess > 0 ? <TickIcon src={tickIcon.src} /> : "1"}
                     </ProcessCircle>
-                    <ProcessText $isCompleted={activeProcess > 0} $isActive={activeProcess === 0}>
+                    <ProcessText
+                        $isVisible={activeProcess === 0}
+                        $isCompleted={activeProcess > 0}
+                        $isActive={activeProcess === 0}>
                         Shopping cart
                     </ProcessText>
                 </Process>
-                <Process $isCompleted={activeProcess > 1} $isActive={activeProcess === 1}>
-                    <ProcessCircle $isCompleted={activeProcess > 1} $isActive={activeProcess === 1}>
+                <ProcessCircle
+                    $isVisible={activeProcess === 0}
+                    $isCompleted={activeProcess > 1}
+                    $isActive={activeProcess === 1}>
+                    2
+                </ProcessCircle>
+                <Process
+                    $isVisible={activeProcess === 1}
+                    $isCompleted={activeProcess > 1}
+                    $isActive={activeProcess === 1}>
+                    <ProcessCircle
+                        $isVisible={activeProcess === 1}
+                        $isCompleted={activeProcess > 1}
+                        $isActive={activeProcess === 1}>
                         2
                     </ProcessCircle>
-                    <ProcessText $isCompleted={activeProcess > 1} $isActive={activeProcess === 1}>
+                    <ProcessText
+                        $isVisible={activeProcess === 1}
+                        $isCompleted={activeProcess > 1}
+                        $isActive={activeProcess === 1}>
                         Checkout details
                     </ProcessText>
                 </Process>
-                <Process $isCompleted={activeProcess > 2} $isActive={activeProcess === 2}>
-                    <ProcessCircle $isCompleted={activeProcess > 2} $isActive={activeProcess === 2}>
+                <ProcessCircle
+                    $isVisible={activeProcess === 1}
+                    $isCompleted={activeProcess > 1}
+                    $isActive={activeProcess === 1}>
+                    3
+                </ProcessCircle>
+                <Process
+                    $isVisible={activeProcess === 2}
+                    $isCompleted={activeProcess > 2}
+                    $isActive={activeProcess === 2}>
+                    <ProcessCircle
+                        $isVisible={activeProcess === 2}
+                        $isCompleted={activeProcess > 2}
+                        $isActive={activeProcess === 2}>
                         3
                     </ProcessCircle>
-                    <ProcessText $isCompleted={activeProcess > 2} $isActive={activeProcess === 2}>
+                    <ProcessText
+                        $isVisible={activeProcess === 2}
+                        $isCompleted={activeProcess > 2}
+                        $isActive={activeProcess === 2}>
                         Order complete
                     </ProcessText>
                 </Process>
@@ -90,16 +127,24 @@ const CartPage: FC = () => {
     );
 };
 const TickIcon = styled.img``;
-const ProcessText = styled.p<{ $isActive: boolean; $isCompleted: boolean }>`
+const ProcessText = styled.p<{ $isActive: boolean; $isCompleted: boolean; $isVisible: boolean }>`
+    display: ${({ $isVisible }) => ($isVisible ? "block" : "none")};
     color: ${({ $isActive, $isCompleted }) =>
         $isCompleted ? "#38CB89" : $isActive ? "#23262f" : "#B1B5C3"};
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;
     line-height: 26px;
+    @media screen and (min-width: 1120px) {
+        display: block;
+    }
 `;
-const ProcessCircle = styled.div<{ $isActive: boolean; $isCompleted: boolean }>`
-    display: flex;
+const ProcessCircle = styled.div<{
+    $isActive: boolean;
+    $isCompleted: boolean;
+    $isVisible: boolean;
+}>`
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
     align-items: center;
     justify-content: center;
     user-select: none;
@@ -113,19 +158,42 @@ const ProcessCircle = styled.div<{ $isActive: boolean; $isCompleted: boolean }>`
     line-height: 26px;
     background-color: ${({ $isActive, $isCompleted }) =>
         $isCompleted ? "#38CB89" : $isActive ? "#23262f" : "#B1B5C3"};
+    @media screen and (min-width: 1120px) {
+        display: flex;
+    }
 `;
-const Process = styled.div<{ $isActive: boolean; $isCompleted: boolean; $pointer?: boolean }>`
-    display: flex;
+
+const Process = styled.div<{
+    $isActive: boolean;
+    $isCompleted: boolean;
+    $pointer?: boolean;
+    $isVisible: boolean;
+}>`
+    display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
     column-gap: 16px;
     align-items: center;
+    width: 256px;
     cursor: ${({ $pointer }) => ($pointer ? "pointer" : "default")};
-    padding: 0 8px 16px 8px;
+    padding: 0 0 26px 0;
     border-bottom: ${({ $isActive, $isCompleted }) =>
         $isCompleted ? "2px solid #38CB89" : $isActive ? "2px solid #141718" : "none"};
+    @media screen and (min-width: 1120px) {
+        width: auto;
+        display: flex;
+        padding: 0 8px 16px 8px;
+    }
 `;
+
 const ProcessBar = styled.div`
     display: flex;
-    column-gap: 32px;
+    justify-content: space-between;
+    column-gap: 0;
+    width: 100%;
+    @media screen and (min-width: 1120px) {
+        justify-content: flex-start;
+        column-gap: 32px;
+        width: auto;
+    }
 `;
 const Title = styled.p`
     color: #000000;
@@ -140,6 +208,10 @@ const Wrapper = styled.div`
     padding-top: 80px;
     flex-direction: column;
     align-items: center;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        width: auto;
+    }
 `;
 
 export default CartPage;
