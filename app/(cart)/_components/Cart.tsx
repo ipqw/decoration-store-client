@@ -139,6 +139,10 @@ const EmptyCartText = styled.p`
     line-height: 30px;
     align-self: center;
     margin-top: 70px;
+    margin-bottom: 70px;
+    @media screen and (min-width: 1120px) {
+        margin-bottom: 0;
+    }
 `;
 const CheckoutButton = styled.div`
     display: flex;
