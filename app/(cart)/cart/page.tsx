@@ -75,8 +75,8 @@ const CartPageContent: FC = () => {
                 <ProcessCircle
                     $mobile
                     $isVisible={activeProcess === 1}
-                    $isCompleted={activeProcess > 1}
-                    $isActive={activeProcess === 1}>
+                    $isCompleted={activeProcess > 2}
+                    $isActive={activeProcess === 2}>
                     3
                 </ProcessCircle>
                 <Process
