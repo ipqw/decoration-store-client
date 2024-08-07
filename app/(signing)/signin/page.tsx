@@ -138,9 +138,18 @@ const AgreementBlock = styled.div`
 const RightBlock = styled.aside`
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding-left: 88px;
-    width: 50%;
+    justify-content: center;
+    padding-left: 0;
+    width: 375px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    @media screen and (min-width: 1120px) {
+        padding-top: 0;
+        padding-left: 88px;
+        justify-content: flex-start;
+        width: 50%;
+        padding-bottom: 0;
+    }
 `;
 const FormInputs = styled.div`
     display: flex;
@@ -192,7 +201,7 @@ const FormText = styled.p`
     color: #6c7275;
     margin-bottom: 32px;
 `;
-const FormLink = styled.p`
+const FormLink = styled.a`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;
@@ -208,31 +217,61 @@ const FormTitle = styled.p`
     margin-bottom: 24px;
 `;
 const Form = styled.div`
-    width: 456px;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        width: 456px;
+    }
 `;
 
 const LeftBlock = styled.aside`
     display: flex;
-    justify-content: flex-end;
     background-color: #f3f5f7;
-    width: 50%;
+    justify-content: center;
+    width: 375px;
+    height: 430px;
+    @media screen and (min-width: 1120px) {
+        justify-content: flex-end;
+        width: 50%;
+        height: auto;
+    }
 `;
 const LogoWrapper = styled.div`
     position: absolute;
-    right: 316px;
     top: 32px;
+    right: 135px;
+    @media screen and (min-width: 1120px) {
+        right: 316px;
+    }
 `;
 const MainImage = styled.img`
-    max-width: 736px;
-    max-height: 100%;
+    max-width: 100%;
+    max-height: 430px;
+    @media screen and (min-width: 1120px) {
+        max-height: 100%;
+        max-width: 736px;
+    }
 `;
 const MainBlock = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
+    width: 100%;
+    @media screen and (min-width: 1120px) {
+        width: auto;
+        display: block;
+    }
 `;
 
 const Wrapper = styled.div`
     display: flex;
-    max-height: 100vh;
+    max-height: fit-content;
+    flex-direction: column;
+    align-items: center;
+    @media screen and (min-width: 1120px) {
+        max-height: 100vh;
+        flex-direction: row;
+    }
 `;
 const RememberWrapper = styled.div`
     display: flex;
