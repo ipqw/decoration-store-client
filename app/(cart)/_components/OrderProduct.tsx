@@ -45,23 +45,33 @@ const Amount = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 80px;
-    width: 32px;
-    height: 32px;
     position: absolute;
+    width: 16px;
+    height: 16px;
     right: 0;
     top: 0;
     font-family: "Inter", sans-serif;
     color: #fcfcfd;
     font-weight: 600;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 10px;
+    line-height: 10px;
     background-color: #141718;
+    @media screen and (min-width: 1120px) {
+        font-size: 16px;
+        line-height: 24px;
+        width: 32px;
+        height: 32px;
+    }
 `;
 const Wrapper = styled.div`
     display: flex;
-    width: 96px;
-    height: 112px;
     position: relative;
+    width: 88px;
+    height: 104px;
+    @media screen and (min-width: 1120px) {
+        width: 96px;
+        height: 112px;
+    }
 `;
 
 export default OrderProduct;
