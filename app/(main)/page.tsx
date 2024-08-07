@@ -328,7 +328,7 @@ const StyledLink = styled.div<{ $isVisible: boolean }>`
     align-self: flex-start;
     display: ${({ $isVisible }) => ($isVisible ? "flex" : "none")};
 `;
-const StyledLinkText = styled.p`
+const StyledLinkText = styled.a`
     font-family: "Inter", sans-serif;
     font-size: 16px;
     font-weight: 600;

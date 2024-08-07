@@ -188,7 +188,7 @@ const CartText = styled.p`
     color: #fefefe;
     user-select: none;
 `;
-const Title = styled.p`
+const Title = styled.a`
     font-family: "Inter", sans-serif;
     font-size: 14px;
     line-height: 22px;

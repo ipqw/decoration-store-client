@@ -112,7 +112,7 @@ const ColorText = styled.p`
     font-weight: 400;
     line-height: 20px;
 `;
-const Title = styled.p`
+const Title = styled.a`
     color: #141718;
     font-family: "Inter", sans-serif;
     font-size: 14px;

@@ -216,7 +216,7 @@ const Color = styled.p`
     line-height: 20px;
     font-weight: 400;
 `;
-const Name = styled.p`
+const Name = styled.a`
     color: #141718;
     font-family: "Inter", sans-serif;
     font-size: 14px;

@@ -85,7 +85,7 @@ const AccountPage: FC = () => {
         </Wrapper>
     );
 };
-const MenuSection = styled.p<{ $isActive?: boolean }>`
+const MenuSection = styled.a<{ $isActive?: boolean }>`
     border-bottom: ${({ $isActive }) => ($isActive ? "1px solid #141718" : "none")};
     color: ${({ $isActive }) => ($isActive ? "#141718" : "#6C7275")};
     font-family: "Inter", sans-serif;

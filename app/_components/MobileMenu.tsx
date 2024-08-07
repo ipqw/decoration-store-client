@@ -133,7 +133,7 @@ const CartBlock = styled.div`
     border-bottom: 1px solid #e8ecef;
     cursor: pointer;
 `;
-const NavLink = styled.p<{ $active?: boolean }>`
+const NavLink = styled.a<{ $active?: boolean }>`
     font-family: "Inter", sans-serif;
     font-weight: ${({ $active }) => ($active ? "700" : "500")};
     font-size: 14px;

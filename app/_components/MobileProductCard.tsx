@@ -239,7 +239,7 @@ const Text = styled.p<{ $variation: "horizontal" | "vertical" }>`
     font-weight: 400;
     padding-bottom: ${({ $variation }) => ($variation === "horizontal" ? "24px" : "16px")};
 `;
-const Title = styled.p`
+const Title = styled.a`
     font-family: "Inter", sans-serif;
     text-decoration: none;
     font-size: 16px;
