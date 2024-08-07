@@ -14,18 +14,19 @@ const MapComponent = () => {
             container: "map",
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${"uCIoJujcl02HEH0AgzwQ"}`,
             center: [106.704803, 10.7716],
-            zoom: 17,
+            zoom: 15,
         });
-        let marker = new Marker({ color: "#141718" })
-            .setLngLat([106.704803, 10.7716])
-            .addTo(map.current);
+        new Marker({ color: "#141718" }).setLngLat([106.704803, 10.7716]).addTo(map.current);
     }, []);
     return <MapContainer id="map"></MapContainer>;
 };
 
 const MapContainer = styled.div`
     width: 100%;
-    height: 400px;
+    height: 312px;
+    @media screen and (min-width: 1120px) {
+        height: 400px;
+    }
 `;
 
 export default MapComponent;

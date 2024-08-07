@@ -94,6 +94,11 @@ const InfoCard = styled.div`
 const ContactInfoBlock = styled.div`
     display: flex;
     column-gap: 24px;
+    row-gap: 16px;
+    flex-direction: column;
+    @media screen and (min-width: 1120px) {
+        flex-direction: row;
+    }
 `;
 const ContactTitle = styled.p`
     color: #121212;
@@ -107,7 +112,10 @@ const ContactSection = styled.section`
     display: flex;
     flex-direction: column;
     row-gap: 40px;
-    width: 1120px;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        width: 1120px;
+    }
 `;
 
 const AboutLinkText = styled.p`
@@ -123,6 +131,7 @@ const AboutLink = styled.div`
     border-bottom: 1px solid #121212;
     column-gap: 4px;
     cursor: pointer;
+    width: fit-content;
 `;
 const AboutLinkIcon = styled.img`
     width: 20px;
@@ -132,34 +141,58 @@ const AboutText = styled.p`
     color: #141718;
     font-family: "Inter", sans-serif;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 26px;
     margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 22px;
+    @media screen and (min-width: 1120px) {
+        font-size: 16px;
+        line-height: 26px;
+    }
 `;
 const AboutTitle = styled.p`
     color: #121212;
     font-family: "Poppins", sans-serif;
-    font-size: 40px;
     font-weight: 500;
-    line-height: 44px;
     margin-bottom: 16px;
+    font-size: 20px;
+    line-height: 28px;
+    @media screen and (min-width: 1120px) {
+        line-height: 44px;
+        font-size: 40px;
+    }
 `;
 const AboutContentBlock = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     justify-content: center;
-    padding-left: 72px;
-    padding-right: 35px;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 311px;
+    height: 311px;
+    @media screen and (min-width: 1120px) {
+        padding-left: 72px;
+        padding-right: 35px;
+        width: fit-content;
+        height: fit-content;
+    }
 `;
 const AboutImage = styled.img`
-    width: 50%;
-    height: 100%;
+    height: 311px;
+    width: 311px;
+    @media screen and (min-width: 1120px) {
+        width: 50%;
+        height: 100%;
+    }
 `;
 const AboutSection = styled.div`
     display: flex;
-    width: 1120px;
     background-color: #f3f5f7;
+    width: 312px;
+    flex-direction: column;
+    @media screen and (min-width: 1120px) {
+        flex-direction: row;
+        width: 1120px;
+    }
 `;
 
 const Text = styled.p`
@@ -173,16 +206,24 @@ const Text = styled.p`
 const Title = styled.p`
     color: #141718;
     font-family: "Poppins", sans-serif;
-    font-size: 54px;
     font-weight: 500;
-    line-height: 58px;
-    max-width: 840px;
+    font-size: 28px;
+    line-height: 34px;
+    max-width: fit-content;
+    @media screen and (min-width: 1120px) {
+        max-width: 840px;
+        font-size: 54px;
+        line-height: 58px;
+    }
 `;
 const TitleSection = styled.section`
     display: flex;
     flex-direction: column;
     row-gap: 24px;
-    width: 1120px;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        width: 1120px;
+    }
 `;
 
 const Wrapper = styled.div`
