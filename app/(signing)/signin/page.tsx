@@ -54,7 +54,7 @@ const SignUp: FC = () => {
                 <Form>
                     <FormTitle>Sign In</FormTitle>
                     <FormText>
-                        Don’t have an accout yet?{" "}
+                        Don’t have an account yet?{" "}
                         <FormLink onClick={() => router.push("/signup")}>Sign Up</FormLink>
                     </FormText>
                     <FormInputs>
