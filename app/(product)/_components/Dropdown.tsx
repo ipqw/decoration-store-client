@@ -40,16 +40,16 @@ const Dropdown: FC<IProps> = ({
                             $isOpened={isOpened}
                             $isActive={activeItem === el ? true : false}
                             key={index}
-                            onClick={() =>
-                                el === "Log Out"
-                                    ? () => {
-                                          typeof window !== "undefined"
-                                              ? localStorage.removeItem("token")
-                                              : "";
-                                          router.push("/signin");
-                                      }
-                                    : setActiveItem(el)
-                            }>
+                            onClick={() => {
+                                if (el === "Log Out") {
+                                    typeof window !== "undefined"
+                                        ? localStorage.removeItem("token")
+                                        : "";
+                                    router.push("/signin");
+                                } else {
+                                    setActiveItem(el);
+                                }
+                            }}>
                             {el[0].toUpperCase() + el.substring(1)}
                         </DropdownItem>
                     );
