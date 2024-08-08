@@ -10,11 +10,12 @@ import AddressSection from "../_components/AddressSection";
 import OrderSection from "../_components/OrderSection";
 import WishlistSection from "../_components/WishlistSection";
 import { imageLinkHandler } from "@/app/_lib/functions";
+import Dropdown from "@/app/(product)/_components/Dropdown";
 
 const AccountPage: FC = () => {
     const router = useRouter();
     const [activeSection, setActiveSection] = useState<
-        "account" | "address" | "orders" | "wishlist"
+        string | "account" | "address" | "orders" | "wishlist"
     >("account");
 
     const user = useAppSelector((state) => state.user);
@@ -23,6 +24,8 @@ const AccountPage: FC = () => {
             router.push("/signin");
         }
     }, []);
+
+    const [isDropdownOpened, setIsDropdownOpened] = useState<boolean>(false);
     return (
         <Wrapper>
             <Title>My Account</Title>
@@ -45,6 +48,14 @@ const AccountPage: FC = () => {
                             {user.firstName} {user.lastName}
                         </Name>
                     </ProfileBlock>
+                    <Dropdown
+                        mobile
+                        items={["account", "address", "orders", "wishlist", "Log Out"]}
+                        activeItem={activeSection}
+                        setActiveItem={setActiveSection}
+                        isOpened={isDropdownOpened}
+                        setIsOpened={setIsDropdownOpened}
+                    />
                     <MenuSectionsBlock>
                         <MenuSection
                             onClick={() => setActiveSection("account")}
@@ -96,10 +107,13 @@ const MenuSection = styled.a<{ $isActive?: boolean }>`
     cursor: pointer;
 `;
 const MenuSectionsBlock = styled.div`
-    display: flex;
+    display: none;
     flex-direction: column;
     row-gap: 12px;
     width: 100%;
+    @media screen and (min-width: 1120px) {
+        display: flex;
+    }
 `;
 const Name = styled.p`
     color: #000000;
@@ -153,14 +167,26 @@ const MenuBlock = styled.div`
     row-gap: 40px;
     background-color: #f3f5f7;
     height: fit-content;
-    width: fit-content;
-    min-width: 262px;
+    width: 312px;
+    min-width: auto;
     align-items: center;
     border-radius: 8px;
+    margin-bottom: 40px;
+    @media screen and (min-width: 1120px) {
+        width: fit-content;
+        min-width: 262px;
+        margin-bottom: 0;
+    }
 `;
 const ContentBlock = styled.div`
     display: flex;
     width: 1120px;
+    align-items: center;
+    flex-direction: column;
+    @media screen and (min-width: 1120px) {
+        flex-direction: row;
+        align-items: flex-start;
+    }
 `;
 const Title = styled.p`
     color: #000000;

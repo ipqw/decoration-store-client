@@ -73,8 +73,13 @@ const Wrapper = styled.div`
     row-gap: 8px;
     border-radius: 8px;
     border: 1px solid #6c7275;
-    min-width: 342px;
+    min-width: auto;
     min-height: 140px;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        min-width: 342px;
+        width: auto;
+    }
 `;
 
 export default AddressCard;

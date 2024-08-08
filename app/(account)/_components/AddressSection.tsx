@@ -16,8 +16,12 @@ const AddressSection = () => {
 };
 const AddressesBlock = styled.div`
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto;
     column-gap: 23px;
+    row-gap: 24px;
+    @media screen and (min-width: 1120px) {
+        grid-template-columns: auto auto;
+    }
 `;
 const Title = styled.p`
     font-family: "Inter", sans-serif;
@@ -29,9 +33,15 @@ const Title = styled.p`
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 0 72px;
+    padding: 0;
     row-gap: 19px;
-    min-width: 851px;
+    width: 312px;
+    min-width: auto;
+    @media screen and (min-width: 1120px) {
+        min-width: 851px;
+        width: auto;
+        padding: 0 72px;
+    }
 `;
 
 export default AddressSection;

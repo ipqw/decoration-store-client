@@ -30,11 +30,14 @@ const CaptionText = styled.p`
     line-height: 22px;
 `;
 const Caption = styled.div`
-    display: grid;
+    display: none;
     grid-template-columns: 176.75px 176.75px 176.75px 176.75px;
     align-items: center;
     border-bottom: 1px #e8ecef solid;
     padding-bottom: 8px;
+    @media screen and (min-width: 1120px) {
+        display: grid;
+    }
 `;
 const OrdersBlock = styled.div`
     display: flex;
@@ -43,9 +46,15 @@ const OrdersBlock = styled.div`
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    row-gap: 40px;
-    padding: 0 72px;
-    min-width: 851px;
+    min-width: auto;
+    padding: 0;
+    width: 312px;
+    row-gap: 10px;
+    @media screen and (min-width: 1120px) {
+        row-gap: 40px;
+        padding: 0 72px;
+        min-width: 851px;
+    }
 `;
 const Title = styled.p`
     font-family: "Inter", sans-serif;

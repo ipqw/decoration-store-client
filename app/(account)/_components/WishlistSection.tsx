@@ -15,8 +15,8 @@ const WishlistSection = () => {
             <WishlistProductsBlock>
                 <Caption>
                     <CaptionText>Product</CaptionText>
-                    <CaptionText>Price</CaptionText>
-                    <CaptionText>Action</CaptionText>
+                    <CaptionText $mobile>Price</CaptionText>
+                    <CaptionText $mobile>Action</CaptionText>
                 </Caption>
                 {wishlistProducts?.map((el, index) => (
                     <WishlistProductItem wishlistProduct={el} key={index} />
@@ -34,12 +34,16 @@ const Caption = styled.div`
     grid-template-columns: 265px 270px 140px;
     justify-content: space-between;
 `;
-const CaptionText = styled.p`
+const CaptionText = styled.p<{ $mobile?: boolean }>`
+    display: ${({ $mobile }) => ($mobile ? "none" : "block")};
     color: #6c7275;
     font-family: "Inter", sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 22px;
+    @media screen and (min-width: 1120px) {
+        display: block;
+    }
 `;
 const WishlistProductsBlock = styled.div`
     display: flex;
@@ -53,10 +57,16 @@ const Title = styled.p`
     line-height: 32px;
 `;
 const Wrapper = styled.div`
-    min-width: 851px;
     display: flex;
     flex-direction: column;
     row-gap: 40px;
-    padding: 0 72px;
+    min-width: auto;
+    width: 312px;
+    padding: 0;
+    @media screen and (min-width: 1120px) {
+        padding: 0 72px;
+        min-width: 851px;
+        width: auto;
+    }
 `;
 export default WishlistSection;

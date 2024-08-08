@@ -1,6 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import styled from "styled-components";
 import arrowIcon from "@/public/icons/product/arrowDown.svg";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     isOpened: boolean;
@@ -9,6 +10,7 @@ interface IProps {
     setActiveItem: Dispatch<SetStateAction<string>>;
     items: string[];
     absolute?: boolean;
+    mobile?: boolean;
 }
 
 const Dropdown: FC<IProps> = ({
@@ -18,12 +20,15 @@ const Dropdown: FC<IProps> = ({
     setActiveItem,
     items,
     absolute,
+    mobile,
 }) => {
+    const router = useRouter();
     useEffect(() => {
         setActiveItem(items[0]);
     }, []);
     return (
         <Wrapper
+            $mobile={mobile}
             $absolute={absolute}
             onClick={() => setIsOpened((prev) => !prev)}
             $isOpened={isOpened}>
@@ -31,11 +36,21 @@ const Dropdown: FC<IProps> = ({
                 {items.map((el, index) => {
                     return (
                         <DropdownItem
+                            $mobile={mobile}
                             $isOpened={isOpened}
                             $isActive={activeItem === el ? true : false}
                             key={index}
-                            onClick={() => setActiveItem(el)}>
-                            {el}
+                            onClick={() =>
+                                el === "Log Out"
+                                    ? () => {
+                                          typeof window !== "undefined"
+                                              ? localStorage.removeItem("token")
+                                              : "";
+                                          router.push("/signin");
+                                      }
+                                    : setActiveItem(el)
+                            }>
+                            {el[0].toUpperCase() + el.substring(1)}
                         </DropdownItem>
                     );
                 })}
@@ -50,7 +65,7 @@ const Arrow = styled.img<{ $isOpened: boolean }>`
     user-select: none;
     display: ${({ $isOpened }) => ($isOpened ? "none" : "flex")};
 `;
-const DropdownItem = styled.div<{ $isActive: boolean; $isOpened: boolean }>`
+const DropdownItem = styled.div<{ $isActive: boolean; $isOpened: boolean; $mobile?: boolean }>`
     user-select: none;
     display: ${({ $isOpened, $isActive }) => {
         if ($isOpened) {
@@ -84,7 +99,7 @@ const DropdownItem = styled.div<{ $isActive: boolean; $isOpened: boolean }>`
 const DropdownItems = styled.div<{ $isOpened: boolean }>`
     width: ${({ $isOpened }) => ($isOpened ? "100%" : "fit-content")};
 `;
-const Wrapper = styled.div<{ $isOpened: boolean; $absolute?: boolean }>`
+const Wrapper = styled.div<{ $isOpened: boolean; $absolute?: boolean; $mobile?: boolean }>`
     display: flex;
     position: ${({ $absolute }) => ($absolute ? "absolute" : "static")};
     top: 0;
@@ -96,6 +111,10 @@ const Wrapper = styled.div<{ $isOpened: boolean; $absolute?: boolean }>`
     justify-content: space-between;
     padding: 6px;
     cursor: pointer;
+    background-color: ${({ $mobile }) => ($mobile ? "#FFFFFF" : "transparent")};
+    @media screen and (min-width: 1120px) {
+        display: ${({ $mobile }) => ($mobile ? "none" : "flex")};
+    }
 `;
 
 export default Dropdown;

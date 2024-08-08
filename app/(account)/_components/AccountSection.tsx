@@ -7,7 +7,7 @@ import eyeIcon from "@/public/icons/eye.svg";
 
 const AccountSection = () => {
     const user = useAppSelector(({ user }) => user);
-    const [updateUser, { isLoading: isLoadingUpdatingUser }] = userApiSlice.useUpdateUserMutation();
+    const [updateUser] = userApiSlice.useUpdateUserMutation();
 
     // form values
     const [firstName, setFirstName] = useState<string>(user.firstName);
@@ -239,9 +239,13 @@ const FormWrapper = styled.div`
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 0 72px;
+    padding: 0;
     row-gap: 40px;
-    min-width: 851px;
+    width: 312px;
+    @media screen and (min-width: 1120px) {
+        width: 851px;
+        padding: 0 72px;
+    }
 `;
 
 export default AccountSection;

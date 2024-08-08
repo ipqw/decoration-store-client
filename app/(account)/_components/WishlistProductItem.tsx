@@ -37,9 +37,44 @@ const WishlistProductItem: FC<{ wishlistProduct: IWishlistProduct }> = ({ wishli
     };
     return (
         <Wrapper>
-            <DeleteButton onClick={deleteButtonHandler} src={crossIcon.src} />
-            <Content>
-                <InfoBlock>
+            <MainVersion>
+                <DeleteButton onClick={deleteButtonHandler} src={crossIcon.src} />
+                <Content>
+                    <InfoBlock>
+                        <InfoImageWrapper>
+                            <InfoImage
+                                alt="image"
+                                src={
+                                    wishlistProduct?.product?.images
+                                        ? imageLinkHandler(wishlistProduct?.product?.images[0])
+                                        : ""
+                                }
+                            />
+                        </InfoImageWrapper>
+                        <TextInfoBlock>
+                            <Title>{wishlistProduct.product.name}</Title>
+                            <Color>
+                                Color: {color[0].toUpperCase()}
+                                {color.slice(1)}
+                            </Color>
+                        </TextInfoBlock>
+                    </InfoBlock>
+                    <Price>
+                        $
+                        {wishlistProduct.product?.discountPrice
+                            ? wishlistProduct.product?.discountPrice.toString().split(".")[1]
+                                ? wishlistProduct.product?.discountPrice
+                                : `${wishlistProduct.product?.discountPrice}.00`
+                            : wishlistProduct.product?.price.toString().split(".")[1]
+                              ? wishlistProduct.product?.price
+                              : `${wishlistProduct.product?.price}.00`}
+                    </Price>
+                    <CartButton onClick={addToCart}>Add to cart</CartButton>
+                </Content>
+            </MainVersion>
+            <MobileVersion>
+                <MobileContent>
+                    <DeleteButton onClick={deleteButtonHandler} src={crossIcon.src} />
                     <InfoImageWrapper>
                         <InfoImage
                             alt="image"
@@ -50,29 +85,59 @@ const WishlistProductItem: FC<{ wishlistProduct: IWishlistProduct }> = ({ wishli
                             }
                         />
                     </InfoImageWrapper>
-                    <TextInfoBlock>
+                    <MobileInfoBlock>
                         <Title>{wishlistProduct.product.name}</Title>
                         <Color>
                             Color: {color[0].toUpperCase()}
                             {color.slice(1)}
                         </Color>
-                    </TextInfoBlock>
-                </InfoBlock>
-                <Price>
-                    $
-                    {wishlistProduct.product?.discountPrice
-                        ? wishlistProduct.product?.discountPrice.toString().split(".")[1]
-                            ? wishlistProduct.product?.discountPrice
-                            : `${wishlistProduct.product?.discountPrice}.00`
-                        : wishlistProduct.product?.price.toString().split(".")[1]
-                          ? wishlistProduct.product?.price
-                          : `${wishlistProduct.product?.price}.00`}
-                </Price>
+                        <Price>
+                            $
+                            {wishlistProduct.product?.discountPrice
+                                ? wishlistProduct.product?.discountPrice.toString().split(".")[1]
+                                    ? wishlistProduct.product?.discountPrice
+                                    : `${wishlistProduct.product?.discountPrice}.00`
+                                : wishlistProduct.product?.price.toString().split(".")[1]
+                                  ? wishlistProduct.product?.price
+                                  : `${wishlistProduct.product?.price}.00`}
+                        </Price>
+                    </MobileInfoBlock>
+                </MobileContent>
                 <CartButton onClick={addToCart}>Add to cart</CartButton>
-            </Content>
+            </MobileVersion>
         </Wrapper>
     );
 };
+const MobileInfoBlock = styled.div`
+    row-gap: 8px;
+    display: flex;
+    flex-direction: column;
+`;
+const MobileContent = styled.div`
+    display: flex;
+    column-gap: 16px;
+    align-items: center;
+`;
+const MobileVersion = styled.div`
+    display: flex;
+    row-gap: 16px;
+    flex-direction: column;
+    width: 312px;
+    padding: 16px 0;
+    border-bottom: 1px solid #e8ecef;
+    @media screen and (min-width: 1120px) {
+        display: none;
+    }
+`;
+const MainVersion = styled.div`
+    display: none;
+    padding: 24px 0;
+    align-items: center;
+    border-bottom: 1px solid #e8ecef;
+    @media screen and (min-width: 1120px) {
+        display: flex;
+    }
+`;
 const CartButton = styled.div`
     border-radius: 8px;
     padding: 6px 24px;
@@ -138,11 +203,6 @@ const DeleteButton = styled.img`
     margin-right: 10px;
     cursor: pointer;
 `;
-const Wrapper = styled.div`
-    display: flex;
-    padding: 24px 0;
-    align-items: center;
-    border-bottom: 1px solid #e8ecef;
-`;
+const Wrapper = styled.div``;
 
 export default WishlistProductItem;
